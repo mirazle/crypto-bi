@@ -1,0 +1,28 @@
+{
+  "scripts": {
+    "start": "babel-node run.js --exec babel-node --presets es2015,stage-2"
+  },
+  "name": "crypt-bi",
+  "version": "1.0.0",
+  "description": "",
+  "main": "plugin/index.js",
+  "dependencies": {
+    "crypt": "0.0.2",
+    "jsonwebtoken": "^8.2.1",
+    "request": "^2.85.0"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-core": "^6.26.0",
+    "babel-plugin-root-import": "^5.1.0",
+    "babel-plugin-transform-runtime": "^6.23.0",
+    "babel-preset-env": "^1.6.1",
+    "babel-preset-es2015": "^6.24.1",
+    "babel-preset-latest": "^6.24.1",
+    "babel-preset-node6": "^11.0.0",
+    "babel-preset-stage-2": "^6.24.1",
+    "babel-register": "^6.26.0"
+  },
+  "author": "mirazle",
+  "license": "ISC"
+}
