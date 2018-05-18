@@ -1,6 +1,6 @@
 {
   "scripts": {
-    "start": "babel-node run.js --exec babel-node --presets es2015,stage-2"
+    "start": "babel-node timeline.js --exec babel-node --presets es2015,stage-2"
   },
   "name": "crypt-bi",
   "version": "1.0.0",
