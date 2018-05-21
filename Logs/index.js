@@ -6,6 +6,19 @@ export default class Logs{
   }
 
   static exe( type, log ){
-    console[ type ]( log );
+
+    switch( type ){
+    case 'log':
+      console.log( log );
+      break;
+    case 'warn':
+      console.log( log );
+      break;
+    case 'strong':
+      console.log( "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@" );
+      console.log( "@ " + log );
+      console.log( "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@" );
+      break;
+    }
   }
 }

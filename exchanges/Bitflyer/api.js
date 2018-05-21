@@ -1,6 +1,7 @@
 import crypto from 'crypto';
 import Rest from '../Rest';
 import confPrivate from '../../conf/private';
+import Logs from '../../Logs/';
 
 class Bitflyer extends Rest{
 
@@ -49,7 +50,12 @@ class Bitflyer extends Rest{
       sendchildorder: async ( requestPrams, urlParams ) => {
         const options = Bitflyer.getOptions( `me/sendchildorder`, requestPrams, urlParams );
         return await this.request( options, ( err, response, payload ) => {
-          return JSON.parse( payload );
+          try {
+            return JSON.parse( payload );
+          } catch (e) {
+            Logs.out( e, 'strong' );
+            return null;
+          }
         });
       }
     }
@@ -58,14 +64,24 @@ class Bitflyer extends Rest{
   async markets(){
     const options = Bitflyer.getOptions( 'markets' );
     return await this.request( options, ( err, response, payload ) => {
-      return JSON.parse( payload );
+      try {
+        return JSON.parse( payload );
+      } catch (e) {
+        Logs.out( e, 'strong' );
+        return null;
+      }
     })
   }
 
   async ticker( product_code ){
     const options = Bitflyer.getOptions( 'ticker', {urlParams: product_code} );
     return await this.request( options, ( err, response, payload ) => {
-      return JSON.parse( payload );
+      try {
+        return JSON.parse( payload );
+      } catch (e) {
+        Logs.out( e, 'strong' );
+        return null;
+      }
     })
   }
 }

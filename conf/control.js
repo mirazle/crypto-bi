@@ -8,22 +8,40 @@ export default {
     },
     zaif: {
       productCodeStructure: {head: 'DOWN', separater: '_', foot: 'DOWN'}
+    },
+    bitbankcc: {
+      productCodeStructure: {head: 'DOWN', separater: '_', foot: 'DOWN'}
+    },
+    btcbox: {
+      productCodeStructure: {head: 'DOWN', separater: '_', foot: 'DOWN'}
     }
   },
   productCodes: {
     BTC_JPY: {
-      arbitrageProfitRate: 0.0025
+      enable: true,
+      arbitrageProfitRate: 0.005
     },
     BCH_JPY: {
-      arbitrageProfitRate: 0.025
+      enable: true,
+      arbitrageProfitRate: 0.005
     },
     ETH_JPY: {
-      arbitrageProfitRate: 0.025
+      enable: true,
+      arbitrageProfitRate: 0.005
     },
     XRP_JPY: {
-      arbitrageProfitRate: 0.025
+      enable: true,
+      arbitrageProfitRate: 0.005
     }
   },
+  userBuyRate: 0.01,
   log: {console: true, web: false},
-  proccessTermMicroSecond: 5000, // 10秒毎に実行する
+  proccessTermMicroSecond: 3000, // 10秒毎に実行する
 }
+
+
+/*
+  １ 何秒に一回実行するか？(回転数)
+  ２ アビトラージ額の上下設定
+  ３ 手数料の反映
+*/

@@ -1,6 +1,7 @@
 import Rest from '../Rest';
 import jwt from 'jsonwebtoken';
 import confPrivate from '../../conf/private';
+import Logs from '../../Logs/';
 
 class Quoinex extends Rest{
 
@@ -37,14 +38,24 @@ class Quoinex extends Rest{
   async orders( urlParams ){
     const options = Quoinex.getOptions( 'orders', urlParams );
     return await this.request( options, ( err, response, payload ) => {
-      return JSON.parse( payload );
+      try {
+        return JSON.parse( payload );
+      } catch (e) {
+        Logs.out( e, 'strong' );
+        return null;
+      }
     })
   }
 
   async products( ){
     const options = {url: `${Quoinex.endpoint}/products`};
     return await this.request( options, ( err, response, payload ) => {
-      return JSON.parse( payload );
+      try {
+        return JSON.parse( payload );
+      } catch (e) {
+        Logs.out( e, 'strong' );
+        return null;
+      }
     })
   }
 }

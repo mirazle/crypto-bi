@@ -1,6 +1,7 @@
 import crypto from 'crypto';
 import Rest from '../Rest';
 import confPrivate from '../../conf/private';
+import Logs from '../../Logs/';
 
 class Zaif extends Rest{
 
@@ -13,14 +14,24 @@ class Zaif extends Rest{
   async currencies( currency = 'btc' ){
     const options = {url: `${Zaif.endpoint}currencies/${currency}`};
     return await this.request( options, ( err, response, payload ) => {
-      return JSON.parse( payload );
+      try {
+        return JSON.parse( payload );
+      } catch (e) {
+        Logs.out( e, 'strong' );
+        return null;
+      }
     })
   }
 
   async ticker( currencyPairCode ){
     const options = {url: `${Zaif.endpoint}ticker/${currencyPairCode}`};
     return await this.request( options, ( err, response, payload ) => {
-      return JSON.parse( payload );
+      try {
+        return JSON.parse( payload );
+      } catch (e) {
+        Logs.out( e, 'strong' );
+        return null;
+      }
     })
   }
 }

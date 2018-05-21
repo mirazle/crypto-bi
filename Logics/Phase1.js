@@ -38,12 +38,14 @@ export default class Phase1 extends Logics{
 
         const arbitrageAmount = Math.floor( base.ltp * this.conf.arbitrageProfitRate );
 
-        console.log( `${base.productCode} [ ${base.exName} to ${valid.exName} ] ${base.ltp} < ( ${valid.ltp} - ${arbitrageAmount} )` );
+        //Logs.out( `${base.productCode} [ ${base.exName} to ${valid.exName} ] ${base.ltp} < ( ${valid.ltp} - ${arbitrageAmount} )` );
 
         // アビトラージが成立する場合
         if( base.ltp < ( valid.ltp - arbitrageAmount ) ){
-          console.log( "ARBITRAGE!" );
           const profitAmount = Math.floor( valid.ltp - base.ltp );
+
+          //Logs.out( `ARBITRAGE! ¥${profitAmount}`, 'strong' );
+
           arbitrageData.push( {...base, profitAmount} );
         }
       });

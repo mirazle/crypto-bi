@@ -3,6 +3,12 @@ import LoadLogics from './Logics/';
 import Logs from './Logs/';
 import custom from './custom';
 
+
+let buyAmount = 0;
+let profitAmount = 0;
+let buyCnt = 0;
+const startTime = new Date();
+
 class CryptoBi{
 
   constructor( exchangeConf, productCode, conf ){
@@ -24,6 +30,25 @@ class CryptoBi{
     Logs.out( `@ Phase1 ${this.productCode}`);
     const ltps = await this.logics.p1.getLtps();
     const arbitrageData = await this.logics.p1.getArbitrageData( ltps );
+
+    if( arbitrageData.length > 0 ){
+      arbitrageData.forEach( ( ad ) => {
+        buyAmount = buyAmount + ad.ltp;
+        profitAmount = profitAmount + ad.profitAmount;
+
+        const endTime = new Date();
+        const diffTime = startTime.getTime() - endTime.getTime();
+        const diffMinute = Math.floor(diffTime / ( 1000 * 60 ));
+        buyCnt = buyCnt + 1;
+        Logs.out( -( diffMinute + 1 ) + " 分経過 " + buyCnt + " 回購入　@@@@@@@@@@@@@@@@@@@@@@ " + ad.exName + " " + ad.productCode );
+        Logs.out( "購入金額　　： ¥" + ad.ltp );
+        Logs.out( "売上　　　　： ¥" + ad.profitAmount );
+        Logs.out( "購入合計金額： ¥" + buyAmount );
+        Logs.out( "売上合計金額： ¥" + profitAmount );
+        Logs.out( "" );
+        return profitAmount;
+      });
+    }
   }
 
   async phase2(){
@@ -34,8 +59,13 @@ class CryptoBi{
 const { exchanges, productCodes } = confControl;
 
 for( let productCode in productCodes ){
-  const cryptoBi = new CryptoBi( exchanges, productCode, productCodes[ productCode ] );
-  cryptoBi.start();
+
+  const conf = productCodes[ productCode ];
+
+  if( conf.enable ){
+    const cryptoBi = new CryptoBi( exchanges, productCode, conf );
+    cryptoBi.start();
+  }
 }
 
 
