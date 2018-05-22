@@ -7,4 +7,8 @@ export default class Bitflyer extends Exchange{
     const res = await api.ticker( {product_code} );
     return res.ltp ? parseFloat( res.ltp ) : null;
   }
+
+  async getBalance(){
+    return await api.me.getBalance();
+  }
 }

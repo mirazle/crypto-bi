@@ -22,6 +22,11 @@ class Bitbankcc extends Rest{
       }
     })
   }
+
+  async getBalance(){
+    return await this.request( options, ( err, response, payload ) => {
+    });
+  }
 }
 
 export default new Bitbankcc();

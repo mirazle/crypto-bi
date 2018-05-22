@@ -17,4 +17,9 @@ export default class Quoinex extends Exchange{
     });
     return ltp !== 0 ? parseFloat( ltp ) : null;
   }
+/*
+  async getBalance(){
+    return await api.getbalance();
+  }
+*/
 }

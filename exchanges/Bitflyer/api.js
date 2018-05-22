@@ -25,15 +25,14 @@ class Bitflyer extends Rest{
     return method;
   }
 
-  static getOptions( path, {bodyParams, urlParams} ){
+  static getOptions( path, params = {bodyParams, urlParams} ){
+    const { bodyParams, urlParams } = params;
     const timestamp = Rest.getTimestamp();
     const body = bodyParams ? JSON.stringify( bodyParams ): '';
     const method = Bitflyer.getMethod( path );
     const text = `${timestamp}${method}/${Bitflyer.apiVer}/${path}${body}`;
-
     const sign = Bitflyer.getSign( text );
     const urlParamsString = Rest.getUrlParamsString( urlParams, true );
-
     const url = `${Bitflyer.endpoint}${path}${urlParamsString}`;
 
     const headers = {
@@ -47,10 +46,22 @@ class Bitflyer extends Rest{
 
   get me(){
     return {
-      sendchildorder: async ( requestPrams, urlParams ) => {
-        const options = Bitflyer.getOptions( `me/sendchildorder`, requestPrams, urlParams );
+      sendchildorder: async ( bodyParams, urlParams ) => {
+        const options = Bitflyer.getOptions( `me/sendchildorder`, {bodyParams, urlParams} );
         return await this.request( options, ( err, response, payload ) => {
           try {
+            return JSON.parse( payload );
+          } catch (e) {
+            Logs.out( e, 'strong' );
+            return null;
+          }
+        });
+      },
+      getBalance: async ( bodyParams, urlParams ) => {
+        const options = Bitflyer.getOptions( `me/getbalance`, {bodyParams, urlParams} );
+        return await this.request( options, ( err, response, payload ) => {
+          try {
+            console.log( payload );
             return JSON.parse( payload );
           } catch (e) {
             Logs.out( e, 'strong' );

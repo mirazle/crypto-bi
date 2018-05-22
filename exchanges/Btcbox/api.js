@@ -22,6 +22,11 @@ class Btcbox extends Rest{
       }
     })
   }
+
+  async getBalance(){
+    return await this.request( options, ( err, response, payload ) => {
+    });
+  }
 }
 
 export default new Btcbox();

@@ -10,4 +10,9 @@ export default class Zaif extends Exchange{
     const res = await api.ticker( currencyPairCode );
     return res.last ? parseFloat( res.last ) : null ;
   }
+/*
+  async getBalance(){
+    return await api.getbalance();
+  }
+*/
 }

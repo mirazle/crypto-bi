@@ -1,8 +1,7 @@
 import confControl from './conf/control';
 import LoadLogics from './Logics/';
+import exchanges from './exchanges/';
 import Logs from './Logs/';
-import custom from './custom';
-
 
 let buyAmount = 0;
 let profitAmount = 0;
@@ -11,26 +10,38 @@ const startTime = new Date();
 
 class CryptoBi{
 
-  constructor( exchangeConf, productCode, conf ){
-    this.exchangeConf = exchangeConf;
-    this.productCode = productCode;
-    this.conf = conf;
-    this.logics = new LoadLogics( exchangeConf, productCode, conf );
+  constructor( params = { exConf, productConf, generalConf } ){
+    this.exConf = params.exConf;
+    this.productConf = params.productConf;
+    this.generalConf = params.generalConf;
+    this.logics = new LoadLogics( params );
   }
 
   start( proccessTermMicroSecond = 0 ){
     setTimeout( () => {
       this.phase1();
       this.phase2();
-      this.start( confControl.proccessTermMicroSecond );
+      this.start( confControl.generalConf.proccessTermMicroSecond );
     }, proccessTermMicroSecond );
   }
 
+  // 情報収集
   async phase1(){
-    Logs.out( `@ Phase1 ${this.productCode}`);
-    const ltps = await this.logics.p1.getLtps();
-    const arbitrageData = await this.logics.p1.getArbitrageData( ltps );
+    Logs.out( `@ Phase1`);
 
+    // 各取引所の資産を取得
+
+    // 現在が上昇トレンド中かどうかを取得
+
+    // 裁定可能状況を取得
+    const ltpParams = await this.logics.p1.getLtpParams();
+    const arbitrageData = await this.logics.p1.getArbitrageData( ltpParams );
+    const bestArbitrageData = await this.logics.p1.getBestArbitrageData( arbitrageData );
+
+    console.log( bestArbitrageData );
+
+
+/*
     if( arbitrageData.length > 0 ){
       arbitrageData.forEach( ( ad ) => {
         buyAmount = buyAmount + ad.ltp;
@@ -40,35 +51,30 @@ class CryptoBi{
         const diffTime = startTime.getTime() - endTime.getTime();
         const diffMinute = Math.floor(diffTime / ( 1000 * 60 ));
         buyCnt = buyCnt + 1;
+
         Logs.out( -( diffMinute + 1 ) + " 分経過 " + buyCnt + " 回購入　@@@@@@@@@@@@@@@@@@@@@@ " + ad.exName + " " + ad.productCode );
         Logs.out( "購入金額　　： ¥" + ad.ltp );
         Logs.out( "売上　　　　： ¥" + ad.profitAmount );
         Logs.out( "購入合計金額： ¥" + buyAmount );
         Logs.out( "売上合計金額： ¥" + profitAmount );
         Logs.out( "" );
+
         return profitAmount;
       });
     }
+*/
   }
 
   async phase2(){
-//    Logs.out( `@ Phase2 ${this.productCode}`);
-  }
-}
 
-const { exchanges, productCodes } = confControl;
-
-for( let productCode in productCodes ){
-
-  const conf = productCodes[ productCode ];
-
-  if( conf.enable ){
-    const cryptoBi = new CryptoBi( exchanges, productCode, conf );
-    cryptoBi.start();
   }
 }
 
 
+const cryptoBi = new CryptoBi( confControl );
+cryptoBi.start();
+
+// phase1で各取引所の資産状況を1回だけ取得しておく必要がある。
 
 /*
     const products = await this.quoinex.api.products();

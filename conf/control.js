@@ -1,5 +1,5 @@
 export default {
-  exchanges: {
+  exConf: {
     bitflyer: {
       productCodeStructure: {head: 'UP', separater: '_', foot: 'UP'}
     },
@@ -16,27 +16,29 @@ export default {
       productCodeStructure: {head: 'DOWN', separater: '_', foot: 'DOWN'}
     }
   },
-  productCodes: {
+  productConf: {
     BTC_JPY: {
       enable: true,
       arbitrageProfitRate: 0.005
     },
     BCH_JPY: {
       enable: true,
-      arbitrageProfitRate: 0.005
+      arbitrageProfitRate: 0.015
     },
     ETH_JPY: {
       enable: true,
-      arbitrageProfitRate: 0.005
+      arbitrageProfitRate: 0.015
     },
     XRP_JPY: {
       enable: true,
-      arbitrageProfitRate: 0.005
+      arbitrageProfitRate: 0.015
     }
   },
-  userBuyRate: 0.01,
-  log: {console: true, web: false},
-  proccessTermMicroSecond: 3000, // 10秒毎に実行する
+  generalConf: {
+    arbitrageProfitRate: 0.1,
+    log: {console: true, web: false},
+    proccessTermMicroSecond: 5000, // 10秒毎に実行する
+  }
 }
 
 
