@@ -7,7 +7,7 @@ class Zaif extends Rest{
 
   static get endpoint(){ return `https://api.zaif.jp/api/` }
 
-  static get endpointPublic(){ return `https://api.zaif.jp/api` }
+  static get endpointPublic(){ return `https://api.zaif.jp/api/${Zaif.apiVer}` }
   static get endpointPrivate(){ return `https://api.zaif.jp/tapi` }
   static get endpointFx(){ return `https://api.zaif.jp/fapi/` }
   //https://api.zaif.jp/api/1
@@ -90,12 +90,8 @@ class Zaif extends Rest{
 
   async getInfo(){
     const options = Zaif.getOptions( 'get_info' );
-    console.log( options );
     return await this.request( options, ( err, response, payload ) => {
       try {
-        console.log( "=======" );
-        console.log( payload );
-        console.log( "=======" );
         return JSON.parse( payload );
       } catch (e) {
         Logs.out( e, 'strong' );

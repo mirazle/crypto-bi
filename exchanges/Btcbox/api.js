@@ -45,7 +45,6 @@ class Btcbox extends Rest{
           'User-Agent': '',
         }
       };
-console.log(bodyParams);
     }else{
 
     }

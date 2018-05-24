@@ -64,7 +64,6 @@ class Quoinex extends Rest{
   get accounts(){
     return {
       balance: async ( params ) => {
-        console.log("@@@@@@@@@@1 ");
         const options = Quoinex.getOptions( `accounts/balance`, params );
         return await this.request( options, ( err, response, payload ) => {
           try {
