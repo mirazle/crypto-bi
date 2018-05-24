@@ -5,11 +5,11 @@ import Logs from '../../Logs/';
 
 class Zaif extends Rest{
 
-  static get endpoint(){ return `https://api.zaif.jp/api/${Zaif.apiVer}/` }
+  static get endpoint(){ return `https://api.zaif.jp/api/` }
 
-  static get endpointPublic(){ return `https://api.zaif.jp/api/${Zaif.apiVer}/` }
-  static get endpointPrivate(){ return `https://api.zaif.jp/tapi/${Zaif.apiVer}/` }
-  static get endpointFx(){ return `https://api.zaif.jp/fapi/${Zaif.apiVer}/` }
+  static get endpointPublic(){ return `https://api.zaif.jp/api/` }
+  static get endpointPrivate(){ return `https://api.zaif.jp/tapi/` }
+  static get endpointFx(){ return `https://api.zaif.jp/fapi/` }
   //https://api.zaif.jp/api/1
   // https://api.zaif.jp/tapi
   static get apiVer(){ return '1' }
