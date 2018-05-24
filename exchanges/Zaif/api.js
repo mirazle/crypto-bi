@@ -30,7 +30,7 @@ class Zaif extends Rest{
   static getOptions( path, params = {} ){
     const urlParams = params.urlParams ? params.urlParams: {};
     const method = Zaif.getMethod( path );
-    const nonce = Zaif..getNonce();
+    const nonce = Zaif.getNonce();
     const urlParamsString = Rest.getUrlParamsString( urlParams, true );
     const url = `${Zaif.endpointPrivate}${path}${urlParamsString}`;
     let bodyParams = {};
