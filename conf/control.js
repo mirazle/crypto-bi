@@ -3,31 +3,37 @@ let controlBase = {
     bitflyer: {
       enable: true,
       ipWhitelist: false,
+      timeout: 2000,
       productCodeStructure: {head: 'UP', separater: '_', foot: 'UP'}
     },
     quoinex: {
       enable: true,
       ipWhitelist: false,
+      timeout: 2000,
       productCodeStructure: {head: 'UP', separater: null, foot: 'UP'}
     },
     zaif: {
       enable: true,
       ipWhitelist: true,
+      timeout: 5000,
       productCodeStructure: {head: 'DOWN', separater: '_', foot: 'DOWN'}
     },
     bitbankcc: {
       enable: true,
       ipWhitelist: false,
+      timeout: 2000,
       productCodeStructure: {head: 'DOWN', separater: '_', foot: 'DOWN'}
     },
     btcbox: {
       enable: true,
       ipWhitelist: false,
+      timeout: 2000,
       productCodeStructure: {head: 'DOWN', separater: '_', foot: 'DOWN'}
     },
     fisco: {
       enable: true,
       ipWhitelist: true,
+      timeout: 2000,
       productCodeStructure: {head: 'DOWN', separater: '_', foot: 'DOWN'}
     }
   },

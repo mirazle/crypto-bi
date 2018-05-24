@@ -90,6 +90,7 @@ class Zaif extends Rest{
 
   async getInfo(){
     const options = Zaif.getOptions( 'get_info' );
+    console.log( options );
     return await this.request( options, ( err, response, payload ) => {
       try {
         return JSON.parse( payload );
