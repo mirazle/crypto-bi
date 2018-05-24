@@ -7,15 +7,15 @@ class Zaif extends Rest{
 
   static get endpoint(){ return `https://api.zaif.jp/api/` }
 
-  static get endpointPublic(){ return `https://api.zaif.jp/api/` }
-  static get endpointPrivate(){ return `https://api.zaif.jp/tapi/` }
+  static get endpointPublic(){ return `https://api.zaif.jp/api` }
+  static get endpointPrivate(){ return `https://api.zaif.jp/tapi` }
   static get endpointFx(){ return `https://api.zaif.jp/fapi/` }
   //https://api.zaif.jp/api/1
   // https://api.zaif.jp/tapi
   static get apiVer(){ return '1' }
   static get contentType(){ return 'application/json' }
   static get authAlgorithm(){ return 'sha512' }
-  static getSign( text ){ return crypto.createHmac( Zaif.authAlgorithm , confPrivate.Zaif.secret ).update( text ).digest('hex') }
+  static getSign( text ){ return crypto.createHmac( Zaif.authAlgorithm , confPrivate.Zaif.secret ).update( text ).digest('hex').toString() }
   static getMethod( path ){
     let method = Rest.GET;
     switch( path ){
@@ -42,7 +42,7 @@ class Zaif extends Rest{
       const formParams = {...{nonce: timestamp, method: path}, ...params};
       const form = Rest.getUrlParamsString(formParams);
       bodyParams = {
-        url: `${Zaif.endpointPrivate}${path}`,
+        url: `${Zaif.endpointPrivate}`,
         method: method,
         forever: false,
         form: form,
@@ -64,7 +64,7 @@ class Zaif extends Rest{
   }
 
   async currencies( currency = 'btc' ){
-    const options = {url: `${Zaif.endpoint}currencies/${currency}`};
+    const options = {url: `${Zaif.endpointPublic}/currencies/${currency}`};
     return await this.request( options, ( err, response, payload ) => {
       try {
         return JSON.parse( payload );
@@ -76,7 +76,7 @@ class Zaif extends Rest{
   }
 
   async ticker( currencyPairCode ){
-    const options = {url: `${Zaif.endpoint}ticker/${currencyPairCode}`};
+    const options = {url: `${Zaif.endpointPublic}/ticker/${currencyPairCode}`};
     return await this.request( options, ( err, response, payload ) => {
       try {
         return JSON.parse( payload );
