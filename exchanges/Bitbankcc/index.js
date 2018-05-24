@@ -10,9 +10,8 @@ export default class Bitbankcc extends Exchange{
     const res = await api.ticker( currencyPairCode );
     return res.data && res.data.last ? parseFloat( res.data.last ) : null ;
   }
-/*
+
   async getBalance(){
-    return await api.getbalance();
+    return await api.user.assets();
   }
-*/
 }

@@ -20,7 +20,9 @@ class Quoinex extends Rest{
     return method;
   }
 
-  static getOptions( path, {urlParams} ){
+  static getOptions( path, params = {} ){
+    const bodyParams = params.bodyParams ? params.bodyParams :  {};
+    const urlParams = params.urlParams ? params.urlParams: {};
     const timestamp = Rest.getTimestamp();
     const urlParamsString = Rest.getUrlParamsString( urlParams, true );
     const sign = Quoinex.getSign( `/${path}${urlParamsString}` );
@@ -48,7 +50,7 @@ class Quoinex extends Rest{
   }
 
   async products( ){
-    const options = {url: `${Quoinex.endpoint}/products`};
+    const options = {url: `${Quoinex.endpoint}products`};
     return await this.request( options, ( err, response, payload ) => {
       try {
         return JSON.parse( payload );
@@ -59,10 +61,23 @@ class Quoinex extends Rest{
     })
   }
 
-  async getBalance(){
-    return await this.request( options, ( err, response, payload ) => {
-    });
+  get accounts(){
+    return {
+      balance: async ( params ) => {
+        console.log("@@@@@@@@@@1 ");
+        const options = Quoinex.getOptions( `accounts/balance`, params );
+        return await this.request( options, ( err, response, payload ) => {
+          try {
+            return JSON.parse( payload );
+          } catch (e) {
+            Logs.out( e, 'strong' );
+            return null;
+          }
+        });
+      }
+    }
   }
+
 }
 
 export default new Quoinex();

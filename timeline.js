@@ -30,6 +30,9 @@ class CryptoBi{
     Logs.out( `@ Phase1`);
 
     // 各取引所の資産を取得
+    const balanceParams = await this.logics.p1.getBalanceParams();
+
+//    Logs.out( balanceParams, 'strong' );
 
     // 現在が上昇トレンド中かどうかを取得
 
@@ -39,8 +42,6 @@ class CryptoBi{
     const bestArbitrageData = await this.logics.p1.getBestArbitrageData( arbitrageData );
 
     console.log( bestArbitrageData );
-
-
 /*
     if( arbitrageData.length > 0 ){
       arbitrageData.forEach( ( ad ) => {

@@ -7,6 +7,7 @@
   "description": "",
   "main": "plugin/index.js",
   "dependencies": {
+    "btcbox": "0.0.10",
     "crypt": "0.0.2",
     "jsonwebtoken": "^8.2.1",
     "request": "^2.85.0"

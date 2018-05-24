@@ -6,7 +6,7 @@ export default class Logs{
   }
 
   static exe( type, log ){
-
+    const logType = log.constructor.name;
     switch( type ){
     case 'log':
       console.log( log );
@@ -16,7 +16,7 @@ export default class Logs{
       break;
     case 'strong':
       console.log( "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@" );
-      console.log( "@ " + log );
+      console.log( log );
       console.log( "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@" );
       break;
     }

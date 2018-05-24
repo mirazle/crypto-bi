@@ -61,7 +61,6 @@ class Bitflyer extends Rest{
         const options = Bitflyer.getOptions( `me/getbalance`, {bodyParams, urlParams} );
         return await this.request( options, ( err, response, payload ) => {
           try {
-            console.log( payload );
             return JSON.parse( payload );
           } catch (e) {
             Logs.out( e, 'strong' );

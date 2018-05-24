@@ -1,18 +1,33 @@
-export default {
+let controlBase = {
   exConf: {
     bitflyer: {
+      enable: true,
+      ipWhitelist: false,
       productCodeStructure: {head: 'UP', separater: '_', foot: 'UP'}
     },
     quoinex: {
+      enable: true,
+      ipWhitelist: false,
       productCodeStructure: {head: 'UP', separater: null, foot: 'UP'}
     },
     zaif: {
+      enable: true,
+      ipWhitelist: true,
       productCodeStructure: {head: 'DOWN', separater: '_', foot: 'DOWN'}
     },
     bitbankcc: {
+      enable: true,
+      ipWhitelist: false,
       productCodeStructure: {head: 'DOWN', separater: '_', foot: 'DOWN'}
     },
     btcbox: {
+      enable: true,
+      ipWhitelist: false,
+      productCodeStructure: {head: 'DOWN', separater: '_', foot: 'DOWN'}
+    },
+    fisco: {
+      enable: true,
+      ipWhitelist: true,
       productCodeStructure: {head: 'DOWN', separater: '_', foot: 'DOWN'}
     }
   },
@@ -32,6 +47,22 @@ export default {
     XRP_JPY: {
       enable: true,
       arbitrageProfitRate: 0.015
+    },
+    XEM_JPY: {
+      enable: true,
+      arbitrageProfitRate: 0.015
+    },
+    MONA_JPY: {
+      enable: true,
+      arbitrageProfitRate: 0.015
+    },
+    DASH_JPY: {
+      enable: true,
+      arbitrageProfitRate: 0.015
+    },
+    LTC_JPY: {
+      enable: true,
+      arbitrageProfitRate: 0.015
     }
   },
   generalConf: {
@@ -41,9 +72,16 @@ export default {
   }
 }
 
+Object.keys( controlBase.exConf ).forEach( ( exName ) =>{
+  if ( !controlBase.exConf[ exName ].enable ) delete controlBase.exConf[ exName ];
+});
 
+Object.keys( controlBase.productConf ).forEach( ( productCode ) =>{
+  if ( !controlBase.productConf[ productCode ].enable ) delete controlBase.productConf[ productCode ];
+});
+
+export default controlBase;
 /*
   １ 何秒に一回実行するか？(回転数)
-  ２ アビトラージ額の上下設定
   ３ 手数料の反映
 */

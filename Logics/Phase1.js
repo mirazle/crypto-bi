@@ -12,18 +12,26 @@ export default class Phase1 extends Logics{
     this.generalConf = params.generalConf;
   }
 
-  async getBalance(){
-    let balance = [];
-    Object.keys( this.exchangeConf ).forEach( async ( exName ) => {
-      if( exchanges[ exName ] && exchanges[ exName ].getBalance ){
-        console.log( "@@@ " + exName );
-        const balance = await exchanges[ exName ].getBalance();
-        ltps.push( {exName, balance} );
-      }else{
-        //Logs.out( `Exist conf/control.js. Bad, No Exist File OR getBalance()ßß. ${exName}` );
+  async getBalanceParams(){
+    return new Promise( ( resolve, reject ) => {
+
+      let promises = [], params = [];
+
+      for( let exName in this.exConf ){
+        if(  exchanges[ exName ] &&  exchanges[ exName ].getBalance ){
+          params.push({ exName, response: {} });
+          promises.push( exchanges[ exName ].getBalance() );
+        }
       }
+
+      Promise.all( promises ).then( ( responses ) => {
+        const balanceParams = params.map( ( param, index ) => {
+          param.response = responses[ index ];
+          return param;
+        });
+        resolve( balanceParams );
+      });
     });
-    return balance;
   }
 
   async getLtpParams(){
@@ -69,7 +77,7 @@ export default class Phase1 extends Logics{
         if( isArbitrage ){
           const profitAmount = Math.floor( valid.ltp - base.ltp );
 
-          Logs.out( `ARBITRAGE! ¥${profitAmount} [ ${base.exName}(${base.productCode}) to ${valid.exName}(${valid.productCode}) ]`, 'strong' );
+          //Logs.out( `ARBITRAGE! ¥${profitAmount} [ ${base.exName}(${base.productCode}) to ${valid.exName}(${valid.productCode}) ]`, 'strong' );
 
           arbitrageData.push( {...base, profitAmount} );
         }
