@@ -15,10 +15,25 @@ class CryptoBi{
     this.productConf = params.productConf;
     this.generalConf = params.generalConf;
     this.logics = new LoadLogics( params );
+
+    this.startTime = new Date();
+    this.risingTrendMode = false;
+
+    // ログを保持
+    this.logs = {
+      ltpParams: []
+    };
+  }
+
+  async timerHour(){
+    const currentTime = new Date();
+    const status = (currentTime - startTime) / 1000 + '秒経過';
+    console.log( status );
   }
 
   start( proccessTermMicroSecond = 0 ){
     setTimeout( () => {
+      this.timerHour();
       this.phase1();
       this.phase2();
       this.start( confControl.generalConf.proccessTermMicroSecond );
@@ -30,17 +45,48 @@ class CryptoBi{
     Logs.out( `@ Phase1`);
 
     // 各取引所の資産を取得
-    const balanceParams = await this.logics.p1.getBalanceParams();
+    //const balanceParams = await this.logics.p1.getBalanceParams();
 
-Logs.out( balanceParams );
-
-    // 現在が上昇トレンド中かどうかを取得
 
     // 裁定可能状況を取得
     const ltpParams = await this.logics.p1.getLtpParams();
-    const arbitrageData = await this.logics.p1.getArbitrageData( ltpParams );
+    const ltpsNullParams = await this.logics.p1.getLtpParamsFilteredNull( ltpParams );
+    const arbitrageData = await this.logics.p1.getArbitrageData( ltpsNullParams );
     const bestArbitrageData = await this.logics.p1.getBestArbitrageData( arbitrageData );
 
+    // 現在が上昇トレンド中かどうかを取得
+
+    // 先頭にログを追加
+    this.logs.ltpParams.unshift( ltpParams );
+
+    // 安定している(急な上がり下がりrbitrageProfitRate分の上下がない)且つ、開始点と、終止点でarbitrageProfitRate分以上値が上昇している場合
+    this.risingTrendMode = await this.logics.p1.getRisingTrendMode( this.logs.ltpParams );
+
+    if( this.generalConf.risingTrendMode.logLtpParamsAmount <= this.logs.ltpParams.length ){
+
+      // 後方からログを削除
+      this.logs.ltpParams.pop();
+    }
+
+
+
+
+
+
+
+
+
+
+
+/*
+    var animals = ['ant', 'bison', 'camel', 'duck', 'elephant'];
+
+    console.log(animals.slice(2));
+    // expected output: Array ["camel", "duck", "elephant"]
+
+    console.log(animals.slice(2, 4));
+    // expected output: Array ["camel", "duck"]
+*/
 //    console.log( bestArbitrageData );
 /*
     if( arbitrageData.length > 0 ){

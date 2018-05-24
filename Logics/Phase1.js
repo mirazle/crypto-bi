@@ -57,13 +57,15 @@ export default class Phase1 extends Logics{
     });
   }
 
+  getLtpParamsFilteredNull( ltpParams ){
+    return ltpParams.filter( param => param.ltp !== null );
+  }
+
   async getArbitrageData( ltpParams ){
     let arbitrageData = [];
 
     ltpParams.forEach( ( base ) => {
-      if( base.ltp === null ) return false;
       ltpParams.forEach( ( valid ) => {
-        if( valid.ltp === null ) return false;
         if( base.exName === valid.exName ) return false;
         if( base.productCode !== valid.productCode ) return false;
 
@@ -98,5 +100,71 @@ export default class Phase1 extends Logics{
       });
     }
     return bestArbitrageData;
+  }
+
+  getCurrencyFromLtpParams( ltpParams, currencyCode = this.generalConf.baseCurrencyCode ){
+    return ltpParams.filter( params => params.productCode.indexOf( currencyCode ) === 0 );
+  }
+
+  static getLtpFromLtpParams(){
+
+  }
+
+  async getRisingTrendMode( logLtpParams ){
+
+    const getLtp = ( value ) => {
+      if( value >= 0  ){
+        return value;
+      }else if( value.ltp ){
+        return Number( value.ltp );
+      }else if( value.ltp === null ){
+        return  0;
+      }else if( value.ltp === undefined ){
+        return 0;
+      }else{
+        return value ;
+      }
+    }
+
+    Object.keys( this.productConf ).forEach( ( productCode ) => {
+      const baseCurrencyCode = productCode.split('_')[ 0 ];
+      console.log("----------------- " + baseCurrencyCode );
+      const firstLtpParams = logLtpParams[ 0 ];
+      const lastLtpParams = logLtpParams[ logLtpParams.length - 1 ];
+
+      console.log( firstLtpParams.ltp );
+      console.log( lastLtpParams.ltp );
+/*
+      logLtpParams.forEach( ( ltpParams ) => {
+
+        let sumLtp = 0;
+        const filter = ltpParams.filter( params => params.productCode.indexOf( baseCurrencyCode ) === 0 )
+        const filterdNull = this.getLtpParamsFilteredNull( filter );
+        filterdNull.forEach( ( param ) => sumLtp += param.ltp );
+
+        const avelageLtp = sumLtp > 0 ? Math.floor( sumLtp ) / filterdNull.length : 0 ;
+        console.log("@@@@ RESULT " + Math.floor( sumLtp ) + " " + filterdNull.length);
+        console.log( avelageLtp );
+
+      });
+*/
+
+    });
+
+/*
+    [ [ { exName: 'bitflyer',
+          productCode: 'BTC_JPY',
+          exProductCode: 'BTC_JPY',
+          ltp: 853665 },
+        { exName: 'bitflyer',
+          productCode: 'BCH_JPY',
+          exProductCode: 'BCH_JPY',
+          ltp: null },
+        { exName: 'bitflyer',
+          productCode: 'ETH_JPY',
+          exProductCode: 'ETH_JPY',
+          ltp: null },
+        { exName: 'bitflyer',
+*/
   }
 }
