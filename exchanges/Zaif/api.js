@@ -15,6 +15,7 @@ class Zaif extends Rest{
   static get apiVer(){ return '1' }
   static get contentType(){ return 'application/json' }
   static get authAlgorithm(){ return 'sha512' }
+  static getNonce(){ return new Date() / 1000 };
   static getSign( text ){ return crypto.createHmac( Zaif.authAlgorithm , confPrivate.Zaif.secret ).update( text ).digest('hex').toString() }
   static getMethod( path ){
     let method = Rest.GET;
@@ -29,17 +30,17 @@ class Zaif extends Rest{
   static getOptions( path, params = {} ){
     const urlParams = params.urlParams ? params.urlParams: {};
     const method = Zaif.getMethod( path );
-    const timestamp = Rest.getTime();
+    const nonce = Zaif..getNonce();
     const urlParamsString = Rest.getUrlParamsString( urlParams, true );
     const url = `${Zaif.endpointPrivate}${path}${urlParamsString}`;
     let bodyParams = {};
     let sign = '';
     if( method === Rest.POST ){
 
-      const post = {nonce: timestamp, method: path, ...bodyParams};
+      const post = {nonce, method: path, ...bodyParams};
       const qstring = Rest.getUrlParamsString( post );
       const sign = Zaif.getSign( qstring );
-      const formParams = {...{nonce: timestamp, method: path}, ...params};
+      const formParams = {...{nonce, method: path}, ...params};
       const form = Rest.getUrlParamsString(formParams);
       bodyParams = {
         url: `${Zaif.endpointPrivate}`,
