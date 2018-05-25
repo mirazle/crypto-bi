@@ -54,27 +54,13 @@ class Btcbox extends Rest{
 
   async getBalance( bodyParams, urlParams ){
     const options = Btcbox.getOptions( `balance`, {bodyParams, urlParams} );
-    return await this.request( options, ( err, response, payload ) => {
-      try {
-        return JSON.parse( payload );
-      } catch (e) {
-        Logs.out( e, 'strong' );
-        return null;
-      }
-    });
+    return await this.request( options, this.response );
   }
 
   async ticker( currencyPairCode ){
     if( currencyPairCode !== 'btc_jpy') return false;
     const options = {url: `${Btcbox.endpoint}ticker`};
-    return await this.request( options, ( err, response, payload ) => {
-      try {
-        return JSON.parse( payload );
-      } catch (e) {
-        Logs.out( e, 'strong' );
-        return null;
-      }
-    })
+    return await this.request( options, this.response )
   }
 }
 

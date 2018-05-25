@@ -48,51 +48,23 @@ class Bitflyer extends Rest{
     return {
       sendchildorder: async ( bodyParams, urlParams ) => {
         const options = Bitflyer.getOptions( `me/sendchildorder`, {bodyParams, urlParams} );
-        return await this.request( options, ( err, response, payload ) => {
-          try {
-            return JSON.parse( payload );
-          } catch (e) {
-            Logs.out( e, 'strong' );
-            return null;
-          }
-        });
+        return await this.request( options, this.response );
       },
       getBalance: async ( bodyParams, urlParams ) => {
         const options = Bitflyer.getOptions( `me/getbalance`, {bodyParams, urlParams} );
-        return await this.request( options, ( err, response, payload ) => {
-          try {
-            return JSON.parse( payload );
-          } catch (e) {
-            Logs.out( e, 'strong' );
-            return null;
-          }
-        });
+        return await this.request( options, this.response );
       }
     }
   }
 
   async markets(){
     const options = Bitflyer.getOptions( 'markets' );
-    return await this.request( options, ( err, response, payload ) => {
-      try {
-        return JSON.parse( payload );
-      } catch (e) {
-        Logs.out( e, 'strong' );
-        return null;
-      }
-    })
+    return await this.request( options, this.response );
   }
 
   async ticker( product_code ){
     const options = Bitflyer.getOptions( 'ticker', {urlParams: product_code} );
-    return await this.request( options, ( err, response, payload ) => {
-      try {
-        return JSON.parse( payload );
-      } catch (e) {
-        Logs.out( e, 'strong' );
-        return null;
-      }
-    })
+    return await this.request( options, this.response)
   }
 }
 

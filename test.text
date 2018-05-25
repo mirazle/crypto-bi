@@ -1,0 +1,898 @@
+
+> crypt-bi@1.0.0 start /Users/hmiyazaki/crypto-bi
+> babel-node timeline.js --exec babel-node --presets es2015,stage-2
+
+0.18秒経過
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@ Phase1
+@@@@@@@ BTC LOG_CNT: 1
+@@@@@@@ BCH LOG_CNT: 1
+@@@@@@@ ETH LOG_CNT: 1
+@@@@@@@ XRP LOG_CNT: 1
+@@@@@@@ XEM LOG_CNT: 1
+@@@@@@@ MONA LOG_CNT: 1
+@@@@@@@ DASH LOG_CNT: 1
+@@@@@@@ LTC LOG_CNT: 1
+10.2秒経過
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@ Phase1
+@@@@@@@ BTC LOG_CNT: 2
+{ UP: 0, NORMAL: 0, DOWN: 0, CHOPPY: 0 }
+@@@@@@@ BCH LOG_CNT: 2
+{ UP: 0, NORMAL: 0, DOWN: 0, CHOPPY: 0 }
+@@@@@@@ ETH LOG_CNT: 2
+{ UP: 0, NORMAL: 0, DOWN: 0, CHOPPY: 0 }
+@@@@@@@ XRP LOG_CNT: 2
+{ UP: 0, NORMAL: 0, DOWN: 0, CHOPPY: 0 }
+@@@@@@@ XEM LOG_CNT: 2
+{ UP: 0, NORMAL: 0, DOWN: 0, CHOPPY: 0 }
+@@@@@@@ MONA LOG_CNT: 2
+{ UP: 0, NORMAL: 0, DOWN: 0, CHOPPY: 0 }
+@@@@@@@ DASH LOG_CNT: 2
+{ UP: 0, NORMAL: 0, DOWN: 0, CHOPPY: 0 }
+@@@@@@@ LTC LOG_CNT: 2
+{ UP: 0, NORMAL: 0, DOWN: 0, CHOPPY: 0 }
+20.211秒経過
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@ Phase1
+30.224秒経過
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@ Phase1
+@@@@@@@ BTC LOG_CNT: 3
+{ UP: 0, NORMAL: 1, DOWN: 0, CHOPPY: 0 }
+@@@@@@@ BCH LOG_CNT: 3
+{ UP: 0, NORMAL: 1, DOWN: 0, CHOPPY: 0 }
+@@@@@@@ ETH LOG_CNT: 3
+{ UP: 0, NORMAL: 1, DOWN: 0, CHOPPY: 0 }
+@@@@@@@ XRP LOG_CNT: 3
+{ UP: 0, NORMAL: 1, DOWN: 0, CHOPPY: 0 }
+@@@@@@@ XEM LOG_CNT: 3
+{ UP: 0, NORMAL: 1, DOWN: 0, CHOPPY: 0 }
+@@@@@@@ MONA LOG_CNT: 3
+{ UP: 0, NORMAL: 1, DOWN: 0, CHOPPY: 0 }
+@@@@@@@ DASH LOG_CNT: 3
+{ UP: 0, NORMAL: 1, DOWN: 0, CHOPPY: 0 }
+@@@@@@@ LTC LOG_CNT: 3
+{ UP: 0, NORMAL: 1, DOWN: 0, CHOPPY: 0 }
+40.236秒経過
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@ Phase1
+@@@@@@@ BTC LOG_CNT: 4
+{ UP: 0, NORMAL: 2, DOWN: 0, CHOPPY: 0 }
+@@@@@@@ BCH LOG_CNT: 4
+{ UP: 0, NORMAL: 2, DOWN: 0, CHOPPY: 0 }
+@@@@@@@ ETH LOG_CNT: 4
+{ UP: 0, NORMAL: 2, DOWN: 0, CHOPPY: 0 }
+@@@@@@@ XRP LOG_CNT: 4
+{ UP: 0, NORMAL: 2, DOWN: 0, CHOPPY: 0 }
+@@@@@@@ XEM LOG_CNT: 4
+{ UP: 0, NORMAL: 2, DOWN: 0, CHOPPY: 0 }
+@@@@@@@ MONA LOG_CNT: 4
+{ UP: 0, NORMAL: 2, DOWN: 0, CHOPPY: 0 }
+@@@@@@@ DASH LOG_CNT: 4
+{ UP: 0, NORMAL: 2, DOWN: 0, CHOPPY: 0 }
+@@@@@@@ LTC LOG_CNT: 4
+{ UP: 0, NORMAL: 2, DOWN: 0, CHOPPY: 0 }
+@@@@@@@ BTC LOG_CNT: 5
+{ UP: 0, NORMAL: 3, DOWN: 0, CHOPPY: 0 }
+@@@@@@@ BCH LOG_CNT: 5
+{ UP: 0, NORMAL: 3, DOWN: 0, CHOPPY: 0 }
+@@@@@@@ ETH LOG_CNT: 5
+{ UP: 0, NORMAL: 3, DOWN: 0, CHOPPY: 0 }
+@@@@@@@ XRP LOG_CNT: 5
+{ UP: 0, NORMAL: 3, DOWN: 0, CHOPPY: 0 }
+@@@@@@@ XEM LOG_CNT: 5
+{ UP: 0, NORMAL: 3, DOWN: 0, CHOPPY: 0 }
+@@@@@@@ MONA LOG_CNT: 5
+{ UP: 0, NORMAL: 3, DOWN: 0, CHOPPY: 0 }
+@@@@@@@ DASH LOG_CNT: 5
+{ UP: 0, NORMAL: 3, DOWN: 0, CHOPPY: 0 }
+@@@@@@@ LTC LOG_CNT: 5
+{ UP: 0, NORMAL: 3, DOWN: 0, CHOPPY: 0 }
+50.248秒経過
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@ Phase1
+@@@@@@@ BTC LOG_CNT: 6
+{ UP: 0, NORMAL: 4, DOWN: 0, CHOPPY: 0 }
+@@@@@@@ BCH LOG_CNT: 6
+{ UP: 0, NORMAL: 4, DOWN: 0, CHOPPY: 0 }
+@@@@@@@ ETH LOG_CNT: 6
+{ UP: 0, NORMAL: 4, DOWN: 0, CHOPPY: 0 }
+@@@@@@@ XRP LOG_CNT: 6
+{ UP: 0, NORMAL: 4, DOWN: 0, CHOPPY: 0 }
+@@@@@@@ XEM LOG_CNT: 6
+{ UP: 0, NORMAL: 4, DOWN: 0, CHOPPY: 0 }
+@@@@@@@ MONA LOG_CNT: 6
+{ UP: 0, NORMAL: 4, DOWN: 0, CHOPPY: 0 }
+@@@@@@@ DASH LOG_CNT: 6
+{ UP: 0, NORMAL: 4, DOWN: 0, CHOPPY: 0 }
+@@@@@@@ LTC LOG_CNT: 6
+{ UP: 0, NORMAL: 4, DOWN: 0, CHOPPY: 0 }
+60.259秒経過
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@ Phase1
+@@@@@@@ BTC LOG_CNT: 7
+{ UP: 0, NORMAL: 5, DOWN: 0, CHOPPY: 0 }
+@@@@@@@ BCH LOG_CNT: 7
+{ UP: 0, NORMAL: 5, DOWN: 0, CHOPPY: 0 }
+@@@@@@@ ETH LOG_CNT: 7
+{ UP: 0, NORMAL: 5, DOWN: 0, CHOPPY: 0 }
+@@@@@@@ XRP LOG_CNT: 7
+{ UP: 0, NORMAL: 5, DOWN: 0, CHOPPY: 0 }
+@@@@@@@ XEM LOG_CNT: 7
+{ UP: 0, NORMAL: 5, DOWN: 0, CHOPPY: 0 }
+@@@@@@@ MONA LOG_CNT: 7
+{ UP: 0, NORMAL: 5, DOWN: 0, CHOPPY: 0 }
+@@@@@@@ DASH LOG_CNT: 7
+{ UP: 0, NORMAL: 5, DOWN: 0, CHOPPY: 0 }
+@@@@@@@ LTC LOG_CNT: 7
+{ UP: 0, NORMAL: 5, DOWN: 0, CHOPPY: 0 }
+70.274秒経過
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@ Phase1
+@@@@@@@ BTC LOG_CNT: 8
+{ UP: 0, NORMAL: 6, DOWN: 0, CHOPPY: 0 }
+@@@@@@@ BCH LOG_CNT: 8
+{ UP: 0, NORMAL: 6, DOWN: 0, CHOPPY: 0 }
+@@@@@@@ ETH LOG_CNT: 8
+{ UP: 0, NORMAL: 6, DOWN: 0, CHOPPY: 0 }
+@@@@@@@ XRP LOG_CNT: 8
+{ UP: 0, NORMAL: 6, DOWN: 0, CHOPPY: 0 }
+@@@@@@@ XEM LOG_CNT: 8
+{ UP: 0, NORMAL: 6, DOWN: 0, CHOPPY: 0 }
+@@@@@@@ MONA LOG_CNT: 8
+{ UP: 0, NORMAL: 6, DOWN: 0, CHOPPY: 0 }
+@@@@@@@ DASH LOG_CNT: 8
+{ UP: 0, NORMAL: 6, DOWN: 0, CHOPPY: 0 }
+@@@@@@@ LTC LOG_CNT: 8
+{ UP: 0, NORMAL: 6, DOWN: 0, CHOPPY: 0 }
+80.289秒経過
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@ Phase1
+@@@@@@@ BTC LOG_CNT: 9
+{ UP: 0, NORMAL: 7, DOWN: 0, CHOPPY: 0 }
+@@@@@@@ BCH LOG_CNT: 9
+{ UP: 0, NORMAL: 7, DOWN: 0, CHOPPY: 0 }
+@@@@@@@ ETH LOG_CNT: 9
+{ UP: 0, NORMAL: 7, DOWN: 0, CHOPPY: 0 }
+@@@@@@@ XRP LOG_CNT: 9
+{ UP: 0, NORMAL: 7, DOWN: 0, CHOPPY: 0 }
+@@@@@@@ XEM LOG_CNT: 9
+{ UP: 0, NORMAL: 7, DOWN: 0, CHOPPY: 0 }
+@@@@@@@ MONA LOG_CNT: 9
+{ UP: 0, NORMAL: 7, DOWN: 0, CHOPPY: 0 }
+@@@@@@@ DASH LOG_CNT: 9
+{ UP: 0, NORMAL: 7, DOWN: 0, CHOPPY: 0 }
+@@@@@@@ LTC LOG_CNT: 9
+{ UP: 0, NORMAL: 7, DOWN: 0, CHOPPY: 0 }
+90.299秒経過
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@ Phase1
+@@@@@@@ BTC LOG_CNT: 10
+{ UP: 0, NORMAL: 8, DOWN: 0, CHOPPY: 0 }
+@@@@@@@ BCH LOG_CNT: 10
+{ UP: 0, NORMAL: 8, DOWN: 0, CHOPPY: 0 }
+@@@@@@@ ETH LOG_CNT: 10
+{ UP: 0, NORMAL: 8, DOWN: 0, CHOPPY: 0 }
+@@@@@@@ XRP LOG_CNT: 10
+{ UP: 0, NORMAL: 8, DOWN: 0, CHOPPY: 0 }
+@@@@@@@ XEM LOG_CNT: 10
+{ UP: 0, NORMAL: 8, DOWN: 0, CHOPPY: 0 }
+@@@@@@@ MONA LOG_CNT: 10
+{ UP: 0, NORMAL: 8, DOWN: 0, CHOPPY: 0 }
+@@@@@@@ DASH LOG_CNT: 10
+{ UP: 0, NORMAL: 8, DOWN: 0, CHOPPY: 0 }
+@@@@@@@ LTC LOG_CNT: 10
+{ UP: 0, NORMAL: 8, DOWN: 0, CHOPPY: 0 }
+100.311秒経過
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@ Phase1
+@@@@@@@ BTC LOG_CNT: 11
+{ UP: 0, NORMAL: 9, DOWN: 0, CHOPPY: 0 }
+@@@@@@@ BCH LOG_CNT: 11
+{ UP: 0, NORMAL: 9, DOWN: 0, CHOPPY: 0 }
+@@@@@@@ ETH LOG_CNT: 11
+{ UP: 0, NORMAL: 9, DOWN: 0, CHOPPY: 0 }
+@@@@@@@ XRP LOG_CNT: 11
+{ UP: 0, NORMAL: 9, DOWN: 0, CHOPPY: 0 }
+@@@@@@@ XEM LOG_CNT: 11
+{ UP: 0, NORMAL: 9, DOWN: 0, CHOPPY: 0 }
+@@@@@@@ MONA LOG_CNT: 11
+{ UP: 0, NORMAL: 9, DOWN: 0, CHOPPY: 0 }
+@@@@@@@ DASH LOG_CNT: 11
+{ UP: 0, NORMAL: 9, DOWN: 0, CHOPPY: 0 }
+@@@@@@@ LTC LOG_CNT: 11
+{ UP: 0, NORMAL: 9, DOWN: 0, CHOPPY: 0 }
+110.32秒経過
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@ Phase1
+@@@@@@@ BTC LOG_CNT: 12
+{ UP: 0, NORMAL: 10, DOWN: 0, CHOPPY: 0 }
+@@@@@@@ BCH LOG_CNT: 12
+{ UP: 0, NORMAL: 10, DOWN: 0, CHOPPY: 0 }
+@@@@@@@ ETH LOG_CNT: 12
+{ UP: 0, NORMAL: 10, DOWN: 0, CHOPPY: 0 }
+@@@@@@@ XRP LOG_CNT: 12
+{ UP: 0, NORMAL: 10, DOWN: 0, CHOPPY: 0 }
+@@@@@@@ XEM LOG_CNT: 12
+{ UP: 0, NORMAL: 10, DOWN: 0, CHOPPY: 0 }
+@@@@@@@ MONA LOG_CNT: 12
+{ UP: 0, NORMAL: 10, DOWN: 0, CHOPPY: 0 }
+@@@@@@@ DASH LOG_CNT: 12
+{ UP: 0, NORMAL: 10, DOWN: 0, CHOPPY: 0 }
+@@@@@@@ LTC LOG_CNT: 12
+{ UP: 0, NORMAL: 10, DOWN: 0, CHOPPY: 0 }
+120.331秒経過
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@ Phase1
+@@@@@@@ BTC LOG_CNT: 13
+{ UP: 0, NORMAL: 11, DOWN: 0, CHOPPY: 0 }
+@@@@@@@ BCH LOG_CNT: 13
+{ UP: 0, NORMAL: 11, DOWN: 0, CHOPPY: 0 }
+@@@@@@@ ETH LOG_CNT: 13
+{ UP: 0, NORMAL: 11, DOWN: 0, CHOPPY: 0 }
+@@@@@@@ XRP LOG_CNT: 13
+{ UP: 0, NORMAL: 11, DOWN: 0, CHOPPY: 0 }
+@@@@@@@ XEM LOG_CNT: 13
+{ UP: 0, NORMAL: 11, DOWN: 0, CHOPPY: 0 }
+@@@@@@@ MONA LOG_CNT: 13
+{ UP: 0, NORMAL: 11, DOWN: 0, CHOPPY: 0 }
+@@@@@@@ DASH LOG_CNT: 13
+{ UP: 0, NORMAL: 11, DOWN: 0, CHOPPY: 0 }
+@@@@@@@ LTC LOG_CNT: 13
+{ UP: 0, NORMAL: 11, DOWN: 0, CHOPPY: 0 }
+130.34秒経過
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@ Phase1
+@@@@@@@ BTC LOG_CNT: 14
+{ UP: 0, NORMAL: 12, DOWN: 0, CHOPPY: 0 }
+@@@@@@@ BCH LOG_CNT: 14
+{ UP: 0, NORMAL: 12, DOWN: 0, CHOPPY: 0 }
+@@@@@@@ ETH LOG_CNT: 14
+{ UP: 0, NORMAL: 12, DOWN: 0, CHOPPY: 0 }
+@@@@@@@ XRP LOG_CNT: 14
+{ UP: 0, NORMAL: 12, DOWN: 0, CHOPPY: 0 }
+@@@@@@@ XEM LOG_CNT: 14
+{ UP: 0, NORMAL: 12, DOWN: 0, CHOPPY: 0 }
+@@@@@@@ MONA LOG_CNT: 14
+{ UP: 0, NORMAL: 12, DOWN: 0, CHOPPY: 0 }
+@@@@@@@ DASH LOG_CNT: 14
+{ UP: 0, NORMAL: 12, DOWN: 0, CHOPPY: 0 }
+@@@@@@@ LTC LOG_CNT: 14
+{ UP: 0, NORMAL: 12, DOWN: 0, CHOPPY: 0 }
+140.35秒経過
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@ Phase1
+@@@@@@@ BTC LOG_CNT: 15
+{ UP: 0, NORMAL: 13, DOWN: 0, CHOPPY: 0 }
+@@@@@@@ BCH LOG_CNT: 15
+{ UP: 0, NORMAL: 13, DOWN: 0, CHOPPY: 0 }
+@@@@@@@ ETH LOG_CNT: 15
+{ UP: 0, NORMAL: 13, DOWN: 0, CHOPPY: 0 }
+@@@@@@@ XRP LOG_CNT: 15
+{ UP: 0, NORMAL: 13, DOWN: 0, CHOPPY: 0 }
+@@@@@@@ XEM LOG_CNT: 15
+{ UP: 0, NORMAL: 13, DOWN: 0, CHOPPY: 0 }
+@@@@@@@ MONA LOG_CNT: 15
+{ UP: 0, NORMAL: 13, DOWN: 0, CHOPPY: 0 }
+@@@@@@@ DASH LOG_CNT: 15
+{ UP: 0, NORMAL: 13, DOWN: 0, CHOPPY: 0 }
+@@@@@@@ LTC LOG_CNT: 15
+{ UP: 0, NORMAL: 13, DOWN: 0, CHOPPY: 0 }
+150.359秒経過
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@ Phase1
+@@@@@@@ BTC LOG_CNT: 16
+{ UP: 0, NORMAL: 14, DOWN: 0, CHOPPY: 0 }
+@@@@@@@ BCH LOG_CNT: 16
+{ UP: 0, NORMAL: 14, DOWN: 0, CHOPPY: 0 }
+@@@@@@@ ETH LOG_CNT: 16
+{ UP: 0, NORMAL: 14, DOWN: 0, CHOPPY: 0 }
+@@@@@@@ XRP LOG_CNT: 16
+{ UP: 0, NORMAL: 14, DOWN: 0, CHOPPY: 0 }
+@@@@@@@ XEM LOG_CNT: 16
+{ UP: 0, NORMAL: 14, DOWN: 0, CHOPPY: 0 }
+@@@@@@@ MONA LOG_CNT: 16
+{ UP: 0, NORMAL: 14, DOWN: 0, CHOPPY: 0 }
+@@@@@@@ DASH LOG_CNT: 16
+{ UP: 0, NORMAL: 14, DOWN: 0, CHOPPY: 0 }
+@@@@@@@ LTC LOG_CNT: 16
+{ UP: 0, NORMAL: 14, DOWN: 0, CHOPPY: 0 }
+160.368秒経過
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@ Phase1
+@@@@@@@ BTC LOG_CNT: 17
+{ UP: 0, NORMAL: 15, DOWN: 0, CHOPPY: 0 }
+@@@@@@@ BCH LOG_CNT: 17
+{ UP: 0, NORMAL: 15, DOWN: 0, CHOPPY: 0 }
+@@@@@@@ ETH LOG_CNT: 17
+{ UP: 0, NORMAL: 15, DOWN: 0, CHOPPY: 0 }
+@@@@@@@ XRP LOG_CNT: 17
+{ UP: 0, NORMAL: 15, DOWN: 0, CHOPPY: 0 }
+@@@@@@@ XEM LOG_CNT: 17
+{ UP: 0, NORMAL: 15, DOWN: 0, CHOPPY: 0 }
+@@@@@@@ MONA LOG_CNT: 17
+{ UP: 0, NORMAL: 15, DOWN: 0, CHOPPY: 0 }
+@@@@@@@ DASH LOG_CNT: 17
+{ UP: 0, NORMAL: 15, DOWN: 0, CHOPPY: 0 }
+@@@@@@@ LTC LOG_CNT: 17
+{ UP: 0, NORMAL: 15, DOWN: 0, CHOPPY: 0 }
+170.382秒経過
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@ Phase1
+@@@@@@@ BTC LOG_CNT: 18
+{ UP: 0, NORMAL: 16, DOWN: 0, CHOPPY: 0 }
+@@@@@@@ BCH LOG_CNT: 18
+{ UP: 0, NORMAL: 16, DOWN: 0, CHOPPY: 0 }
+@@@@@@@ ETH LOG_CNT: 18
+{ UP: 0, NORMAL: 16, DOWN: 0, CHOPPY: 0 }
+@@@@@@@ XRP LOG_CNT: 18
+{ UP: 0, NORMAL: 16, DOWN: 0, CHOPPY: 0 }
+@@@@@@@ XEM LOG_CNT: 18
+{ UP: 0, NORMAL: 16, DOWN: 0, CHOPPY: 0 }
+@@@@@@@ MONA LOG_CNT: 18
+{ UP: 0, NORMAL: 16, DOWN: 0, CHOPPY: 0 }
+@@@@@@@ DASH LOG_CNT: 18
+{ UP: 0, NORMAL: 16, DOWN: 0, CHOPPY: 0 }
+@@@@@@@ LTC LOG_CNT: 18
+{ UP: 0, NORMAL: 16, DOWN: 0, CHOPPY: 0 }
+180.393秒経過
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@ Phase1
+@@@@@@@ BTC LOG_CNT: 19
+{ UP: 0, NORMAL: 17, DOWN: 0, CHOPPY: 0 }
+@@@@@@@ BCH LOG_CNT: 19
+{ UP: 0, NORMAL: 17, DOWN: 0, CHOPPY: 0 }
+@@@@@@@ ETH LOG_CNT: 19
+{ UP: 0, NORMAL: 17, DOWN: 0, CHOPPY: 0 }
+@@@@@@@ XRP LOG_CNT: 19
+{ UP: 0, NORMAL: 17, DOWN: 0, CHOPPY: 0 }
+@@@@@@@ XEM LOG_CNT: 19
+{ UP: 0, NORMAL: 17, DOWN: 0, CHOPPY: 0 }
+@@@@@@@ MONA LOG_CNT: 19
+{ UP: 0, NORMAL: 17, DOWN: 0, CHOPPY: 0 }
+@@@@@@@ DASH LOG_CNT: 19
+{ UP: 0, NORMAL: 17, DOWN: 0, CHOPPY: 0 }
+@@@@@@@ LTC LOG_CNT: 19
+{ UP: 0, NORMAL: 17, DOWN: 0, CHOPPY: 0 }
+190.399秒経過
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@ Phase1
+@@@@@@@ BTC LOG_CNT: 20
+{ UP: 0, NORMAL: 18, DOWN: 0, CHOPPY: 0 }
+@@@@@@@ BCH LOG_CNT: 20
+{ UP: 0, NORMAL: 18, DOWN: 0, CHOPPY: 0 }
+@@@@@@@ ETH LOG_CNT: 20
+{ UP: 0, NORMAL: 18, DOWN: 0, CHOPPY: 0 }
+@@@@@@@ XRP LOG_CNT: 20
+{ UP: 0, NORMAL: 18, DOWN: 0, CHOPPY: 0 }
+@@@@@@@ XEM LOG_CNT: 20
+{ UP: 0, NORMAL: 18, DOWN: 0, CHOPPY: 0 }
+@@@@@@@ MONA LOG_CNT: 20
+{ UP: 0, NORMAL: 18, DOWN: 0, CHOPPY: 0 }
+@@@@@@@ DASH LOG_CNT: 20
+{ UP: 0, NORMAL: 18, DOWN: 0, CHOPPY: 0 }
+@@@@@@@ LTC LOG_CNT: 20
+{ UP: 0, NORMAL: 18, DOWN: 0, CHOPPY: 0 }
+200.407秒経過
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@ Phase1
+@@@@@@@ BTC LOG_CNT: 21
+{ UP: 0, NORMAL: 19, DOWN: 0, CHOPPY: 0 }
+@@@@@@@ BCH LOG_CNT: 21
+{ UP: 0, NORMAL: 19, DOWN: 0, CHOPPY: 0 }
+@@@@@@@ ETH LOG_CNT: 21
+{ UP: 0, NORMAL: 19, DOWN: 0, CHOPPY: 0 }
+@@@@@@@ XRP LOG_CNT: 21
+{ UP: 0, NORMAL: 19, DOWN: 0, CHOPPY: 0 }
+@@@@@@@ XEM LOG_CNT: 21
+{ UP: 0, NORMAL: 19, DOWN: 0, CHOPPY: 0 }
+@@@@@@@ MONA LOG_CNT: 21
+{ UP: 0, NORMAL: 19, DOWN: 0, CHOPPY: 0 }
+@@@@@@@ DASH LOG_CNT: 21
+{ UP: 0, NORMAL: 19, DOWN: 0, CHOPPY: 0 }
+@@@@@@@ LTC LOG_CNT: 21
+{ UP: 0, NORMAL: 19, DOWN: 0, CHOPPY: 0 }
+210.418秒経過
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@ Phase1
+@@@@@@@ BTC LOG_CNT: 22
+{ UP: 0, NORMAL: 20, DOWN: 0, CHOPPY: 0 }
+@@@@@@@ BCH LOG_CNT: 22
+{ UP: 0, NORMAL: 20, DOWN: 0, CHOPPY: 0 }
+@@@@@@@ ETH LOG_CNT: 22
+{ UP: 0, NORMAL: 20, DOWN: 0, CHOPPY: 0 }
+@@@@@@@ XRP LOG_CNT: 22
+{ UP: 0, NORMAL: 20, DOWN: 0, CHOPPY: 0 }
+@@@@@@@ XEM LOG_CNT: 22
+{ UP: 0, NORMAL: 20, DOWN: 0, CHOPPY: 0 }
+@@@@@@@ MONA LOG_CNT: 22
+{ UP: 0, NORMAL: 20, DOWN: 0, CHOPPY: 0 }
+@@@@@@@ DASH LOG_CNT: 22
+{ UP: 0, NORMAL: 20, DOWN: 0, CHOPPY: 0 }
+@@@@@@@ LTC LOG_CNT: 22
+{ UP: 0, NORMAL: 20, DOWN: 0, CHOPPY: 0 }
+220.427秒経過
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@ Phase1
+@@@@@@@ BTC LOG_CNT: 23
+{ UP: 0, NORMAL: 21, DOWN: 0, CHOPPY: 0 }
+@@@@@@@ BCH LOG_CNT: 23
+{ UP: 0, NORMAL: 21, DOWN: 0, CHOPPY: 0 }
+@@@@@@@ ETH LOG_CNT: 23
+{ UP: 0, NORMAL: 21, DOWN: 0, CHOPPY: 0 }
+@@@@@@@ XRP LOG_CNT: 23
+{ UP: 0, NORMAL: 21, DOWN: 0, CHOPPY: 0 }
+@@@@@@@ XEM LOG_CNT: 23
+{ UP: 0, NORMAL: 21, DOWN: 0, CHOPPY: 0 }
+@@@@@@@ MONA LOG_CNT: 23
+{ UP: 0, NORMAL: 21, DOWN: 0, CHOPPY: 0 }
+@@@@@@@ DASH LOG_CNT: 23
+{ UP: 0, NORMAL: 21, DOWN: 0, CHOPPY: 0 }
+@@@@@@@ LTC LOG_CNT: 23
+{ UP: 0, NORMAL: 21, DOWN: 0, CHOPPY: 0 }
+230.438秒経過
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@ Phase1
+@@@@@@@ BTC LOG_CNT: 24
+{ UP: 0, NORMAL: 22, DOWN: 0, CHOPPY: 0 }
+@@@@@@@ BCH LOG_CNT: 24
+{ UP: 0, NORMAL: 22, DOWN: 0, CHOPPY: 0 }
+@@@@@@@ ETH LOG_CNT: 24
+{ UP: 0, NORMAL: 22, DOWN: 0, CHOPPY: 0 }
+@@@@@@@ XRP LOG_CNT: 24
+{ UP: 0, NORMAL: 22, DOWN: 0, CHOPPY: 0 }
+@@@@@@@ XEM LOG_CNT: 24
+{ UP: 0, NORMAL: 22, DOWN: 0, CHOPPY: 0 }
+@@@@@@@ MONA LOG_CNT: 24
+{ UP: 0, NORMAL: 22, DOWN: 0, CHOPPY: 0 }
+@@@@@@@ DASH LOG_CNT: 24
+{ UP: 0, NORMAL: 22, DOWN: 0, CHOPPY: 0 }
+@@@@@@@ LTC LOG_CNT: 24
+{ UP: 0, NORMAL: 22, DOWN: 0, CHOPPY: 0 }
+240.449秒経過
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@ Phase1
+250.459秒経過
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@ Phase1
+@@@@@@@ BTC LOG_CNT: 25
+{ UP: 0, NORMAL: 23, DOWN: 0, CHOPPY: 0 }
+@@@@@@@ BCH LOG_CNT: 25
+{ UP: 0, NORMAL: 23, DOWN: 0, CHOPPY: 0 }
+@@@@@@@ ETH LOG_CNT: 25
+{ UP: 0, NORMAL: 23, DOWN: 0, CHOPPY: 0 }
+@@@@@@@ XRP LOG_CNT: 25
+{ UP: 0, NORMAL: 23, DOWN: 0, CHOPPY: 0 }
+@@@@@@@ XEM LOG_CNT: 25
+{ UP: 0, NORMAL: 23, DOWN: 0, CHOPPY: 0 }
+@@@@@@@ MONA LOG_CNT: 25
+{ UP: 0, NORMAL: 23, DOWN: 0, CHOPPY: 0 }
+@@@@@@@ DASH LOG_CNT: 25
+{ UP: 0, NORMAL: 23, DOWN: 0, CHOPPY: 0 }
+@@@@@@@ LTC LOG_CNT: 25
+{ UP: 0, NORMAL: 23, DOWN: 0, CHOPPY: 0 }
+@@@@@@@ BTC LOG_CNT: 26
+{ UP: 0, NORMAL: 24, DOWN: 0, CHOPPY: 0 }
+@@@@@@@ BCH LOG_CNT: 26
+{ UP: 0, NORMAL: 24, DOWN: 0, CHOPPY: 0 }
+@@@@@@@ ETH LOG_CNT: 26
+{ UP: 0, NORMAL: 24, DOWN: 0, CHOPPY: 0 }
+@@@@@@@ XRP LOG_CNT: 26
+{ UP: 0, NORMAL: 24, DOWN: 0, CHOPPY: 0 }
+@@@@@@@ XEM LOG_CNT: 26
+{ UP: 0, NORMAL: 24, DOWN: 0, CHOPPY: 0 }
+@@@@@@@ MONA LOG_CNT: 26
+{ UP: 0, NORMAL: 24, DOWN: 0, CHOPPY: 0 }
+@@@@@@@ DASH LOG_CNT: 26
+{ UP: 0, NORMAL: 24, DOWN: 0, CHOPPY: 0 }
+@@@@@@@ LTC LOG_CNT: 26
+{ UP: 0, NORMAL: 24, DOWN: 0, CHOPPY: 0 }
+260.469秒経過
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@ Phase1
+@@@@@@@ BTC LOG_CNT: 27
+{ UP: 0, NORMAL: 25, DOWN: 0, CHOPPY: 0 }
+@@@@@@@ BCH LOG_CNT: 27
+{ UP: 0, NORMAL: 25, DOWN: 0, CHOPPY: 0 }
+@@@@@@@ ETH LOG_CNT: 27
+{ UP: 0, NORMAL: 25, DOWN: 0, CHOPPY: 0 }
+@@@@@@@ XRP LOG_CNT: 27
+{ UP: 0, NORMAL: 25, DOWN: 0, CHOPPY: 0 }
+@@@@@@@ XEM LOG_CNT: 27
+{ UP: 0, NORMAL: 25, DOWN: 0, CHOPPY: 0 }
+@@@@@@@ MONA LOG_CNT: 27
+{ UP: 0, NORMAL: 25, DOWN: 0, CHOPPY: 0 }
+@@@@@@@ DASH LOG_CNT: 27
+{ UP: 0, NORMAL: 25, DOWN: 0, CHOPPY: 0 }
+@@@@@@@ LTC LOG_CNT: 27
+{ UP: 0, NORMAL: 25, DOWN: 0, CHOPPY: 0 }
+270.477秒経過
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@ Phase1
+@@@@@@@ BTC LOG_CNT: 28
+{ UP: 0, NORMAL: 26, DOWN: 0, CHOPPY: 0 }
+@@@@@@@ BCH LOG_CNT: 28
+{ UP: 0, NORMAL: 26, DOWN: 0, CHOPPY: 0 }
+@@@@@@@ ETH LOG_CNT: 28
+{ UP: 0, NORMAL: 26, DOWN: 0, CHOPPY: 0 }
+@@@@@@@ XRP LOG_CNT: 28
+{ UP: 0, NORMAL: 26, DOWN: 0, CHOPPY: 0 }
+@@@@@@@ XEM LOG_CNT: 28
+{ UP: 0, NORMAL: 26, DOWN: 0, CHOPPY: 0 }
+@@@@@@@ MONA LOG_CNT: 28
+{ UP: 0, NORMAL: 26, DOWN: 0, CHOPPY: 0 }
+@@@@@@@ DASH LOG_CNT: 28
+{ UP: 0, NORMAL: 26, DOWN: 0, CHOPPY: 0 }
+@@@@@@@ LTC LOG_CNT: 28
+{ UP: 0, NORMAL: 26, DOWN: 0, CHOPPY: 0 }
+280.486秒経過
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@ Phase1
+@@@@@@@ BTC LOG_CNT: 29
+{ UP: 0, NORMAL: 27, DOWN: 0, CHOPPY: 0 }
+@@@@@@@ BCH LOG_CNT: 29
+{ UP: 0, NORMAL: 27, DOWN: 0, CHOPPY: 0 }
+@@@@@@@ ETH LOG_CNT: 29
+{ UP: 0, NORMAL: 27, DOWN: 0, CHOPPY: 0 }
+@@@@@@@ XRP LOG_CNT: 29
+{ UP: 0, NORMAL: 27, DOWN: 0, CHOPPY: 0 }
+@@@@@@@ XEM LOG_CNT: 29
+{ UP: 0, NORMAL: 27, DOWN: 0, CHOPPY: 0 }
+@@@@@@@ MONA LOG_CNT: 29
+{ UP: 0, NORMAL: 27, DOWN: 0, CHOPPY: 0 }
+@@@@@@@ DASH LOG_CNT: 29
+{ UP: 0, NORMAL: 27, DOWN: 0, CHOPPY: 0 }
+@@@@@@@ LTC LOG_CNT: 29
+{ UP: 0, NORMAL: 27, DOWN: 0, CHOPPY: 0 }
+290.494秒経過
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@ Phase1
+@@@@@@@ BTC LOG_CNT: 30
+{ UP: 0, NORMAL: 28, DOWN: 0, CHOPPY: 0 }
+@@@@@@@ BCH LOG_CNT: 30
+{ UP: 0, NORMAL: 28, DOWN: 0, CHOPPY: 0 }
+@@@@@@@ ETH LOG_CNT: 30
+{ UP: 0, NORMAL: 28, DOWN: 0, CHOPPY: 0 }
+@@@@@@@ XRP LOG_CNT: 30
+{ UP: 0, NORMAL: 28, DOWN: 0, CHOPPY: 0 }
+@@@@@@@ XEM LOG_CNT: 30
+{ UP: 0, NORMAL: 28, DOWN: 0, CHOPPY: 0 }
+@@@@@@@ MONA LOG_CNT: 30
+{ UP: 0, NORMAL: 28, DOWN: 0, CHOPPY: 0 }
+@@@@@@@ DASH LOG_CNT: 30
+{ UP: 0, NORMAL: 28, DOWN: 0, CHOPPY: 0 }
+@@@@@@@ LTC LOG_CNT: 30
+{ UP: 0, NORMAL: 28, DOWN: 0, CHOPPY: 0 }
+300.506秒経過
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@ Phase1
+@@@@@@@ BTC LOG_CNT: 31
+{ UP: 0, NORMAL: 29, DOWN: 0, CHOPPY: 0 }
+@@@@@@@ BCH LOG_CNT: 31
+{ UP: 0, NORMAL: 29, DOWN: 0, CHOPPY: 0 }
+@@@@@@@ ETH LOG_CNT: 31
+{ UP: 0, NORMAL: 29, DOWN: 0, CHOPPY: 0 }
+@@@@@@@ XRP LOG_CNT: 31
+{ UP: 0, NORMAL: 29, DOWN: 0, CHOPPY: 0 }
+@@@@@@@ XEM LOG_CNT: 31
+{ UP: 0, NORMAL: 29, DOWN: 0, CHOPPY: 0 }
+@@@@@@@ MONA LOG_CNT: 31
+{ UP: 0, NORMAL: 29, DOWN: 0, CHOPPY: 0 }
+@@@@@@@ DASH LOG_CNT: 31
+{ UP: 0, NORMAL: 29, DOWN: 0, CHOPPY: 0 }
+@@@@@@@ LTC LOG_CNT: 31
+{ UP: 0, NORMAL: 29, DOWN: 0, CHOPPY: 0 }
+310.514秒経過
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@ Phase1
+@@@@@@@ BTC LOG_CNT: 32
+{ UP: 0, NORMAL: 30, DOWN: 0, CHOPPY: 0 }
+@@@@@@@ BCH LOG_CNT: 32
+{ UP: 0, NORMAL: 30, DOWN: 0, CHOPPY: 0 }
+@@@@@@@ ETH LOG_CNT: 32
+{ UP: 0, NORMAL: 30, DOWN: 0, CHOPPY: 0 }
+@@@@@@@ XRP LOG_CNT: 32
+{ UP: 0, NORMAL: 30, DOWN: 0, CHOPPY: 0 }
+@@@@@@@ XEM LOG_CNT: 32
+{ UP: 0, NORMAL: 30, DOWN: 0, CHOPPY: 0 }
+@@@@@@@ MONA LOG_CNT: 32
+{ UP: 0, NORMAL: 30, DOWN: 0, CHOPPY: 0 }
+@@@@@@@ DASH LOG_CNT: 32
+{ UP: 0, NORMAL: 30, DOWN: 0, CHOPPY: 0 }
+@@@@@@@ LTC LOG_CNT: 32
+{ UP: 0, NORMAL: 30, DOWN: 0, CHOPPY: 0 }
+320.522秒経過
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@ Phase1
+@@@@@@@ BTC LOG_CNT: 33
+{ UP: 0, NORMAL: 31, DOWN: 0, CHOPPY: 0 }
+@@@@@@@ BCH LOG_CNT: 33
+{ UP: 0, NORMAL: 31, DOWN: 0, CHOPPY: 0 }
+@@@@@@@ ETH LOG_CNT: 33
+{ UP: 0, NORMAL: 31, DOWN: 0, CHOPPY: 0 }
+@@@@@@@ XRP LOG_CNT: 33
+{ UP: 0, NORMAL: 31, DOWN: 0, CHOPPY: 0 }
+@@@@@@@ XEM LOG_CNT: 33
+{ UP: 0, NORMAL: 31, DOWN: 0, CHOPPY: 0 }
+@@@@@@@ MONA LOG_CNT: 33
+{ UP: 0, NORMAL: 31, DOWN: 0, CHOPPY: 0 }
+@@@@@@@ DASH LOG_CNT: 33
+{ UP: 0, NORMAL: 31, DOWN: 0, CHOPPY: 0 }
+@@@@@@@ LTC LOG_CNT: 33
+{ UP: 0, NORMAL: 31, DOWN: 0, CHOPPY: 0 }
+330.529秒経過
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@ Phase1
+@@@@@@@ BTC LOG_CNT: 34
+{ UP: 0, NORMAL: 32, DOWN: 0, CHOPPY: 0 }
+@@@@@@@ BCH LOG_CNT: 34
+{ UP: 0, NORMAL: 32, DOWN: 0, CHOPPY: 0 }
+@@@@@@@ ETH LOG_CNT: 34
+{ UP: 0, NORMAL: 32, DOWN: 0, CHOPPY: 0 }
+@@@@@@@ XRP LOG_CNT: 34
+{ UP: 0, NORMAL: 32, DOWN: 0, CHOPPY: 0 }
+@@@@@@@ XEM LOG_CNT: 34
+{ UP: 0, NORMAL: 32, DOWN: 0, CHOPPY: 0 }
+@@@@@@@ MONA LOG_CNT: 34
+{ UP: 0, NORMAL: 32, DOWN: 0, CHOPPY: 0 }
+@@@@@@@ DASH LOG_CNT: 34
+{ UP: 0, NORMAL: 32, DOWN: 0, CHOPPY: 0 }
+@@@@@@@ LTC LOG_CNT: 34
+{ UP: 0, NORMAL: 32, DOWN: 0, CHOPPY: 0 }
+340.537秒経過
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@ Phase1
+@@@@@@@ BTC LOG_CNT: 35
+{ UP: 0, NORMAL: 33, DOWN: 0, CHOPPY: 0 }
+@@@@@@@ BCH LOG_CNT: 35
+{ UP: 0, NORMAL: 33, DOWN: 0, CHOPPY: 0 }
+@@@@@@@ ETH LOG_CNT: 35
+{ UP: 0, NORMAL: 33, DOWN: 0, CHOPPY: 0 }
+@@@@@@@ XRP LOG_CNT: 35
+{ UP: 0, NORMAL: 33, DOWN: 0, CHOPPY: 0 }
+@@@@@@@ XEM LOG_CNT: 35
+{ UP: 0, NORMAL: 33, DOWN: 0, CHOPPY: 0 }
+@@@@@@@ MONA LOG_CNT: 35
+{ UP: 0, NORMAL: 33, DOWN: 0, CHOPPY: 0 }
+@@@@@@@ DASH LOG_CNT: 35
+{ UP: 0, NORMAL: 33, DOWN: 0, CHOPPY: 0 }
+@@@@@@@ LTC LOG_CNT: 35
+{ UP: 0, NORMAL: 33, DOWN: 0, CHOPPY: 0 }
+350.544秒経過
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@ Phase1
+@@@@@@@ BTC LOG_CNT: 36
+{ UP: 0, NORMAL: 34, DOWN: 0, CHOPPY: 0 }
+@@@@@@@ BCH LOG_CNT: 36
+{ UP: 0, NORMAL: 34, DOWN: 0, CHOPPY: 0 }
+@@@@@@@ ETH LOG_CNT: 36
+{ UP: 0, NORMAL: 34, DOWN: 0, CHOPPY: 0 }
+@@@@@@@ XRP LOG_CNT: 36
+{ UP: 0, NORMAL: 34, DOWN: 0, CHOPPY: 0 }
+@@@@@@@ XEM LOG_CNT: 36
+{ UP: 0, NORMAL: 34, DOWN: 0, CHOPPY: 0 }
+@@@@@@@ MONA LOG_CNT: 36
+{ UP: 0, NORMAL: 34, DOWN: 0, CHOPPY: 0 }
+@@@@@@@ DASH LOG_CNT: 36
+{ UP: 0, NORMAL: 34, DOWN: 0, CHOPPY: 0 }
+@@@@@@@ LTC LOG_CNT: 36
+{ UP: 0, NORMAL: 34, DOWN: 0, CHOPPY: 0 }
+360.553秒経過
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@ Phase1
+@@@@@@@ BTC LOG_CNT: 37
+{ UP: 0, NORMAL: 35, DOWN: 0, CHOPPY: 0 }
+@@@@@@@ BCH LOG_CNT: 37
+{ UP: 0, NORMAL: 35, DOWN: 0, CHOPPY: 0 }
+@@@@@@@ ETH LOG_CNT: 37
+{ UP: 0, NORMAL: 35, DOWN: 0, CHOPPY: 0 }
+@@@@@@@ XRP LOG_CNT: 37
+{ UP: 0, NORMAL: 35, DOWN: 0, CHOPPY: 0 }
+@@@@@@@ XEM LOG_CNT: 37
+{ UP: 0, NORMAL: 35, DOWN: 0, CHOPPY: 0 }
+@@@@@@@ MONA LOG_CNT: 37
+{ UP: 0, NORMAL: 35, DOWN: 0, CHOPPY: 0 }
+@@@@@@@ DASH LOG_CNT: 37
+{ UP: 0, NORMAL: 35, DOWN: 0, CHOPPY: 0 }
+@@@@@@@ LTC LOG_CNT: 37
+{ UP: 0, NORMAL: 35, DOWN: 0, CHOPPY: 0 }
+370.563秒経過
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@ Phase1
+@@@@@@@ BTC LOG_CNT: 38
+{ UP: 0, NORMAL: 36, DOWN: 0, CHOPPY: 0 }
+@@@@@@@ BCH LOG_CNT: 38
+{ UP: 0, NORMAL: 36, DOWN: 0, CHOPPY: 0 }
+@@@@@@@ ETH LOG_CNT: 38
+{ UP: 0, NORMAL: 36, DOWN: 0, CHOPPY: 0 }
+@@@@@@@ XRP LOG_CNT: 38
+{ UP: 0, NORMAL: 36, DOWN: 0, CHOPPY: 0 }
+@@@@@@@ XEM LOG_CNT: 38
+{ UP: 0, NORMAL: 36, DOWN: 0, CHOPPY: 0 }
+@@@@@@@ MONA LOG_CNT: 38
+{ UP: 0, NORMAL: 36, DOWN: 0, CHOPPY: 0 }
+@@@@@@@ DASH LOG_CNT: 38
+{ UP: 0, NORMAL: 36, DOWN: 0, CHOPPY: 0 }
+@@@@@@@ LTC LOG_CNT: 38
+{ UP: 0, NORMAL: 36, DOWN: 0, CHOPPY: 0 }
+380.572秒経過
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@ Phase1
+@@@@@@@ BTC LOG_CNT: 39
+{ UP: 0, NORMAL: 37, DOWN: 0, CHOPPY: 0 }
+@@@@@@@ BCH LOG_CNT: 39
+{ UP: 0, NORMAL: 37, DOWN: 0, CHOPPY: 0 }
+@@@@@@@ ETH LOG_CNT: 39
+{ UP: 0, NORMAL: 37, DOWN: 0, CHOPPY: 0 }
+@@@@@@@ XRP LOG_CNT: 39
+{ UP: 0, NORMAL: 37, DOWN: 0, CHOPPY: 0 }
+@@@@@@@ XEM LOG_CNT: 39
+{ UP: 0, NORMAL: 37, DOWN: 0, CHOPPY: 0 }
+@@@@@@@ MONA LOG_CNT: 39
+{ UP: 0, NORMAL: 37, DOWN: 0, CHOPPY: 0 }
+@@@@@@@ DASH LOG_CNT: 39
+{ UP: 0, NORMAL: 37, DOWN: 0, CHOPPY: 0 }
+@@@@@@@ LTC LOG_CNT: 39
+{ UP: 0, NORMAL: 37, DOWN: 0, CHOPPY: 0 }
+390.578秒経過
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@ Phase1
+@@@@@@@ BTC LOG_CNT: 40
+{ UP: 0, NORMAL: 38, DOWN: 0, CHOPPY: 0 }
+@@@@@@@ BCH LOG_CNT: 40
+{ UP: 0, NORMAL: 38, DOWN: 0, CHOPPY: 0 }
+@@@@@@@ ETH LOG_CNT: 40
+{ UP: 0, NORMAL: 38, DOWN: 0, CHOPPY: 0 }
+@@@@@@@ XRP LOG_CNT: 40
+{ UP: 0, NORMAL: 38, DOWN: 0, CHOPPY: 0 }
+@@@@@@@ XEM LOG_CNT: 40
+{ UP: 0, NORMAL: 38, DOWN: 0, CHOPPY: 0 }
+@@@@@@@ MONA LOG_CNT: 40
+{ UP: 0, NORMAL: 38, DOWN: 0, CHOPPY: 0 }
+@@@@@@@ DASH LOG_CNT: 40
+{ UP: 0, NORMAL: 38, DOWN: 0, CHOPPY: 0 }
+@@@@@@@ LTC LOG_CNT: 40
+{ UP: 0, NORMAL: 38, DOWN: 0, CHOPPY: 0 }
+400.588秒経過
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@ Phase1
+@@@@@@@ BTC LOG_CNT: 41
+{ UP: 0, NORMAL: 39, DOWN: 0, CHOPPY: 0 }
+@@@@@@@ BCH LOG_CNT: 41
+{ UP: 0, NORMAL: 39, DOWN: 0, CHOPPY: 0 }
+@@@@@@@ ETH LOG_CNT: 41
+{ UP: 0, NORMAL: 39, DOWN: 0, CHOPPY: 0 }
+@@@@@@@ XRP LOG_CNT: 41
+{ UP: 0, NORMAL: 39, DOWN: 0, CHOPPY: 0 }
+@@@@@@@ XEM LOG_CNT: 41
+loop 1 UP base: 28 loop: 29
+loop 2 DOWN base: 29 loop: 28
+{ UP: 1, NORMAL: 37, DOWN: 1, CHOPPY: 1 }
+@@@@@@@ MONA LOG_CNT: 41
+{ UP: 0, NORMAL: 39, DOWN: 0, CHOPPY: 0 }
+@@@@@@@ DASH LOG_CNT: 41
+{ UP: 0, NORMAL: 39, DOWN: 0, CHOPPY: 0 }
+@@@@@@@ LTC LOG_CNT: 41
+{ UP: 0, NORMAL: 39, DOWN: 0, CHOPPY: 0 }
+410.595秒経過
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@ Phase1
+@@@@@@@ BTC LOG_CNT: 42
+{ UP: 0, NORMAL: 40, DOWN: 0, CHOPPY: 0 }
+@@@@@@@ BCH LOG_CNT: 42
+{ UP: 0, NORMAL: 40, DOWN: 0, CHOPPY: 0 }
+@@@@@@@ ETH LOG_CNT: 42
+{ UP: 0, NORMAL: 40, DOWN: 0, CHOPPY: 0 }
+@@@@@@@ XRP LOG_CNT: 42
+{ UP: 0, NORMAL: 40, DOWN: 0, CHOPPY: 0 }
+@@@@@@@ XEM LOG_CNT: 42
+loop 2 UP base: 28 loop: 29
+loop 3 DOWN base: 29 loop: 28
+{ UP: 1, NORMAL: 38, DOWN: 1, CHOPPY: 1 }
+@@@@@@@ MONA LOG_CNT: 42
+{ UP: 0, NORMAL: 40, DOWN: 0, CHOPPY: 0 }
+@@@@@@@ DASH LOG_CNT: 42
+{ UP: 0, NORMAL: 40, DOWN: 0, CHOPPY: 0 }
+@@@@@@@ LTC LOG_CNT: 42
+{ UP: 0, NORMAL: 40, DOWN: 0, CHOPPY: 0 }
+420.604秒経過
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@ Phase1
+@@@@@@@ BTC LOG_CNT: 43
+{ UP: 0, NORMAL: 41, DOWN: 0, CHOPPY: 0 }
+@@@@@@@ BCH LOG_CNT: 43
+{ UP: 0, NORMAL: 41, DOWN: 0, CHOPPY: 0 }
+@@@@@@@ ETH LOG_CNT: 43
+{ UP: 0, NORMAL: 41, DOWN: 0, CHOPPY: 0 }
+@@@@@@@ XRP LOG_CNT: 43
+{ UP: 0, NORMAL: 41, DOWN: 0, CHOPPY: 0 }
+@@@@@@@ XEM LOG_CNT: 43
+loop 3 UP base: 28 loop: 29
+loop 4 DOWN base: 29 loop: 28
+{ UP: 1, NORMAL: 39, DOWN: 1, CHOPPY: 1 }
+@@@@@@@ MONA LOG_CNT: 43
+{ UP: 0, NORMAL: 41, DOWN: 0, CHOPPY: 0 }
+@@@@@@@ DASH LOG_CNT: 43
+{ UP: 0, NORMAL: 41, DOWN: 0, CHOPPY: 0 }
+@@@@@@@ LTC LOG_CNT: 43
+{ UP: 0, NORMAL: 41, DOWN: 0, CHOPPY: 0 }
+430.613秒経過
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@ Phase1
+@@@@@@@ BTC LOG_CNT: 44
+{ UP: 0, NORMAL: 42, DOWN: 0, CHOPPY: 0 }
+@@@@@@@ BCH LOG_CNT: 44
+{ UP: 0, NORMAL: 42, DOWN: 0, CHOPPY: 0 }
+@@@@@@@ ETH LOG_CNT: 44
+{ UP: 0, NORMAL: 42, DOWN: 0, CHOPPY: 0 }
+@@@@@@@ XRP LOG_CNT: 44
+{ UP: 0, NORMAL: 42, DOWN: 0, CHOPPY: 0 }
+@@@@@@@ XEM LOG_CNT: 44
+loop 4 UP base: 28 loop: 29
+loop 5 DOWN base: 29 loop: 28
+{ UP: 1, NORMAL: 40, DOWN: 1, CHOPPY: 1 }
+@@@@@@@ MONA LOG_CNT: 44
+{ UP: 0, NORMAL: 42, DOWN: 0, CHOPPY: 0 }
+@@@@@@@ DASH LOG_CNT: 44
+{ UP: 0, NORMAL: 42, DOWN: 0, CHOPPY: 0 }
+@@@@@@@ LTC LOG_CNT: 44
+{ UP: 0, NORMAL: 42, DOWN: 0, CHOPPY: 0 }
+440.624秒経過
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@ Phase1
+@@@@@@@ BTC LOG_CNT: 45
+{ UP: 0, NORMAL: 43, DOWN: 0, CHOPPY: 0 }
+@@@@@@@ BCH LOG_CNT: 45
+{ UP: 0, NORMAL: 43, DOWN: 0, CHOPPY: 0 }
+@@@@@@@ ETH LOG_CNT: 45
+{ UP: 0, NORMAL: 43, DOWN: 0, CHOPPY: 0 }
+@@@@@@@ XRP LOG_CNT: 45
+{ UP: 0, NORMAL: 43, DOWN: 0, CHOPPY: 0 }
+@@@@@@@ XEM LOG_CNT: 45
+loop 5 UP base: 28 loop: 29
+loop 6 DOWN base: 29 loop: 28
+{ UP: 1, NORMAL: 41, DOWN: 1, CHOPPY: 1 }
+@@@@@@@ MONA LOG_CNT: 45
+{ UP: 0, NORMAL: 43, DOWN: 0, CHOPPY: 0 }
+@@@@@@@ DASH LOG_CNT: 45
+{ UP: 0, NORMAL: 43, DOWN: 0, CHOPPY: 0 }
+@@@@@@@ LTC LOG_CNT: 45
+{ UP: 0, NORMAL: 43, DOWN: 0, CHOPPY: 0 }
+450.633秒経過
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@ Phase1
+@@@@@@@ BTC LOG_CNT: 46
+{ UP: 0, NORMAL: 44, DOWN: 0, CHOPPY: 0 }
+@@@@@@@ BCH LOG_CNT: 46
+{ UP: 0, NORMAL: 44, DOWN: 0, CHOPPY: 0 }
+@@@@@@@ ETH LOG_CNT: 46
+{ UP: 0, NORMAL: 44, DOWN: 0, CHOPPY: 0 }
+@@@@@@@ XRP LOG_CNT: 46
+{ UP: 0, NORMAL: 44, DOWN: 0, CHOPPY: 0 }
+@@@@@@@ XEM LOG_CNT: 46
+loop 6 UP base: 28 loop: 29
+loop 7 DOWN base: 29 loop: 28
+{ UP: 1, NORMAL: 42, DOWN: 1, CHOPPY: 1 }
+@@@@@@@ MONA LOG_CNT: 46
+{ UP: 0, NORMAL: 44, DOWN: 0, CHOPPY: 0 }
+@@@@@@@ DASH LOG_CNT: 46
+{ UP: 0, NORMAL: 44, DOWN: 0, CHOPPY: 0 }
+@@@@@@@ LTC LOG_CNT: 46
+{ UP: 0, NORMAL: 44, DOWN: 0, CHOPPY: 0 }
+460.638秒経過
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@ Phase1
+@@@@@@@ BTC LOG_CNT: 47
+{ UP: 0, NORMAL: 45, DOWN: 0, CHOPPY: 0 }
+@@@@@@@ BCH LOG_CNT: 47
+{ UP: 0, NORMAL: 45, DOWN: 0, CHOPPY: 0 }
+@@@@@@@ ETH LOG_CNT: 47
+{ UP: 0, NORMAL: 45, DOWN: 0, CHOPPY: 0 }
+@@@@@@@ XRP LOG_CNT: 47
+{ UP: 0, NORMAL: 45, DOWN: 0, CHOPPY: 0 }
+@@@@@@@ XEM LOG_CNT: 47
+loop 7 UP base: 28 loop: 29
+loop 8 DOWN base: 29 loop: 28
+{ UP: 1, NORMAL: 43, DOWN: 1, CHOPPY: 1 }
+@@@@@@@ MONA LOG_CNT: 47
+{ UP: 0, NORMAL: 45, DOWN: 0, CHOPPY: 0 }
+@@@@@@@ DASH LOG_CNT: 47
+{ UP: 0, NORMAL: 45, DOWN: 0, CHOPPY: 0 }
+@@@@@@@ LTC LOG_CNT: 47
+{ UP: 0, NORMAL: 45, DOWN: 0, CHOPPY: 0 }
+470.649秒経過
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@ Phase1
+@@@@@@@ BTC LOG_CNT: 48
+{ UP: 0, NORMAL: 46, DOWN: 0, CHOPPY: 0 }
+@@@@@@@ BCH LOG_CNT: 48
+{ UP: 0, NORMAL: 46, DOWN: 0, CHOPPY: 0 }
+@@@@@@@ ETH LOG_CNT: 48
+{ UP: 0, NORMAL: 46, DOWN: 0, CHOPPY: 0 }
+@@@@@@@ XRP LOG_CNT: 48
+{ UP: 0, NORMAL: 46, DOWN: 0, CHOPPY: 0 }
+@@@@@@@ XEM LOG_CNT: 48
+loop 8 UP base: 28 loop: 29
+loop 9 DOWN base: 29 loop: 28
+{ UP: 1, NORMAL: 44, DOWN: 1, CHOPPY: 1 }
+@@@@@@@ MONA LOG_CNT: 48
+{ UP: 0, NORMAL: 46, DOWN: 0, CHOPPY: 0 }
+@@@@@@@ DASH LOG_CNT: 48
+{ UP: 0, NORMAL: 46, DOWN: 0, CHOPPY: 0 }
+@@@@@@@ LTC LOG_CNT: 48
+{ UP: 0, NORMAL: 46, DOWN: 0, CHOPPY: 0 }
+480.659秒経過
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@ Phase1
+@@@@@@@ BTC LOG_CNT: 49
+{ UP: 0, NORMAL: 47, DOWN: 0, CHOPPY: 0 }
+@@@@@@@ BCH LOG_CNT: 49
+{ UP: 0, NORMAL: 47, DOWN: 0, CHOPPY: 0 }
+@@@@@@@ ETH LOG_CNT: 49
+{ UP: 0, NORMAL: 47, DOWN: 0, CHOPPY: 0 }
+@@@@@@@ XRP LOG_CNT: 49
+{ UP: 0, NORMAL: 47, DOWN: 0, CHOPPY: 0 }
+@@@@@@@ XEM LOG_CNT: 49
+loop 9 UP base: 28 loop: 29
+loop 10 DOWN base: 29 loop: 28
+{ UP: 1, NORMAL: 45, DOWN: 1, CHOPPY: 1 }
+@@@@@@@ MONA LOG_CNT: 49
+{ UP: 0, NORMAL: 47, DOWN: 0, CHOPPY: 0 }
+@@@@@@@ DASH LOG_CNT: 49
+{ UP: 0, NORMAL: 47, DOWN: 0, CHOPPY: 0 }
+@@@@@@@ LTC LOG_CNT: 49
+{ UP: 0, NORMAL: 47, DOWN: 0, CHOPPY: 0 }
+490.669秒経過
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@ Phase1

@@ -3,11 +3,6 @@ import LoadLogics from './Logics/';
 import exchanges from './exchanges/';
 import Logs from './Logs/';
 
-let buyAmount = 0;
-let profitAmount = 0;
-let buyCnt = 0;
-const startTime = new Date();
-
 class CryptoBi{
 
   constructor( params = { exConf, productConf, generalConf } ){
@@ -17,7 +12,7 @@ class CryptoBi{
     this.logics = new LoadLogics( params );
 
     this.startTime = new Date();
-    this.risingTrendMode = false;
+    this.trendModeParams = {};
 
     // ログを保持
     this.logs = {
@@ -27,89 +22,34 @@ class CryptoBi{
 
   async timerHour(){
     const currentTime = new Date();
-    const status = (currentTime - startTime) / 1000 + '秒経過';
-    console.log( status );
+    const status = (currentTime - this.startTime) / 1000 + '秒経過';
+    Logs.strong( status );
   }
 
   start( proccessTermMicroSecond = 0 ){
     setTimeout( () => {
       this.timerHour();
-      this.phase1();
+      this.setStatus();
       this.phase2();
       this.start( confControl.generalConf.proccessTermMicroSecond );
     }, proccessTermMicroSecond );
   }
 
-  // 情報収集
-  async phase1(){
-    Logs.out( `@ Phase1`);
+  // 情報をセット
+  async setStatus(){
 
     // 各取引所の資産を取得
-    //const balanceParams = await this.logics.p1.getBalanceParams();
+    //const balanceParams = await this.logics.setStatus.getBalanceParams();
 
 
     // 裁定可能状況を取得
-    const ltpParams = await this.logics.p1.getLtpParams();
-    const ltpsNullParams = await this.logics.p1.getLtpParamsFilteredNull( ltpParams );
-    const arbitrageData = await this.logics.p1.getArbitrageData( ltpsNullParams );
-    const bestArbitrageData = await this.logics.p1.getBestArbitrageData( arbitrageData );
+    const ltpParams = await this.logics.setStatus.getLtpParams();
+    const ltpsNullParams = await this.logics.setStatus.getLtpParamsFilteredNull( ltpParams );
+    const arbitrageData = await this.logics.setStatus.getArbitrageData( ltpsNullParams );
+    const bestArbitrageData = await this.logics.setStatus.getBestArbitrageData( arbitrageData );
 
     // 現在が上昇トレンド中かどうかを取得
-
-    // 先頭にログを追加
-    this.logs.ltpParams.unshift( ltpParams );
-
-    // 安定している(急な上がり下がりrbitrageProfitRate分の上下がない)且つ、開始点と、終止点でarbitrageProfitRate分以上値が上昇している場合
-    this.risingTrendMode = await this.logics.p1.getRisingTrendMode( this.logs.ltpParams );
-
-    if( this.generalConf.risingTrendMode.logLtpParamsAmount <= this.logs.ltpParams.length ){
-
-      // 後方からログを削除
-      this.logs.ltpParams.pop();
-    }
-
-
-
-
-
-
-
-
-
-
-
-/*
-    var animals = ['ant', 'bison', 'camel', 'duck', 'elephant'];
-
-    console.log(animals.slice(2));
-    // expected output: Array ["camel", "duck", "elephant"]
-
-    console.log(animals.slice(2, 4));
-    // expected output: Array ["camel", "duck"]
-*/
-//    console.log( bestArbitrageData );
-/*
-    if( arbitrageData.length > 0 ){
-      arbitrageData.forEach( ( ad ) => {
-        buyAmount = buyAmount + ad.ltp;
-        profitAmount = profitAmount + ad.profitAmount;
-
-        const endTime = new Date();
-        const diffTime = startTime.getTime() - endTime.getTime();
-        const diffMinute = Math.floor(diffTime / ( 1000 * 60 ));
-        buyCnt = buyCnt + 1;
-
-        Logs.out( -( diffMinute + 1 ) + " 分経過 " + buyCnt + " 回購入　@@@@@@@@@@@@@@@@@@@@@@ " + ad.exName + " " + ad.productCode );
-        Logs.out( "購入金額　　： ¥" + ad.ltp );
-        Logs.out( "売上　　　　： ¥" + ad.profitAmount );
-        Logs.out( "購入合計金額： ¥" + buyAmount );
-        Logs.out( "売上合計金額： ¥" + profitAmount );
-        Logs.out( "" );
-
-        return profitAmount;
-      });
-    }
-*/
+    const {trendModeParams, logsLtpParams } = await this.logics.setStatus.getRefrectedTrendModeParams( this.logs.ltpParams, ltpParams );
   }
 
   async phase2(){

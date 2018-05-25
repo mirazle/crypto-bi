@@ -61,39 +61,17 @@ class Fisco extends Rest{
 
   async currencies( currency = 'btc' ){
     const options = {url: `${Fisco.endpointPublic}/currencies/${currency}`};
-    return await this.request( options, ( err, response, payload ) => {
-      try {
-        return JSON.parse( payload );
-      } catch (e) {
-        Logs.out( e, 'strong' );
-        return null;
-      }
-    })
+    return await this.request( options, this.response )
   }
 
   async ticker( currencyPairCode ){
     const options = {url: `${Fisco.endpointPublic}/ticker/${currencyPairCode}`};
-    return await this.request( options, ( err, response, payload ) => {
-      try {
-        return JSON.parse( payload );
-      } catch (e) {
-        Logs.out( e, 'strong' );
-        return null;
-      }
-    })
+    return await this.request( options, this.response )
   }
 
   async getInfo(){
     const options = Fisco.getOptions( 'get_info' );
-    console.log( options );
-    return await this.request( options, ( err, response, payload ) => {
-      try {
-        return JSON.parse( payload );
-      } catch (e) {
-        Logs.out( e, 'strong' );
-        return null;
-      }
-    });
+    return await this.request( options, this.response );
   }
 }
 

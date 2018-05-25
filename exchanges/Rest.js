@@ -1,5 +1,6 @@
 import request from 'request';
 import crypto from 'crypto';
+import Logs from '../Logs/';
 
 export default class Rest{
 
@@ -29,11 +30,36 @@ export default class Rest{
     }
   }
 
+  static isJSON( arg ){
+  	arg = (typeof arg === "function") ? arg() : arg;
+  	if (typeof arg  !== "string") {
+  		return false;
+  	}
+  	try {
+  		arg = (!JSON) ? eval("(" + arg + ")") : JSON.parse(arg);
+  		return true;
+  	} catch (e) {
+  		return false;
+  	}
+  }
+
   request( options, callback ){
     return new Promise( ( resolve, reject ) => {
       request( options, ( err, response, payload ) => {
         resolve( callback( err, response, payload ) );
       });
     });
+  }
+
+  response( err, response, payload ){
+    if( err ){
+      Logs.trace( err, 'strong' );
+      return null;
+    }
+    if( !Rest.isJSON( payload ) ){
+      Logs.trace( 'NOT JSON', 'strong' );
+      return null;
+    }
+    return JSON.parse( payload );
   }
 }

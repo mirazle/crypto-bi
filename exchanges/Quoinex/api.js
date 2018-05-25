@@ -39,40 +39,19 @@ class Quoinex extends Rest{
 
   async orders( urlParams ){
     const options = Quoinex.getOptions( 'orders', urlParams );
-    return await this.request( options, ( err, response, payload ) => {
-      try {
-        return JSON.parse( payload );
-      } catch (e) {
-        Logs.out( e, 'strong' );
-        return null;
-      }
-    })
+    return await this.request( options, this.response )
   }
 
   async products( ){
     const options = {url: `${Quoinex.endpoint}products`};
-    return await this.request( options, ( err, response, payload ) => {
-      try {
-        return JSON.parse( payload );
-      } catch (e) {
-        Logs.out( e, 'strong' );
-        return null;
-      }
-    })
+    return await this.request( options, this.response );
   }
 
   get accounts(){
     return {
       balance: async ( params ) => {
         const options = Quoinex.getOptions( `accounts/balance`, params );
-        return await this.request( options, ( err, response, payload ) => {
-          try {
-            return JSON.parse( payload );
-          } catch (e) {
-            Logs.out( e, 'strong' );
-            return null;
-          }
-        });
+        return await this.request( options, this.response );
       }
     }
   }

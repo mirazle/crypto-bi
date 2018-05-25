@@ -66,39 +66,17 @@ class Zaif extends Rest{
 
   async currencies( currency = 'btc' ){
     const options = {url: `${Zaif.endpointPublic}/currencies/${currency}`};
-    return await this.request( options, ( err, response, payload ) => {
-      try {
-        return JSON.parse( payload );
-      } catch (e) {
-        Logs.out( e, 'strong' );
-        return null;
-      }
-    })
+    return await this.request( options, this.response );
   }
 
   async ticker( currencyPairCode ){
     const options = {url: `${Zaif.endpointPublic}/ticker/${currencyPairCode}`};
-    return await this.request( options, ( err, response, payload ) => {
-      try {
-        return JSON.parse( payload );
-      } catch (e) {
-        Logs.out( e, 'strong' );
-        return null;
-      }
-    })
+    return await this.request( options, this.response );
   }
 
   async getInfo(){
     const options = Zaif.getOptions( 'get_info' );
-    console.log( options );
-    return await this.request( options, ( err, response, payload ) => {
-      try {
-        return JSON.parse( payload );
-      } catch (e) {
-        Logs.out( e, 'strong' );
-        return null;
-      }
-    });
+    return await this.request( options, this.response );
   }
 }
 

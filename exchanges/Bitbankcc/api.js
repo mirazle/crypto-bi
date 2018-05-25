@@ -39,28 +39,14 @@ class Bitbankcc extends Rest{
 
   async ticker( currencyPairCode ){
     const options = {url: `${Bitbankcc.endpointPublic}${currencyPairCode}/ticker`};
-    return await this.request( options, ( err, response, payload ) => {
-      try {
-        return JSON.parse( payload );
-      } catch (e) {
-        Logs.out( e, 'strong' );
-        return null;
-      }
-    })
+    return await this.request( options, this.response );
   }
 
   get user(){
     return {
       assets: async ( params ) => {
         const options = Bitbankcc.getOptions( `user/assets`, params );
-        return await this.request( options, ( err, response, payload ) => {
-          try {
-            return JSON.parse( payload );
-          } catch (e) {
-            Logs.out( e, 'strong' );
-            return null;
-          }
-        });
+        return await this.request( options, this.response );
       }
     }
   }
