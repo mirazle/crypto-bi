@@ -9,7 +9,10 @@
   "dependencies": {
     "btcbox": "0.0.10",
     "crypt": "0.0.2",
+    "fs": "0.0.1-security",
     "jsonwebtoken": "^8.2.1",
+    "log": "^1.4.0",
+    "log4js": "^2.7.0",
     "request": "^2.85.0"
   },
   "devDependencies": {

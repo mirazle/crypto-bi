@@ -1,84 +1,67 @@
+import log4js from 'log4js';
+log4js.configure('Logs/log4js_config.json', { reloadSecs: 10 });
+
+const logs = {
+  all: log4js.getLogger('all'),
+  response: log4js.getLogger('response'),
+  arbitorage: log4js.getLogger('arbitorage')
+}
+
 export default class Logs{
 
-  static strong( v ){
-    console.log("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
-    console.log( v );
-    console.log("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
+  static out ( type ){
+    return {
+      trace: ( log, params = '' ) =>  {
+        Logs.trace( log, params );
+        logs[ type ].trace( log, params );
+      },
+      debug: ( log, params = ''  ) => {
+        Logs.trace( log, params );
+        logs[ type ].debug( log, params );
+      },
+      info: ( log, params = ''  ) => {
+        Logs.trace( log, params );
+        logs[ type ].info( log, params );
+      },
+      warn: ( log, params = ''  ) => {
+        Logs.trace( log, params );
+        logs[ type ].warn( log, params );
+      },
+      error: ( log, params = ''  ) =>  {
+        Logs.trace( log, params );
+        logs[ type ].error( log, params );
+      },
+      fatal: ( log, params = ''  ) =>  {
+        Logs.trace( log, params );
+        logs[ type ].fatal( log, params );
+      }
+    }
   }
 
-  static assert( v ){
-    console.assert(v);
+  static get response(){ return Logs.out( 'response' ) }
+  static get arbitorage(){ return Logs.out( 'arbitorage' ) }
+
+  static trace( log, params = ''  ){
+    logs.all.trace( log, params );
   }
 
-  static count( v ){
-    console.count(v);
+  static debug( log, params = '' ){
+    logs.all.debug( log, params );
   }
 
-  static debug( v ){
-    console.debug(v);
+  static info( log, params = ''  ){
+    logs.all.info( log, params );
   }
 
-  static dir( v ){
-    console.dir(v);
+  static warn( log, params = ''  ){
+    logs.all.warn( log, params );
   }
 
-  static dirxml( v ){
-    console.dirxml(v);
+  static error( log, params = ''  ){
+    logs.all.error( log, params );
   }
 
-  static error( v ){
-    console.error(v);
-  }
-
-  static group( v ){
-    console.group(v);
-  }
-
-  static groupCollapsed( v ){
-    console.groupCollapsed(v);
-  }
-
-  static groupEnd( v ){
-    console.groupEnd(v);
-  }
-
-  static info( v ){
-    console.info(v);
-  }
-
-  static log( v ){
-    console.log(v);
-  }
-
-  static markTimeline( v ){
-    console.markTimeline(v);
-  }
-
-  static profile( v ){
-    console.profile(v);
-  }
-
-  static profileEnd( v ){
-    console.profileEnd(v);
-  }
-
-  static time( v ){
-    console.time(t);
-  }
-
-  static timeEnd( v ){
-    console.timeEnd(t);
-  }
-
-  static timeStamp( v ){
-    console.timeStamp(t);
-  }
-
-  static trace( v ){
-    console.trace(t);
-  }
-
-  static warn( v ){
-    console.warn(t);
+  static fatal( log, params = ''  ){
+    logs.all.fatal( log, params );
   }
 }

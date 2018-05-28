@@ -74,10 +74,11 @@ let controlBase = {
   generalConf: {
     baseCurrencyCode: 'BTC',
     trendMode: {
-//      logLtpParamsAmount: 1080,   // 3時間
+//     logLtpParamsAmount: 1080,   // 3時間
       logLtpParamsAmount: 300,
     },
     arbitrageProfitRate: 1,
+    orderToTrendMode: [ 'NORMAL', 'UP' ],
     log: {console: true, web: false},
     proccessTermMicroSecond: 10000, // 10秒毎に実行する
   }

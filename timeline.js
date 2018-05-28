@@ -12,7 +12,7 @@ class CryptoBi{
     this.logics = new LoadLogics( params );
 
     this.startTime = new Date();
-    this.trendModeParams = {};
+    this.orderParams = {};
 
     // ログを保持
     this.logs = {
@@ -23,7 +23,7 @@ class CryptoBi{
   async timerHour(){
     const currentTime = new Date();
     const status = (currentTime - this.startTime) / 1000 + '秒経過';
-    Logs.strong( status );
+    Logs.trace( status );
   }
 
   start( proccessTermMicroSecond = 0 ){
@@ -38,18 +38,21 @@ class CryptoBi{
   // 情報をセット
   async setStatus(){
 
-    // 各取引所の資産を取得
-    //const balanceParams = await this.logics.setStatus.getBalanceParams();
+    // 各取引所の「資産状況」を取得
+    const balanceParams = await this.logics.setStatus.getBalanceParams();
 
-
-    // 裁定可能状況を取得
+    // 「最適な裁定情報」を取得
     const ltpParams = await this.logics.setStatus.getLtpParams();
     const ltpsNullParams = await this.logics.setStatus.getLtpParamsFilteredNull( ltpParams );
-    const arbitrageData = await this.logics.setStatus.getArbitrageData( ltpsNullParams );
-    const bestArbitrageData = await this.logics.setStatus.getBestArbitrageData( arbitrageData );
+    const arbitrageDatas = await this.logics.setStatus.getArbitrageDatas( ltpsNullParams );
+    const bestArbitrageData = await this.logics.setStatus.getBestArbitrageData( arbitrageDatas );
 
-    // 現在が上昇トレンド中かどうかを取得
+    // 現在の「トレンド状況」を取得
     const {trendModeParams, logsLtpParams } = await this.logics.setStatus.getRefrectedTrendModeParams( this.logs.ltpParams, ltpParams );
+    this.logs.ltpParams = logsLtpParams;
+
+    // 資産状況、トレンド状況、最適な裁定情報を鑑みて「発注情報」を取得する
+    this.orderParams = this.logics.setStatus.getOrderParams( balanceParams, trendModeParams, bestArbitrageData );
   }
 
   async phase2(){
@@ -60,24 +63,3 @@ class CryptoBi{
 
 const cryptoBi = new CryptoBi( confControl );
 cryptoBi.start();
-
-// phase1で各取引所の資産状況を1回だけ取得しておく必要がある。
-
-/*
-    const products = await this.quoinex.api.products();
-    const orders = await this.quoinex.api.orders( { product_id: 1 } );
-
-    const sendchildorder = await this.bitflyer.api.me.sendchildorder({
-      product_code: 'BTC_JPY',
-      child_order_type: 'LIMIT',
-      side: 'BUY',
-      price: 30000,
-      size: 0.1
-    });
-    const markets = await this.bitflyer.api.markets();
-    const ticker = await this.bitflyer.api.ticker();
-
-    const currencies = await this.zaif.api.currencies();
-    const zaifTicker = await this.zaif.api.ticker();
-    console.log(zaifTicker);
-*/

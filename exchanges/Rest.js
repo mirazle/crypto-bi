@@ -46,18 +46,20 @@ export default class Rest{
   request( options, callback ){
     return new Promise( ( resolve, reject ) => {
       request( options, ( err, response, payload ) => {
-        resolve( callback( err, response, payload ) );
+        resolve( callback( options, err, response, payload ) );
       });
     });
   }
 
-  response( err, response, payload ){
+  response( options, err, response, payload ){
     if( err ){
-      Logs.trace( err, 'strong' );
+      Logs.response.info( "@@@@@@@@@ ERROR @@@@@@@@@@" );
+      Logs.response.warn( options );
       return null;
     }
     if( !Rest.isJSON( payload ) ){
-      Logs.trace( 'NOT JSON', 'strong' );
+      Logs.response.info( "@@@@@@@@@ NO JSON @@@@@@@@@@" );
+      Logs.response.warn( options );
       return null;
     }
     return JSON.parse( payload );

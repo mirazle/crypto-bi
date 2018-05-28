@@ -66,8 +66,8 @@ export default class SetStatus extends Logics{
     return ltpParams.filter( param => param.ltp !== null );
   }
 
-  async getArbitrageData( ltpParams ){
-    let arbitrageData = [];
+  async getArbitrageDatas( ltpParams ){
+    let arbitrageDatas = [];
 
     ltpParams.forEach( ( base ) => {
       ltpParams.forEach( ( valid ) => {
@@ -78,27 +78,35 @@ export default class SetStatus extends Logics{
         const enableArbitrageAmount = Math.floor( base.ltp * arbitrageProfitRate );
         const diffAmount = Math.floor( valid.ltp - base.ltp );
         const isArbitrage = enableArbitrageAmount !== 0 && base.ltp < ( valid.ltp - enableArbitrageAmount );
-        //Logs.strong( `${isArbitrage} ${diffAmount} [ ${base.exName}(${base.productCode}) to ${valid.exName}(${valid.productCode}) ] ${base.ltp} < ( ${valid.ltp} - ${enableArbitrageAmount} )` );
+        Logs.arbitorage.debug( `${isArbitrage} ${diffAmount} [ ${base.exName}(${base.productCode}) to ${valid.exName}(${valid.productCode}) ] ${base.ltp} < ( ${valid.ltp} - ${enableArbitrageAmount} )` );
 
         // アビトラージが成立する場合
         if( isArbitrage ){
           const profitAmount = Math.floor( valid.ltp - base.ltp );
 
-          //Logs.strong( `ARBITRAGE! ¥${profitAmount} [ ${base.exName}(${base.productCode}) to ${valid.exName}(${valid.productCode}) ]`, 'strong' );
-
-          arbitrageData.push( {...base, profitAmount} );
+          Logs.arbitorage.info( `ARBITRAGE! ¥${profitAmount} [ ${base.exName}(${base.productCode}) to ${valid.exName}(${valid.productCode}) ]`, 'strong' );
+          const arbitrageData = {
+            productCode: base.productCode,
+            profitAmount: profitAmount,
+            baseExName: base.exName,
+            baseExProductCode: base.exProductCode,
+            baseLtp: base.ltp,
+            validExName: valid.exName,
+            validExProductCode: valid.exProductCode,
+            validLtp: valid.ltp,
+          }
+          arbitrageDatas.push( arbitrageData );
         }
       });
     });
-    return arbitrageData;
+    return arbitrageDatas;
   }
 
-  async getBestArbitrageData( arbitrageData ){
-    let bestArbitrageData = {profitAmount:0};
+  async getBestArbitrageData( arbitrageDatas ){
+    let bestArbitrageData = {profitAmount:0, exist: false};
     let mostProritAmount = 0;
-
-    if( arbitrageData.length > 0 ){
-      arbitrageData.forEach( ( ad, index ) => {
+    if( arbitrageDatas.length > 0 ){
+      arbitrageDatas.forEach( ( ad, index ) => {
         if( bestArbitrageData.profitAmount < ad.profitAmount){
           bestArbitrageData = ad;
         }
@@ -176,7 +184,7 @@ export default class SetStatus extends Logics{
       trendModeParams[ productCode ].trendMode = getTrendMode( productCode, oldestAvalageLtp, latestAvalageLtp );
       let reBaseAvalageLtp = oldestAvalageLtp;
 
-      // 乱高下(チョッピー)チェック
+      // 乱高下(チョッピー)チェック( 新しいデータからループでまわす )
       logLtpParams.forEach( ( loopLtpParams, index ) => {
 
         if( index === 0 ){
@@ -195,43 +203,44 @@ export default class SetStatus extends Logics{
           }else if( existDOWN ){
             trendModeParams[ productCode ].trendMode = SetStatus.TREND_MODE_DOWN;
           }
-          console.log( `${baseCurrencyCode} ${index} ${ JSON.stringify( trendModeParams[ productCode ].lv ) }` );
+          //console.log( `${baseCurrencyCode} ${index} ${ JSON.stringify( trendModeParams[ productCode ].lv ) }` );
         }else{
           const loopAvalageLtp =  this.getAvalageFromLtpParams( baseCurrencyCode, loopLtpParams );
           const loopTrendMode = getTrendMode( productCode, reBaseAvalageLtp, loopAvalageLtp );
 
           trendModeParams[ productCode ].lv[ loopTrendMode ]++;
 
+          //console.log( ` - loop ${index} ${loopTrendMode} base: ${reBaseAvalageLtp } loop: ${loopAvalageLtp}`  );
+
           if( loopTrendMode !== SetStatus.TREND_MODE_NORMAL ){
-            console.log( ` - loop ${index} ${loopTrendMode} base: ${reBaseAvalageLtp } loop: ${loopAvalageLtp}`  );
-            reBaseAvalageLtp = loopAvalageLtp;
+            //reBaseAvalageLtp = loopAvalageLtp;
           }
         }
       });
     });
 
     return trendModeParams;
-/*
+  }
 
-const getLtp = ( value ) => {
-  if( value >= 0  ){ return value;
-  }else if( value.ltp ){ return Number( value.ltp );
-  }else if( value.ltp === null || value.ltp === undefined ){ return 0;
-  }else{ return value }
-}
-    [ [ { exName: 'bitflyer',
-          productCode: 'BTC_JPY',
-          exProductCode: 'BTC_JPY',
-          ltp: 853665 },
-        { exName: 'bitflyer',
-          productCode: 'BCH_JPY',
-          exProductCode: 'BCH_JPY',
-          ltp: null },
-        { exName: 'bitflyer',
-          productCode: 'ETH_JPY',
-          exProductCode: 'ETH_JPY',
-          ltp: null },
-        { exName: 'bitflyer',
-*/
+  getOrderParams( balanceParams, trendModeParams, bestArbitrageData ){
   }
 }
+
+/*
+    const products = await this.quoinex.api.products();
+    const orders = await this.quoinex.api.orders( { product_id: 1 } );
+
+    const sendchildorder = await this.bitflyer.api.me.sendchildorder({
+      product_code: 'BTC_JPY',
+      child_order_type: 'LIMIT',
+      side: 'BUY',
+      price: 30000,
+      size: 0.1
+    });
+    const markets = await this.bitflyer.api.markets();
+    const ticker = await this.bitflyer.api.ticker();
+
+    const currencies = await this.zaif.api.currencies();
+    const zaifTicker = await this.zaif.api.ticker();
+    console.log(zaifTicker);
+*/
