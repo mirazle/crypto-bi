@@ -20,6 +20,8 @@ export default class Order extends Logics{
       'user agent is node-zaif'
     );
 
+    console.log( api );
+
     api.trade('xem_jpy', 'bid', 25, 1).then(console.log);
 /*
     exchanges.zaif.order({
