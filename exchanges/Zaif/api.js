@@ -83,8 +83,6 @@ class Zaif extends Rest{
 
   async trade( params ){
     const options = Zaif.getOptions( 'trade', params );
-    console.log( options );
-    console.log("@@@@@@@@@@");
     return await this.request( options, this.response );
   }
 }
