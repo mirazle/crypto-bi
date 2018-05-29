@@ -56,7 +56,8 @@ class CryptoBi{
   }
 
   async phase2(){
-    const balanceParams = await this.logics.order.exe();
+    const ordered = await this.logics.order.exe();
+    console.log( ordered );
   }
 }
 

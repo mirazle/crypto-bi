@@ -13,14 +13,17 @@ export default class Order extends Logics{
     this.generalConf = params.generalConf;
   }
 
-  exe(){
-    exchanges.zaif.order({
-      currency_pair: 'xem_jpy',
-      action: 'bid',
-      price:	25,
-      amount:	1,
-      limit: 30,
-      comment:	'apiBot'
+  async exe(){
+    return new Promise( ( resolve, reject ) => {
+      const zaif = exchanges.zaif.order({
+        currency_pair: 'xem_jpy',
+        action: 'bid',
+        price:	25,
+        amount:	1,
+        limit: 30,
+        comment:	'apiBot'
+      });
+      resolve( zaif );
     });
   }
 }
