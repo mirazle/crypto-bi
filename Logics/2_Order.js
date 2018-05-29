@@ -19,7 +19,7 @@ export default class Order extends Logics{
       action: 'bid',
       price:	25,
       amount:	1,
-      limit: 24,
+      limit: 30,
       comment:	'apiBot'
     });
   }
