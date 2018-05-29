@@ -52,6 +52,7 @@ export default class Rest{
   }
 
   response( options, err, response, payload ){
+    console.log( payload );
     if( err ){
       Logs.response.info( "@@@@@@@@@ ERROR @@@@@@@@@@" );
       Logs.response.warn( options );

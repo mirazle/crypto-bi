@@ -29,7 +29,7 @@ class CryptoBi{
   start( proccessTermMicroSecond = 0 ){
     setTimeout( () => {
       this.timerHour();
-      this.phase1();
+      //this.phase1();
       this.phase2();
       this.start( confControl.generalConf.proccessTermMicroSecond );
     }, proccessTermMicroSecond );
