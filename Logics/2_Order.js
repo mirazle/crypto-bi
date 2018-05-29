@@ -14,16 +14,6 @@ export default class Order extends Logics{
   }
 
   exe(){
-    const api = zaif.createPrivateApi(
-      '1c28bccd-4b32-4a44-bd1f-0db508329a59',
-      'cc23d9a7-6e83-4c4a-9fc0-5c6535612e97',
-      'user agent is node-zaif'
-    );
-
-    console.log( api );
-
-    api.trade('xem_jpy', 'bid', 25, 1).then(console.log);
-/*
     exchanges.zaif.order({
       currency_pair: 'xem_jpy',
       action: 'bid',
@@ -32,6 +22,5 @@ export default class Order extends Logics{
       limit: 24,
       comment:	'apiBot'
     });
-*/
   }
 }

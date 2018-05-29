@@ -47,7 +47,7 @@ class Zaif extends Rest{
         url: `${Zaif.endpointPrivate}`,
         method: method,
         forever: false,
-        form: form,
+        form: formParams,
         headers: {
           'Content-Type': 'application/x-www-form-urlencoded',
           'Content-Length': qstring.length,
@@ -55,7 +55,7 @@ class Zaif extends Rest{
           'Sign': Zaif.getSign( qstring ),
           'Key': confPrivate.Zaif.key,
         },
-        timeout: Math.floor(5 * 1000),
+        timeout: Math.floor(2 * 10000),
         transform2xxOnly : true,
         transform: function(body){
             return JSON.parse(body)
