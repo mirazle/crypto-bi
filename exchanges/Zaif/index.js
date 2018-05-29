@@ -14,4 +14,8 @@ export default class Zaif extends Exchange{
   async getBalance(){
     return await api.getInfo();
   }
+
+  async order( params ){
+    return await api.trade( params );
+  }
 }

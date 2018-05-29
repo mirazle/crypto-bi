@@ -21,6 +21,7 @@ class Zaif extends Rest{
     let method = Rest.GET;
     switch( path ){
     case 'get_info':
+    case 'trade':
       method = Rest.POST;
       break;
     }
@@ -76,6 +77,12 @@ class Zaif extends Rest{
 
   async getInfo(){
     const options = Zaif.getOptions( 'get_info' );
+    return await this.request( options, this.response );
+  }
+
+  async trade( params ){
+    const options = Zaif.getOptions( 'trade', params );
+    console.log( options );
     return await this.request( options, this.response );
   }
 }

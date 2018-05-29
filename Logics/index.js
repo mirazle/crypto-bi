@@ -1,9 +1,9 @@
 import SetStatus from './1_SetStatus';
-import Phase2 from './2_Phase2';
+import Order from './2_Order';
 
 export default class LoadLogics{
   constructor( params ){
     this.setStatus = new SetStatus( params );
-    this.p2 = new Phase2( params );
+    this.order = new Order( params );
   }
 }

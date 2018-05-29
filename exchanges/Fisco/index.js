@@ -1,7 +1,7 @@
 import Exchange from '../Exchange';
 import api from './api';
 
-export default class Zaif extends Exchange{
+export default class Fisco extends Exchange{
   constructor(){
     super();
   }
@@ -13,5 +13,9 @@ export default class Zaif extends Exchange{
 
   async getBalance(){
     return await api.getInfo();
+  }
+
+  async order(){
+    return await api.trade();
   }
 }

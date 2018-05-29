@@ -29,14 +29,14 @@ class CryptoBi{
   start( proccessTermMicroSecond = 0 ){
     setTimeout( () => {
       this.timerHour();
-      this.setStatus();
+      this.phase1();
       this.phase2();
       this.start( confControl.generalConf.proccessTermMicroSecond );
     }, proccessTermMicroSecond );
   }
 
   // 情報をセット
-  async setStatus(){
+  async phase1(){
 
     // 各取引所の「資産状況」を取得
     const balanceParams = await this.logics.setStatus.getBalanceParams();
@@ -56,7 +56,7 @@ class CryptoBi{
   }
 
   async phase2(){
-
+    const balanceParams = await this.logics.order.exe();
   }
 }
 
