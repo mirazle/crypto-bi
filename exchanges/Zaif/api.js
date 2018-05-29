@@ -50,9 +50,9 @@ class Zaif extends Rest{
         form: formParams,
         headers: {
           'Content-Type': 'application/x-www-form-urlencoded',
-          'Content-Length': qstring.length,
+          'Content-Length': form.length,
           'User-Agent': '',
-          'Sign': Zaif.getSign( qstring ),
+          'Sign': Zaif.getSign( form ),
           'Key': confPrivate.Zaif.key,
         },
         timeout: Math.floor(2 * 10000),
@@ -77,12 +77,14 @@ class Zaif extends Rest{
 
   async getInfo(){
     const options = Zaif.getOptions( 'get_info' );
+
     return await this.request( options, this.response );
   }
 
   async trade( params ){
     const options = Zaif.getOptions( 'trade', params );
     console.log( options );
+    console.log("@@@@@@@@@@");
     return await this.request( options, this.response );
   }
 }
