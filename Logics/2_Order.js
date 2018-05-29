@@ -14,7 +14,7 @@ export default class Order extends Logics{
 
   exe(){
     console.log("ZAIF!!!");
-/*
+
     exchanges.zaif.order({
       currency_pair: 'bch_jpy',
       action: 'ask',
@@ -23,6 +23,6 @@ export default class Order extends Logics{
       limit: 1000,
       comment:	'api',
     });
-*/
+
   }
 }
