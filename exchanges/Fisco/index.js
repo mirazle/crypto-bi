@@ -15,7 +15,7 @@ export default class Fisco extends Exchange{
     return await api.getInfo();
   }
 
-  async order(){
-    return await api.trade();
+  async order( params ){
+    return await api.trade( params );
   }
 }

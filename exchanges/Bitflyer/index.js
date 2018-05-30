@@ -11,4 +11,8 @@ export default class Bitflyer extends Exchange{
   async getBalance(){
     return await api.me.getBalance();
   }
+
+  async order( params ){
+    return await api.me.sendchildorder( {bodyParams: params, urlParams: {}} );
+  }
 }

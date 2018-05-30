@@ -15,6 +15,15 @@ export default class Order extends Logics{
 
   async exe(){
     return new Promise( ( resolve, reject ) => {
+      const fisco = exchanges.fisco.order({
+        currency_pair: 'mona_jpy',
+        action: 'bid',
+        price:	360,
+        amount:	1,
+        limit: 400,
+        comment:	'apiBot'
+      });
+/*
       const zaif = exchanges.zaif.order({
         currency_pair: 'xem_jpy',
         action: 'bid',
@@ -23,7 +32,19 @@ export default class Order extends Logics{
         limit: 30,
         comment:	'apiBot'
       });
-      resolve( zaif );
+*/
+/*
+      const bitflyer = exchanges.bitflyer.order({
+        product_code: "BTC_JPY",
+        child_order_type: "LIMIT",
+        side: "BUY",
+        price: 810000,
+        size: 0.001,
+        minute_to_expire: 1,
+        time_in_force: "GTC"
+      });
+*/
+      resolve( fisco );
     });
   }
 }

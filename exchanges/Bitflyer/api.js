@@ -46,8 +46,9 @@ class Bitflyer extends Rest{
 
   get me(){
     return {
-      sendchildorder: async ( bodyParams, urlParams ) => {
+      sendchildorder: async ( {bodyParams, urlParams} ) => {
         const options = Bitflyer.getOptions( `me/sendchildorder`, {bodyParams, urlParams} );
+        console.log( options );
         return await this.request( options, this.response );
       },
       getBalance: async ( bodyParams, urlParams ) => {

@@ -11,29 +11,29 @@ export default class Logs{
 
   static out ( type ){
     return {
-      trace: ( log, params = '' ) =>  {
-        Logs.trace( log, params );
-        logs[ type ].trace( log, params );
+      trace: ( log  ) =>  {
+        Logs.trace( log );
+        logs[ type ].trace( log );
       },
-      debug: ( log, params = ''  ) => {
-        Logs.trace( log, params );
-        logs[ type ].debug( log, params );
+      debug: ( log ) => {
+        Logs.trace( log );
+        logs[ type ].debug( log );
       },
-      info: ( log, params = ''  ) => {
-        Logs.trace( log, params );
-        logs[ type ].info( log, params );
+      info: ( log ) => {
+        Logs.trace( log );
+        logs[ type ].info( log );
       },
-      warn: ( log, params = ''  ) => {
-        Logs.trace( log, params );
-        logs[ type ].warn( log, params );
+      warn: ( log  ) => {
+        Logs.trace( log );
+        logs[ type ].warn( log );
       },
-      error: ( log, params = ''  ) =>  {
-        Logs.trace( log, params );
-        logs[ type ].error( log, params );
+      error: ( log ) =>  {
+        Logs.trace( log );
+        logs[ type ].error( log );
       },
-      fatal: ( log, params = ''  ) =>  {
-        Logs.trace( log, params );
-        logs[ type ].fatal( log, params );
+      fatal: ( log  ) =>  {
+        Logs.trace( log );
+        logs[ type ].fatal( log );
       }
     }
   }
@@ -41,27 +41,27 @@ export default class Logs{
   static get response(){ return Logs.out( 'response' ) }
   static get arbitorage(){ return Logs.out( 'arbitorage' ) }
 
-  static trace( log, params = ''  ){
-    logs.all.trace( log, params );
+  static trace( log ){
+    logs.all.trace( log );
   }
 
-  static debug( log, params = '' ){
-    logs.all.debug( log, params );
+  static debug( log ){
+    logs.all.debug( log );
   }
 
-  static info( log, params = ''  ){
-    logs.all.info( log, params );
+  static info( log ){
+    logs.all.info( log );
   }
 
-  static warn( log, params = ''  ){
-    logs.all.warn( log, params );
+  static warn( log ){
+    logs.all.warn( log );
   }
 
-  static error( log, params = ''  ){
-    logs.all.error( log, params );
+  static error( log ){
+    logs.all.error( log );
   }
 
-  static fatal( log, params = ''  ){
-    logs.all.fatal( log, params );
+  static fatal( log ){
+    logs.all.fatal( log );
   }
 }

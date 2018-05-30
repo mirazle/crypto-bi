@@ -77,7 +77,6 @@ class Zaif extends Rest{
 
   async getInfo(){
     const options = Zaif.getOptions( 'get_info' );
-
     return await this.request( options, this.response );
   }
 

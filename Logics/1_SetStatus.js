@@ -78,7 +78,8 @@ export default class SetStatus extends Logics{
         const enableArbitrageAmount = Math.floor( base.ltp * arbitrageProfitRate );
         const diffAmount = Math.floor( valid.ltp - base.ltp );
         const isArbitrage = enableArbitrageAmount !== 0 && base.ltp < ( valid.ltp - enableArbitrageAmount );
-        Logs.arbitorage.debug( `${isArbitrage} ${diffAmount} [ ${base.exName}(${base.productCode}) to ${valid.exName}(${valid.productCode}) ] ${base.ltp} < ( ${valid.ltp} - ${enableArbitrageAmount} )` );
+
+        //Logs.arbitorage.debug( `${isArbitrage} ${diffAmount} [ ${base.exName}(${base.productCode}) to ${valid.exName}(${valid.productCode}) ] ${base.ltp} < ( ${valid.ltp} - ${enableArbitrageAmount} )` );
 
         // アビトラージが成立する場合
         if( isArbitrage ){
@@ -112,6 +113,9 @@ export default class SetStatus extends Logics{
         }
       });
     }
+
+    Logs.arbitorage.debug( bestArbitrageData );
+
     return bestArbitrageData;
   }
 
@@ -225,22 +229,3 @@ export default class SetStatus extends Logics{
   getOrderParams( balanceParams, trendModeParams, bestArbitrageData ){
   }
 }
-
-/*
-    const products = await this.quoinex.api.products();
-    const orders = await this.quoinex.api.orders( { product_id: 1 } );
-
-    const sendchildorder = await this.bitflyer.api.me.sendchildorder({
-      product_code: 'BTC_JPY',
-      child_order_type: 'LIMIT',
-      side: 'BUY',
-      price: 30000,
-      size: 0.1
-    });
-    const markets = await this.bitflyer.api.markets();
-    const ticker = await this.bitflyer.api.ticker();
-
-    const currencies = await this.zaif.api.currencies();
-    const zaifTicker = await this.zaif.api.ticker();
-    console.log(zaifTicker);
-*/

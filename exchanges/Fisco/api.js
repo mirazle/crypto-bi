@@ -16,6 +16,7 @@ class Fisco extends Rest{
     let method = Rest.GET;
     switch( path ){
     case 'get_info':
+    case 'trade':
       method = Rest.POST;
       break;
     }
@@ -41,15 +42,15 @@ class Fisco extends Rest{
         url: `${Fisco.endpointPrivate}`,
         method: method,
         forever: false,
-        form: form,
+        form: formParams,
         headers: {
           'Content-Type': 'application/x-www-form-urlencoded',
-          'Content-Length': qstring.length,
+          'Content-Length': form.length,
           'User-Agent': '',
-          'Sign': Fisco.getSign( qstring ),
+          'Sign': Fisco.getSign( form ),
           'Key': confPrivate.Fisco.key,
         },
-        timeout: Math.floor(5 * 1000),
+        timeout: Math.floor(2 * 10000),
         transform2xxOnly : true,
         transform: function(body){
             return JSON.parse(body)
@@ -71,6 +72,13 @@ class Fisco extends Rest{
 
   async getInfo(){
     const options = Fisco.getOptions( 'get_info' );
+    return await this.request( options, this.response );
+  }
+
+  async trade( params ){
+    console.log("@@@@@@@@");
+    const options = Fisco.getOptions( 'trade', params );
+    console.log( options );
     return await this.request( options, this.response );
   }
 }
