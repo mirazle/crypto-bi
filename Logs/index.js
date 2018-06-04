@@ -4,6 +4,7 @@ log4js.configure('Logs/log4js_config.json', { reloadSecs: 10 });
 const logs = {
   all: log4js.getLogger('all'),
   response: log4js.getLogger('response'),
+  searchArbitorage: log4js.getLogger('searchArbitorage'),
   arbitorage: log4js.getLogger('arbitorage')
 }
 
@@ -39,6 +40,7 @@ export default class Logs{
   }
 
   static get response(){ return Logs.out( 'response' ) }
+  static get searchArbitorage(){ return Logs.out( 'searchArbitorage' ) }
   static get arbitorage(){ return Logs.out( 'arbitorage' ) }
 
   static trace( log ){

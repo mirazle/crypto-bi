@@ -1,12 +1,20 @@
+
+
 export default class Logics{
+
   getExProductCode( exName, productCode ){
     let exProductCode = '';
-    const { head, separater, foot } = this.exConf[ exName ].productCodeStructure;
+    const { productCodeStructure, currencyAliases } = this.exConf[ exName ];
+    const { head, separater, foot } = productCodeStructure;
     const pc = productCode.split('_');
+    const headCode = currencyAliases[ pc[ 0 ] ] ? currencyAliases[ pc[ 0 ] ] : pc[ 0 ];
+    const footCode = pc[ 1 ];
 
-    exProductCode += head === 'UP' ? pc[ 0 ].toUpperCase() : pc[ 0 ].toLowerCase() ;
+    // 取引所毎の通貨の記法を吸収する
+    exProductCode += head === 'UP' ? headCode.toUpperCase() :headCode.toLowerCase() ;
     exProductCode += separater === null ? '' :separater ;
-    exProductCode += head === 'UP' ? pc[ 1 ].toUpperCase() : pc[ 1 ].toLowerCase() ;
+    exProductCode += head === 'UP' ? footCode.toUpperCase() : footCode.toLowerCase() ;
+
     return exProductCode;
   }
 }

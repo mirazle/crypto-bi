@@ -13,28 +13,39 @@ class Bitbankcc extends Rest{
   static getSign( text ){ return crypto.createHmac( Bitbankcc.authAlgorithm , confPrivate.Bitbankcc.secret ).update( new Buffer( text ) ).digest('hex').toString() }
   static getMethod( path ){
     let method = 'GET';
+    switch( path ){
+    case 'user/spot/order':
+      method = Rest.POST;
+      break;
+    }
     return method;
   }
   static getOptions( path, params = {} ){
-    const bodyParams = params.bodyParams ? params.bodyParams :  {};
-    const urlParams = params.urlParams ? params.urlParams: {};
-    const timestamp = Rest.getTime();
-    const body = Object.keys( bodyParams ).length > 0 ? JSON.stringify( bodyParams ): '';
     const method = Bitbankcc.getMethod( path );
-    const urlParamsString = Rest.getUrlParamsString( urlParams, true );
-    const url = `${Bitbankcc.endpointPrivate}${path}${urlParamsString}`;
-    const text = `${timestamp}/${Bitbankcc.apiVer}/${path}${urlParamsString}`;
-
-    //リクエストのパス、クエリパラメータ
-    const sign = Bitbankcc.getSign( text );
-
-    const headers = {
+    const timestamp = Rest.getTime();
+    const urlParamsString = Rest.getUrlParamsString( params, true );
+    let uri = '';
+    const body = params;
+    let text = '';
+    let headers = {
+      'Content-Type': Bitbankcc.contentType,
       'ACCESS-KEY': confPrivate.Bitbankcc.key,
       'ACCESS-NONCE': timestamp,
-      'ACCESS-SIGNATURE': sign,
-      'Content-Type': Bitbankcc.contentType
+      'ACCESS-SIGNATURE': ''
     }
-    return body ? { url, method, body, headers } : { url, method, headers };
+    let options = {};
+    if( method === Rest.GET ){
+      uri = `${Bitbankcc.endpointPrivate}${path}${urlParamsString}`;
+      text = `${timestamp}/${Bitbankcc.apiVer}/${path}${urlParamsString}`;
+      headers['ACCESS-SIGNATURE'] = Bitbankcc.getSign( text );
+      options = { uri, method, headers };
+    }else{
+      uri = `${Bitbankcc.endpointPrivate}${path}`;
+      text = `${timestamp}${JSON.stringify( params )}`;
+      headers['ACCESS-SIGNATURE'] = Bitbankcc.getSign( text );
+      options = { method, uri, body, headers, json: true };
+    }
+    return options;
   }
 
   async ticker( currencyPairCode ){
@@ -43,11 +54,20 @@ class Bitbankcc extends Rest{
   }
 
   get user(){
+    const self = this;
     return {
       assets: async ( params ) => {
         const options = Bitbankcc.getOptions( `user/assets`, params );
         return await this.request( options, this.response );
-      }
+      },
+      get spot() {
+        return {
+          order: async ( params ) => {
+            const options = Bitbankcc.getOptions( `user/spot/order`, params );
+            return await self.request( options, self.response );
+          }
+        }
+      },
     }
   }
 }

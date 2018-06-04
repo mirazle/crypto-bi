@@ -55,13 +55,18 @@ export default class Rest{
     if( err ){
       Logs.response.info( "@@@@@@@@@ ERROR @@@@@@@@@@" );
       Logs.response.warn( options );
+      Logs.response.info( "@@@@@@@@@ ERROR @@@@@@@@@@" );
       return null;
     }
-    if( !Rest.isJSON( payload ) ){
-      Logs.response.info( "@@@@@@@@@ NO JSON @@@@@@@@@@" );
+    if( Rest.isJSON( payload ) ){
+      return JSON.parse( payload );
+    }else if( typeof payload === 'object' && payload !== null ){
+      return payload;
+    }else{
+      Logs.response.info( "@@@@@@@@@ BAD RESPONSE @@@@@@@@@@" );
       Logs.response.warn( options );
+      Logs.response.info( "@@@@@@@@@ BAD RESPONSE @@@@@@@@@@" );
       return null;
     }
-    return JSON.parse( payload );
   }
 }

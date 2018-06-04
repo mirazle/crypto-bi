@@ -2,7 +2,6 @@ import Logics from './Logics';
 import confControl from '../conf/control';
 import exchanges from '../exchanges/';
 import Logs from '../Logs/';
-import zaif from 'zaif.jp';
 
 export default class Order extends Logics{
 
@@ -15,6 +14,17 @@ export default class Order extends Logics{
 
   async exe(){
     return new Promise( ( resolve, reject ) => {
+      let ordered = {}
+/*
+      const bitbankcc = exchanges.bitbankcc.order({
+        pair: 'mona_jpy',
+        price:	360,
+        amount:	'1',
+        side: 'buy',
+        type: 'limit'
+      });
+*/
+/*
       const fisco = exchanges.fisco.order({
         currency_pair: 'mona_jpy',
         action: 'bid',
@@ -23,6 +33,7 @@ export default class Order extends Logics{
         limit: 400,
         comment:	'apiBot'
       });
+*/
 /*
       const zaif = exchanges.zaif.order({
         currency_pair: 'xem_jpy',
@@ -44,7 +55,7 @@ export default class Order extends Logics{
         time_in_force: "GTC"
       });
 */
-      resolve( fisco );
+      resolve( ordered );
     });
   }
 }

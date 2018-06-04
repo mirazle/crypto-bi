@@ -57,7 +57,6 @@ class CryptoBi{
 
   async phase2(){
     const ordered = await this.logics.order.exe();
-    console.log( ordered );
   }
 }
 

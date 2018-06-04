@@ -69,32 +69,40 @@ export default class SetStatus extends Logics{
   async getArbitrageDatas( ltpParams ){
     let arbitrageDatas = [];
 
+    Logs.searchArbitorage.debug( "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@" );
+
     ltpParams.forEach( ( base ) => {
       ltpParams.forEach( ( valid ) => {
         if( base.exName === valid.exName ) return false;
         if( base.productCode !== valid.productCode ) return false;
+        if( !this.exConf[ base.exName ].withDrawApi  ) return false;           // 送金APIがない取引所では購入はしない
 
-        const arbitrageProfitRate = this.productConf[ base.productCode ].arbitrageProfitRate * this.generalConf.arbitrageProfitRate;
-        const enableArbitrageAmount = Math.floor( base.ltp * arbitrageProfitRate );
-        const diffAmount = Math.floor( valid.ltp - base.ltp );
-        const isArbitrage = enableArbitrageAmount !== 0 && base.ltp < ( valid.ltp - enableArbitrageAmount );
+        // 基本変数を定義
+        const { arbitrageProfitRate: generalArbitrageProfitRate } = this.generalConf;
+        const { arbitrageProfitRate: productArbitrageProfitRate, askBalanceRate } = this.productConf[ base.productCode ];
+        const arbitrageProfitRate = productArbitrageProfitRate * generalArbitrageProfitRate;
 
-        //Logs.arbitorage.debug( `${isArbitrage} ${diffAmount} [ ${base.exName}(${base.productCode}) to ${valid.exName}(${valid.productCode}) ] ${base.ltp} < ( ${valid.ltp} - ${enableArbitrageAmount} )` );
+        // 購入レートを反映
+        base.askBalanceAmount = base.ltp * askBalanceRate;
+        valid.askBalanceAmount = valid.ltp * askBalanceRate;
+
+        // 裁定量の閾値を取得
+        const arbitrageThresholdAmount = Math.floor( base.askBalanceAmount * arbitrageProfitRate );
+        const profitAmount = Math.floor( valid.askBalanceAmount - base.askBalanceAmount );
+        const isArbitrage = arbitrageThresholdAmount !== 0 && base.askBalanceAmount < ( valid.askBalanceAmount - arbitrageThresholdAmount );
+
+        Logs.searchArbitorage.debug( `${isArbitrage} ${profitAmount} [ ${base.exName}(${base.productCode}) to ${valid.exName}(${valid.productCode}) ] ${base.askBalanceAmount} < ( ${valid.askBalanceAmount} - ${arbitrageThresholdAmount} )` );
 
         // アビトラージが成立する場合
         if( isArbitrage ){
-          const profitAmount = Math.floor( valid.ltp - base.ltp );
 
-          Logs.arbitorage.info( `ARBITRAGE! ¥${profitAmount} [ ${base.exName}(${base.productCode}) to ${valid.exName}(${valid.productCode}) ]`, 'strong' );
+          //Logs.arbitorage.info( `ARBITRAGE! ¥${profitAmount} [ ${base.exName}(${base.productCode}) to ${valid.exName}(${valid.productCode}) ]`, 'strong' );
           const arbitrageData = {
             productCode: base.productCode,
-            profitAmount: profitAmount,
-            baseExName: base.exName,
-            baseExProductCode: base.exProductCode,
-            baseLtp: base.ltp,
-            validExName: valid.exName,
-            validExProductCode: valid.exProductCode,
-            validLtp: valid.ltp,
+            profitAmount,
+            arbitrageThresholdAmount,
+            base,
+            valid
           }
           arbitrageDatas.push( arbitrageData );
         }
@@ -113,9 +121,9 @@ export default class SetStatus extends Logics{
         }
       });
     }
-
-    Logs.arbitorage.debug( bestArbitrageData );
-
+    if( bestArbitrageData.profitAmount > 0 ){
+      Logs.arbitorage.debug( bestArbitrageData );
+    }
     return bestArbitrageData;
   }
 
@@ -226,6 +234,7 @@ export default class SetStatus extends Logics{
     return trendModeParams;
   }
 
+  // アビトラデータが存在して、トレンドモードが普通・上昇で、コストが妥当な場合b
   getOrderParams( balanceParams, trendModeParams, bestArbitrageData ){
   }
 }
