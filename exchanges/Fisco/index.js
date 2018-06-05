@@ -8,7 +8,7 @@ export default class Fisco extends Exchange{
 
   async getLtp( currencyPairCode = 'btc_jpy' ){
     const res = await api.ticker( currencyPairCode );
-    return res.last ? parseFloat( res.last ) : null ;
+    return res && res.last ? parseFloat( res.last ) : null ;
   }
 
   async getBalance(){

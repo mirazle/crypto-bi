@@ -101,6 +101,7 @@ export default class SetStatus extends Logics{
             productCode: base.productCode,
             profitAmount,
             arbitrageThresholdAmount,
+            arbitrageProfitRate,
             base,
             valid
           }

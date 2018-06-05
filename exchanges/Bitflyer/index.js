@@ -5,7 +5,7 @@ export default class Bitflyer extends Exchange{
 
   async getLtp( product_code = 'BTC_JPY' ){
     const res = await api.ticker( {product_code} );
-    return res.ltp ? parseFloat( res.ltp ) : null;
+    return res && res.ltp ? parseFloat( res.ltp ) : null;
   }
 
   async getBalance(){
