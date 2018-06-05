@@ -177,6 +177,7 @@ export default class SetStatus extends Logics{
       }
     }
 
+    // プロダクトの一覧をループで回す
     Object.keys( this.productConf ).forEach( ( productCode ) => {
 
       trendModeParams[ productCode ] = {
@@ -209,14 +210,15 @@ export default class SetStatus extends Logics{
 
           if( existUP && existDOWN ){
             trendModeParams[ productCode ].trendMode = SetStatus.TREND_MODE_CHOPPY;
+
             trendModeParams[ productCode ].lv[ SetStatus.TREND_MODE_CHOPPY ] =
-              ( trendModeParams[ productCode ].lv[ SetStatus.TREND_MODE_UP ] + trendModeParams[ productCode ].lv[ SetStatus.TREND_MODE_DOWN ] ) / 2 ;
+              Math.floor( trendModeParams[ productCode ].lv[ SetStatus.TREND_MODE_UP ] + trendModeParams[ productCode ].lv[ SetStatus.TREND_MODE_DOWN ] ) / 2 ;
           }else if( existUP ){
             trendModeParams[ productCode ].trendMode = SetStatus.TREND_MODE_UP;
           }else if( existDOWN ){
             trendModeParams[ productCode ].trendMode = SetStatus.TREND_MODE_DOWN;
           }
-          //console.log( `${baseCurrencyCode} ${index} ${ JSON.stringify( trendModeParams[ productCode ].lv ) }` );
+          console.log( `${baseCurrencyCode} ${index} ${ JSON.stringify( trendModeParams[ productCode ].lv ) }` );
         }else{
           const loopAvalageLtp =  this.getAvalageFromLtpParams( baseCurrencyCode, loopLtpParams );
           const loopTrendMode = getTrendMode( productCode, reBaseAvalageLtp, loopAvalageLtp );
