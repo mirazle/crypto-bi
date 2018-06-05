@@ -1,0 +1,4 @@
+{ 
+	"presets": [ ["es2015"], ["stage-2"], ["latest"], ["env"], ["node6"] ], 
+	"plugins": ["transform-runtime"]
+}
