@@ -53,13 +53,13 @@ let controlBase = {
     }
   },
   productConf: {
-    BTC_JPY: { enable: true, askBalanceRate: 0.1, arbitrageProfitRate: 0.03, askCost: 0, withDrawCost: 0, bidCost: 0, inCost: 0, outCost: 0, checkTransaction: true },
-    BCH_JPY: { enable: true, askBalanceRate: 1, arbitrageProfitRate: 0.03, askCost: 0, withDrawCost: 0, bidCost: 0, inCost: 0, outCost: 0, checkTransaction: true },
-    ETH_JPY: { enable: true, askBalanceRate: 2, arbitrageProfitRate: 0.03, askCost: 0, withDrawCost: 0, bidCost: 0, inCost: 0, outCost: 0, checkTransaction: true },
-    XRP_JPY: { enable: true, askBalanceRate: 2000, arbitrageProfitRate: 0.03, askCost: 0, withDrawCost: 0, bidCost: 0, inCost: 0, outCost: 0, checkTransaction: true },
-    XEM_JPY: { enable: true, askBalanceRate: 1000, arbitrageProfitRate: 0.03, askCost: 0, withDrawCost: 0, bidCost: 0, inCost: 0, outCost: 0, checkTransaction: true },
-    MONA_JPY: { enable: true, askBalanceRate: 400, arbitrageProfitRate: 0.03, askCost: 0, withDrawCost: 0, bidCost: 0, inCost: 0, outCost: 0, checkTransaction: true },
-    LTC_JPY: { enable: true, askBalanceRate: 10, arbitrageProfitRate: 0.03, askCost: 0, withDrawCost: 0, bidCost: 0, inCost: 0, outCost: 0, checkTransaction: true },
+    BTC_JPY: { enable: true, askBalanceRate: 0.1, arbitrageProfitRate: 0.04, askCost: 0, withDrawCost: 0, bidCost: 0, inCost: 0, outCost: 0, checkTransaction: true },
+    BCH_JPY: { enable: true, askBalanceRate: 1, arbitrageProfitRate: 0.04, askCost: 0, withDrawCost: 0, bidCost: 0, inCost: 0, outCost: 0, checkTransaction: true },
+    ETH_JPY: { enable: true, askBalanceRate: 2, arbitrageProfitRate: 0.04, askCost: 0, withDrawCost: 0, bidCost: 0, inCost: 0, outCost: 0, checkTransaction: true },
+    XRP_JPY: { enable: true, askBalanceRate: 2000, arbitrageProfitRate: 0.04, askCost: 0, withDrawCost: 0, bidCost: 0, inCost: 0, outCost: 0, checkTransaction: true },
+    XEM_JPY: { enable: true, askBalanceRate: 1000, arbitrageProfitRate: 0.04, askCost: 0, withDrawCost: 0, bidCost: 0, inCost: 0, outCost: 0, checkTransaction: true },
+    MONA_JPY: { enable: true, askBalanceRate: 400, arbitrageProfitRate: 0.04, askCost: 0, withDrawCost: 0, bidCost: 0, inCost: 0, outCost: 0, checkTransaction: true },
+    LTC_JPY: { enable: true, askBalanceRate: 10, arbitrageProfitRate: 0.04, askCost: 0, withDrawCost: 0, bidCost: 0, inCost: 0, outCost: 0, checkTransaction: true },
   },
   generalConf: {
     baseCurrencyCode: 'BTC',
