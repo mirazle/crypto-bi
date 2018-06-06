@@ -1,9 +1,9 @@
 {
   "appenders": {
-    "all": { "type": "datefile", "filename": "Logs/out/all.log", "pattern": "-yyyy-MM-dd"},
-    "response": { "type": "datefile", "filename": "Logs/out/response.log", "pattern": "-yyyy-MM-dd"},
-    "arbitorage": { "type": "datefile", "filename": "Logs/out/arbitorage.log", "pattern": "-yyyy-MM-dd"},
-    "searchArbitorage": { "type": "datefile", "filename": "Logs/out/searchArbitorage.log", "pattern": "-yyyy-MM-dd"}
+    "all": { "type": "dateFile", "filename": "Logs/out/all.log", "pattern": "-yyyy-MM-dd"},
+    "response": { "type": "dateFile", "filename": "Logs/out/response.log", "pattern": "-yyyy-MM-dd"},
+    "arbitorage": { "type": "dateFile", "filename": "Logs/out/arbitorage.log", "pattern": "-yyyy-MM-dd"},
+    "searchArbitorage": { "type": "dateFile", "filename": "Logs/out/searchArbitorage.log", "pattern": "-yyyy-MM-dd"}
   },
   "categories": {
     "default": { "appenders": [ "all" ], "level": "trace" },
