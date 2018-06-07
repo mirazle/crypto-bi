@@ -99,6 +99,8 @@ export default class SetStatus extends Logics{
           //Logs.arbitorage.info( `ARBITRAGE! ¥${profitAmount} [ ${base.exName}(${base.productCode}) to ${valid.exName}(${valid.productCode}) ]`, 'strong' );
           const arbitrageData = {
             productCode: base.productCode,
+            exName: base.exName,
+            cost: 0,
             profitAmount,
             arbitrageThresholdAmount,
             arbitrageProfitRate,
@@ -124,6 +126,19 @@ export default class SetStatus extends Logics{
     }
     if( bestArbitrageData.profitAmount > 0 ){
       Logs.arbitorage.debug( bestArbitrageData );
+    }
+    return bestArbitrageData;
+  }
+
+  getRefrectedCostParams( bestArbitrageData ){
+    if( bestArbitrageData.profitAmount > 0 ){
+      const { exName, productCode } = bestArbitrageData;
+      const { inFiatCost, outFiatCost, productConf } = this.exConf[ exName ];
+      const { enable, askCost, withDrawCost, bidCost, withDrawCheckTransaction } = productConf[ productCode ];
+
+      if( productConf.enable ){
+
+      }
     }
     return bestArbitrageData;
   }
@@ -218,7 +233,7 @@ export default class SetStatus extends Logics{
           }else if( existDOWN ){
             trendModeParams[ productCode ].trendMode = SetStatus.TREND_MODE_DOWN;
           }
-          console.log( `${baseCurrencyCode} ${index} ${ JSON.stringify( trendModeParams[ productCode ].lv ) }` );
+          //console.log( `${baseCurrencyCode} ${index} ${ JSON.stringify( trendModeParams[ productCode ].lv ) }` );
         }else{
           const loopAvalageLtp =  this.getAvalageFromLtpParams( baseCurrencyCode, loopLtpParams );
           const loopTrendMode = getTrendMode( productCode, reBaseAvalageLtp, loopAvalageLtp );
