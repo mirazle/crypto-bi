@@ -44,8 +44,8 @@ class CryptoBi{
 
     // 「最適な裁定情報」を取得
     const ltpParams = await this.logics.setStatus.getLtpParams();
-    const ltpsNullParams = await this.logics.setStatus.getLtpParamsFilteredNull( ltpParams );
-    const arbitrageDatas = await this.logics.setStatus.getArbitrageDatas( ltpsNullParams );
+    const ltpParamsFilteredNull = await this.logics.setStatus.getLtpParamsFilteredNull( ltpParams );
+    const arbitrageDatas = await this.logics.setStatus.getArbitrageDatas( ltpParamsFilteredNull );
     let bestArbitrageData = await this.logics.setStatus.getBestArbitrageData( arbitrageDatas );
 
     // 現在の「コスト状況」を反映して取得
