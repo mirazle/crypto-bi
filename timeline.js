@@ -24,6 +24,7 @@ class CryptoBi{
     const currentTime = new Date();
     const status = (currentTime - this.startTime) / 1000 + '秒経過';
     Logs.trace( status );
+    console.log( status );
   }
 
   start( proccessTermMicroSecond = 0 ){
@@ -54,11 +55,11 @@ class CryptoBi{
     const {trendModeParams, logsLtpParams } = await this.logics.setStatus.getRefrectedTrendModeParams( this.logs.ltpParams, ltpParams );
     this.logs.ltpParams = logsLtpParams;
 
-
     // 資産状況、コスト状況、トレンド状況、最適な裁定情報を鑑みて「発注情報」を取得する
     this.orderParams = this.logics.setStatus.getOrderParams( balanceParams, trendModeParams, bestArbitrageData );
   }
 
+  // 発注
   async phase2(){
     const ordered = await this.logics.order.exe();
   }

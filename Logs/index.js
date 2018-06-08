@@ -1,5 +1,5 @@
 import log4js from 'log4js';
-log4js.configure('Logs/log4js_config.json', { reloadSecs: 10 });
+log4js.configure('conf/log4js.json', { reloadSecs: 10 });
 
 const logs = {
   all: log4js.getLogger('all'),
