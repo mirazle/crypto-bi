@@ -149,7 +149,3 @@ Object.keys( controlBase.productConf ).forEach( ( productCode ) =>{
 });
 
 export default controlBase;
-/*
-  １ 何秒に一回実行するか？(回転数)
-  ３ 手数料の反映
-*/
