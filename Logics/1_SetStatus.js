@@ -151,7 +151,7 @@ export default class SetStatus extends Logics{
         bestArbitrageData.cost.outFiat = Number( outFiatCostFix );
         bestArbitrageData.cost.setTotal();
         bestArbitrageData.setGrossProfitAmount();
-        console.table( bestArbitrageData.cost );
+        //console.table( bestArbitrageData.cost );
       }
     }
     return bestArbitrageData;
