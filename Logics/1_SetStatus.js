@@ -5,16 +5,13 @@ import Logs from '../Logs/';
 
 export default class SetStatus extends Logics{
 
-  static get TREND_MODE_NORMAL(){ return 'NORMAL' };
-  static get TREND_MODE_UP(){ return 'UP' };
-  static get TREND_MODE_DOWN(){ return 'DOWN' };
-  static get TREND_MODE_CHOPPY(){ return 'CHOPPY' };
-
   constructor( params ){
     super();
     this.exConf = params.exConf;
     this.productConf = params.productConf;
     this.generalConf = params.generalConf;
+
+    this.logsLtpParams;
   }
 
   async getBalanceParams(){
@@ -120,7 +117,7 @@ export default class SetStatus extends Logics{
   }
 
   async getBestArbitrageData( arbitrageDatas ){
-    let bestArbitrageData = {profitAmount: 0}
+    let bestArbitrageData = new this.Schemas.ArbitrageData();
     let bestProfitAmount = 0;
     if( arbitrageDatas.length > 0 ){
       arbitrageDatas.forEach( ( arbitrageData, index ) => {
@@ -136,7 +133,7 @@ export default class SetStatus extends Logics{
   }
 
   getRefrectedCostParams( bestArbitrageData ){
-    if( bestArbitrageData.profitAmount > 0 ){
+    if( bestArbitrageData.exist ){
       const { exName, productCode, base, valid } = bestArbitrageData;
       const { inFiatCost, outFiatCost, productConf } = this.exConf[ exName ];
       const { enable, askCost, withDrawCost, bidCost, withDrawCheckTransaction } = productConf[ productCode ];
@@ -157,25 +154,87 @@ export default class SetStatus extends Logics{
     return bestArbitrageData;
   }
 
-  async getRefrectedTrendModeParams( logsLtpParams, addLtpParams ){
+  async getRefrectedTrendParams( bestArbitrageData, logsLtpParams, addLtpParams ){
 
-    // 先頭にログを追加
-    logsLtpParams.unshift( addLtpParams );
+    const { logLtpParamsAmount } = this.generalConf.trendMode;
+    this.logsLtpParams = logsLtpParams;
+    this.logsLtpParams.unshift( addLtpParams );
 
-    // 安定している(急な上がり下がりrbitrageProfitRate分の上下がない)且つ、開始点と、終止点でarbitrageProfitRate分以上値が上昇している場合
-    const trendModeParams = await this.getTrendModeParams( logsLtpParams );
-
-    if( this.generalConf.trendMode.logLtpParamsAmount <= logsLtpParams.length ){
-
-      // 後方からログを削除
-      logsLtpParams.pop();
+    if( bestArbitrageData.exist ){
+      bestArbitrageData = await this._getRefrectedTrendParams( bestArbitrageData, logsLtpParams );
     }
 
-    return {trendModeParams, logsLtpParams};
+    if( logLtpParamsAmount <= this.logsLtpParams.length ){
+      this.logsLtpParams.pop();
+    }
+
+    return bestArbitrageData;
   }
 
-  getCurrencyFromLtpParams( ltpParams, currencyCode = this.generalConf.baseCurrencyCode ){
-    return ltpParams.filter( params => params.productCode.indexOf( currencyCode ) === 0 );
+  async _getRefrectedTrendParams( bestArbitrageData, logLtpParams ){
+
+    const { TrendParams } = this.Schemas;
+    const { productCode } = bestArbitrageData;
+    const baseCurrencyCode = productCode.split('_')[ 0 ];
+    const logLtpParamsLastIndex = logLtpParams.length - 1 ;
+    const latestAvalageLtp =  this.getAvalageFromLtpParams( baseCurrencyCode, logLtpParams[ 0 ] );
+    const oldestAvalageLtp =  this.getAvalageFromLtpParams( baseCurrencyCode, logLtpParams[ logLtpParamsLastIndex ] );
+    let reBaseAvalageLtp = oldestAvalageLtp;
+
+    bestArbitrageData.trend.mode = this.getTrendMode( productCode, oldestAvalageLtp, latestAvalageLtp );
+
+    // 乱高下(チョッピー)チェック( 新しいデータからループでまわす )
+    logLtpParams.forEach( ( loopLtpParams, index ) => {
+
+      if( index === 0 ){
+        return;
+
+      }else if( logLtpParamsLastIndex === index ){
+
+        const existUP = bestArbitrageData.trend.lv[ TrendParams.MODE_UP ] > 0 ;
+        const existDOWN = bestArbitrageData.trend.lv[ TrendParams.MODE_DOWN ] > 0;
+
+        if( existUP && existDOWN ){
+          bestArbitrageData.trend.mode = TrendParams.MODE_CHOPPY;
+          bestArbitrageData.trend.lv[ TrendParams.MODE_CHOPPY ] =
+            Math.floor( bestArbitrageData.trend.lv[ TrendParams.MODE_UP ] + bestArbitrageData.trend.lv[ TrendParams.MODE_DOWN ] ) / 2 ;
+        }else if( existUP ){
+          bestArbitrageData.trend.mode = TrendParams.MODE_UP;
+        }else if( existDOWN ){
+          bestArbitrageData.trend.mode = TrendParams.MODE_DOWN;
+        }
+        //console.log( `${baseCurrencyCode} ${index} ${ JSON.stringify( trendParams.lv ) }` );
+
+      }else{
+        const loopAvalageLtp =  this.getAvalageFromLtpParams( baseCurrencyCode, loopLtpParams );
+        const loopTrendMode = this.getTrendMode( productCode, reBaseAvalageLtp, loopAvalageLtp );
+
+        bestArbitrageData.trend.lv[ loopTrendMode ]++;
+
+        //console.log( ` - loop ${index} ${loopTrendMode} base: ${reBaseAvalageLtp } loop: ${loopAvalageLtp}`  );
+
+        if( loopTrendMode !== SetStatus.MODE_NORMAL ){
+          //reBaseAvalageLtp = loopAvalageLtp;
+        }
+      }
+    });
+    return bestArbitrageData;
+  }
+
+  getTrendMode( productCode, baseAvalageLtp, validAvalageLtp ){
+
+    const arbitrageProfitRate = this.productConf[ productCode ].arbitrageProfitRate * this.generalConf.arbitrageProfitRate;
+    const risingAmount = Math.floor( baseAvalageLtp * arbitrageProfitRate );
+
+    // 上昇トレンドチェックに入る場合( 1000 > ( 500 + 5 ) )
+    if( validAvalageLtp > ( baseAvalageLtp + risingAmount ) ){
+      return SetStatus.MODE_UP;
+    // 下降トレンドチェックに入る場合( 1000 < ( 500 - 5 ) )
+    }else if( validAvalageLtp < ( baseAvalageLtp - risingAmount ) ){
+      return SetStatus.MODE_DOWN;
+    }else{
+      return SetStatus.MODE_NORMAL;
+    }
   }
 
   getAvalageFromLtpParams( baseCurrencyCode, ltpParams ){
@@ -186,87 +245,11 @@ export default class SetStatus extends Logics{
     return sumLtp > 0 ? Math.floor( sumLtp ) / filteredNull.length : 0 ;
   }
 
-  async getTrendModeParams( logLtpParams ){
-
-    let trendModeParams = {}
-
-    const getTrendMode = ( productCode, baseAvalageLtp, validAvalageLtp ) => {
-
-      const arbitrageProfitRate = this.productConf[ productCode ].arbitrageProfitRate * this.generalConf.arbitrageProfitRate;
-      const risingAmount = Math.floor( baseAvalageLtp * arbitrageProfitRate );
-
-      // 上昇トレンドチェックに入る場合( 1000 > ( 500 + 5 ) )
-      if( validAvalageLtp > ( baseAvalageLtp + risingAmount ) ){
-        return SetStatus.TREND_MODE_UP;
-      // 下降トレンドチェックに入る場合( 1000 < ( 500 - 5 ) )
-      }else if( validAvalageLtp < ( baseAvalageLtp - risingAmount ) ){
-        return SetStatus.TREND_MODE_DOWN;
-      }else{
-        return SetStatus.TREND_MODE_NORMAL;
-      }
-    }
-
-    // プロダクトの一覧をループで回す
-    Object.keys( this.productConf ).forEach( ( productCode ) => {
-
-      trendModeParams[ productCode ] = {
-        productCode,
-        trendMode: SetStatus.TREND_MODE_NORMAL,
-        lv: {
-            [ SetStatus.TREND_MODE_UP ]: 0,
-            [ SetStatus.TREND_MODE_NORMAL ]: 0,
-            [ SetStatus.TREND_MODE_DOWN ]: 0,
-            [ SetStatus.TREND_MODE_CHOPPY ]: 0
-        }
-      };
-
-      const baseCurrencyCode = productCode.split('_')[ 0 ];
-      const logLtpParamsLastIndex = logLtpParams.length - 1 ;
-      const latestAvalageLtp =  this.getAvalageFromLtpParams( baseCurrencyCode, logLtpParams[ 0 ] );
-      const oldestAvalageLtp =  this.getAvalageFromLtpParams( baseCurrencyCode, logLtpParams[ logLtpParamsLastIndex ] );
-      trendModeParams[ productCode ].trendMode = getTrendMode( productCode, oldestAvalageLtp, latestAvalageLtp );
-      let reBaseAvalageLtp = oldestAvalageLtp;
-
-      // 乱高下(チョッピー)チェック( 新しいデータからループでまわす )
-      logLtpParams.forEach( ( loopLtpParams, index ) => {
-
-        if( index === 0 ){
-          return;
-        }else if( logLtpParamsLastIndex === index ){
-
-          const existUP = trendModeParams[ productCode ].lv[ SetStatus.TREND_MODE_UP ] > 0 ;
-          const existDOWN = trendModeParams[ productCode ].lv[ SetStatus.TREND_MODE_DOWN ] > 0;
-
-          if( existUP && existDOWN ){
-            trendModeParams[ productCode ].trendMode = SetStatus.TREND_MODE_CHOPPY;
-
-            trendModeParams[ productCode ].lv[ SetStatus.TREND_MODE_CHOPPY ] =
-              Math.floor( trendModeParams[ productCode ].lv[ SetStatus.TREND_MODE_UP ] + trendModeParams[ productCode ].lv[ SetStatus.TREND_MODE_DOWN ] ) / 2 ;
-          }else if( existUP ){
-            trendModeParams[ productCode ].trendMode = SetStatus.TREND_MODE_UP;
-          }else if( existDOWN ){
-            trendModeParams[ productCode ].trendMode = SetStatus.TREND_MODE_DOWN;
-          }
-          //console.log( `${baseCurrencyCode} ${index} ${ JSON.stringify( trendModeParams[ productCode ].lv ) }` );
-        }else{
-          const loopAvalageLtp =  this.getAvalageFromLtpParams( baseCurrencyCode, loopLtpParams );
-          const loopTrendMode = getTrendMode( productCode, reBaseAvalageLtp, loopAvalageLtp );
-
-          trendModeParams[ productCode ].lv[ loopTrendMode ]++;
-
-          //console.log( ` - loop ${index} ${loopTrendMode} base: ${reBaseAvalageLtp } loop: ${loopAvalageLtp}`  );
-
-          if( loopTrendMode !== SetStatus.TREND_MODE_NORMAL ){
-            //reBaseAvalageLtp = loopAvalageLtp;
-          }
-        }
-      });
-    });
-
-    return trendModeParams;
+  getLatestlogsLtpParams(){
+    return this.logsLtpParams;
   }
 
   // アビトラデータが存在して、トレンドモードが普通・上昇で、コストが妥当な場合b
-  getOrderParams( balanceParams, trendModeParams, bestArbitrageData ){
+  getOrderParams( balanceParams, trendParams, bestArbitrageData ){
   }
 }
