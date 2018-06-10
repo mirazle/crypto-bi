@@ -161,9 +161,10 @@ export default class SetStatus extends Logics{
     this.logsLtpParams.unshift( addLtpParams );
 
     if( bestArbitrageData.exist ){
+
       bestArbitrageData = await this._getRefrectedTrendParams( bestArbitrageData, logsLtpParams );
     }
-
+    
     if( logLtpParamsAmount <= this.logsLtpParams.length ){
       this.logsLtpParams.pop();
     }
@@ -223,17 +224,18 @@ export default class SetStatus extends Logics{
 
   getTrendMode( productCode, baseAvalageLtp, validAvalageLtp ){
 
+    const { TrendParams } = this.Schemas;
     const arbitrageProfitRate = this.productConf[ productCode ].arbitrageProfitRate * this.generalConf.arbitrageProfitRate;
     const risingAmount = Math.floor( baseAvalageLtp * arbitrageProfitRate );
 
     // 上昇トレンドチェックに入る場合( 1000 > ( 500 + 5 ) )
     if( validAvalageLtp > ( baseAvalageLtp + risingAmount ) ){
-      return SetStatus.MODE_UP;
+      return TrendParams.MODE_UP;
     // 下降トレンドチェックに入る場合( 1000 < ( 500 - 5 ) )
     }else if( validAvalageLtp < ( baseAvalageLtp - risingAmount ) ){
-      return SetStatus.MODE_DOWN;
+      return TrendParams.MODE_DOWN;
     }else{
-      return SetStatus.MODE_NORMAL;
+      return TrendParams.MODE_NORMAL;
     }
   }
 

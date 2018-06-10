@@ -17,6 +17,7 @@ export default class ArbitrageData extends Schema{
     const cost = new Schemas.CostParams( params.cost );
     const trend = new Schemas.TrendParams( params.trend );
     const exist = params.productCode ? true : false ;
+
     return this.create({
       exist,
       productCode,
