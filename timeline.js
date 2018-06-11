@@ -16,7 +16,7 @@ class CryptoBi{
 
     // ログを保持
     this.logs = {
-      ltpParams: []
+      exParams: []
     };
   }
 
@@ -39,27 +39,26 @@ class CryptoBi{
   // 情報をセット
   async phase1(){
 
-    // 各取引所の「資産状況」を取得
-    const balanceParams = await this.logics.setStatus.getBalanceParams();
-
     // 「最適な裁定情報」を取得
-    const ltpParams = await this.logics.setStatus.getLtpParams();
-    const ltpParamsFilteredNull = await this.logics.setStatus.getLtpParamsFilteredNull( ltpParams );
-    const arbitrageDatas = await this.logics.setStatus.getArbitrageDatas( ltpParamsFilteredNull );
-
+    const exParams = await this.logics.setStatus.getExParams();
+    const exParamsFilteredNull = await this.logics.setStatus.getExParamsFilteredNull( exParams );
+    const arbitrageDatas = await this.logics.setStatus.getArbitrageDatas( exParamsFilteredNull );
     let bestArbitrageData = await this.logics.setStatus.getBestArbitrageData( arbitrageDatas );
 
     // 現在の「コスト状況」を反映して取得
     bestArbitrageData = this.logics.setStatus.getRefrectedCostParams( bestArbitrageData );
 
     // 現在の「トレンド状況」を反映して取得
-    bestArbitrageData = await this.logics.setStatus.getRefrectedTrendParams( bestArbitrageData, this.logs.ltpParams, ltpParams );
+    bestArbitrageData = await this.logics.setStatus.getRefrectedTrendParams( bestArbitrageData, this.logs.exParams, exParams );
+
+    // ask取引所とbid取引所の「資産状況」を反映して取得
+    const balanceParams = await this.logics.setStatus.getRefrectedBalanceParams( bestArbitrageData );
 
     // 現在の「トレンド状況ログ」を取得
-    this.logs.ltpParams = this.logics.setStatus.getLatestlogsLtpParams();
+    this.logs.exParams = this.logics.setStatus.getLatestlogsLtpParams();
 
     // 資産状況、コスト状況、トレンド状況、最適な裁定情報を鑑みて「発注情報」を取得する
-    //this.orderParams = this.logics.setStatus.getOrderParams( balanceParams, trendParams, bestArbitrageData );
+    this.orderParams = this.logics.setStatus.getOrderParams( balanceParams,  bestArbitrageData );
   }
 
   // 発注

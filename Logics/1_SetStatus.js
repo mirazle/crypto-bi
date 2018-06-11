@@ -14,29 +14,37 @@ export default class SetStatus extends Logics{
     this.logsLtpParams;
   }
 
-  async getBalanceParams(){
+  async getRefrectedBalanceParams( bestArbitrageData ){
     return new Promise( ( resolve, reject ) => {
 
-      let promises = [], params = [];
+      const { exist, base, valid } = bestArbitrageData;
 
-      for( let exName in this.exConf ){
-        if(  exchanges[ exName ] &&  exchanges[ exName ].getBalance ){
-          params.push({ exName, response: {} });
-          promises.push( exchanges[ exName ].getBalance() );
+      if( exist ){
+
+        let promises = [], promiseExTypes = [];
+
+        if( exchanges[ base.exName ] && exchanges[ base.exName ].getBalance ){
+          promiseExTypes.push( 'base' );
+          promises.push( exchanges[ base.exName ].getBalance() );
         }
-      }
 
-      Promise.all( promises ).then( ( responses ) => {
-        const balanceParams = params.map( ( param, index ) => {
-          param.response = responses[ index ];
-          return param;
+        if( exchanges[ valid.exName ] && exchanges[ valid.exName ].getBalance ){
+          promiseExTypes.push( 'valid' );
+          promises.push( exchanges[ valid.exName ].getBalance() );
+        }
+
+        Promise.all( promises ).then( ( responses ) => {
+          promiseExTypes.forEach( ( promiseExType, index ) => {
+            bestArbitrageData[ promiseExType ].fiatBalance = responses[ index ];
+          });
+          resolve( bestArbitrageData );
         });
-        resolve( balanceParams );
-      });
+      }
+      resolve( bestArbitrageData );
     });
   }
 
-  async getLtpParams(){
+  async getExParams(){
     return new Promise( ( resolve, reject ) => {
 
       let promises = [], params = [];
@@ -51,14 +59,14 @@ export default class SetStatus extends Logics{
 
       Promise.all( promises ).then( ( ltps ) => {
         const ltpParams = params.map( ( param, index ) => {
-          return new this.Schemas.LtpParams( {...param, ltp: ltps[ index ]} );
+          return new this.Schemas.ExParams( {...param, ltp: ltps[ index ]} );
         });
         resolve( ltpParams );
       });
     });
   }
 
-  getLtpParamsFilteredNull( ltpParams ){
+  getExParamsFilteredNull( ltpParams ){
     return ltpParams.filter( param => param.ltp !== null );
   }
 
@@ -72,9 +80,8 @@ export default class SetStatus extends Logics{
         if( base.productCode !== valid.productCode ) return false;
         if( !this.exConf[ base.exName ].withDrawApi  ) return false;           // 送金APIがない取引所では購入はしない
 
-        // TODO そもそも予算分,300000からコストを引いた分が購入金額になるはず( base.のexNameのbalaneを設定するべき )
-        // 変数名も分かり辛いのでは?
-        // バグってない？
+        // TODO 予算分,300000からコストを引いた分が購入金額になるはず( base.のexNameのfiatBalaneを設定するべき )
+        // 変数名も分かり辛い
 
         // 基本変数を定義
         const { arbitrageProfitRate: generalArbitrageProfitRate } = this.generalConf;
@@ -164,7 +171,7 @@ export default class SetStatus extends Logics{
 
       bestArbitrageData = await this._getRefrectedTrendParams( bestArbitrageData, logsLtpParams );
     }
-    
+
     if( logLtpParamsAmount <= this.logsLtpParams.length ){
       this.logsLtpParams.pop();
     }
@@ -242,7 +249,7 @@ export default class SetStatus extends Logics{
   getAvalageFromLtpParams( baseCurrencyCode, ltpParams ){
     let sumLtp = 0;
     const filter = ltpParams.filter( params => params.productCode.indexOf( baseCurrencyCode ) === 0 )
-    const filteredNull = this.getLtpParamsFilteredNull( filter );
+    const filteredNull = this.getExParamsFilteredNull( filter );
     filteredNull.forEach( ( param ) => sumLtp += param.ltp );
     return sumLtp > 0 ? Math.floor( sumLtp ) / filteredNull.length : 0 ;
   }
@@ -252,6 +259,7 @@ export default class SetStatus extends Logics{
   }
 
   // アビトラデータが存在して、トレンドモードが普通・上昇で、コストが妥当な場合b
-  getOrderParams( balanceParams, trendParams, bestArbitrageData ){
+  getOrderParams( balanceParams, bestArbitrageData ){
+
   }
 }

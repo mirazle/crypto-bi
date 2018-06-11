@@ -1,11 +1,11 @@
 import ArbitrageData from './ArbitrageData';
-import LtpParams from './LtpParams';
+import ExParams from './ExParams';
 import CostParams from './CostParams';
 import TrendParams from './TrendParams';
 
 export default {
 	ArbitrageData,
-	LtpParams,
+	ExParams,
 	CostParams,
 	TrendParams
 }

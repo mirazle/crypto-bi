@@ -1,6 +1,4 @@
 
-// JPYに換金可能で送金APIが整備してるある、送金時間が短い通貨を対象にする
-
 let controlBase = {
   exConf: {
     bitflyer: {
@@ -133,7 +131,7 @@ let controlBase = {
     trendMode: {
      logLtpParamsAmount: 1080,   // 3時間
     },
-    arbitrageProfitRate: 1,
+    arbitrageProfitRate: 0.1,
     orderToTrendMode: [ 'NORMAL', 'UP' ],
     log: {console: true, web: false},
     proccessTermMicroSecond: 10000, // 10秒毎に実行する

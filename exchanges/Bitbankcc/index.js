@@ -11,8 +11,14 @@ export default class Bitbankcc extends Exchange{
     return res && res.data && res.data.last ? parseFloat( res.data.last ) : null ;
   }
 
-  async getBalance(){
-    return await api.user.assets();
+  async getBalance( currency = 'jpy'){
+    const balanceDatas = await api.user.assets();
+    if( balanceDatas && balanceDatas.length > 0 ){
+      const balanceData =  balanceDatas.filter( b => b.asset === currency );
+      return balanceData.free_amount;
+    }else{
+      return 0;
+    }
   }
 
   async order( params ){

@@ -20,8 +20,14 @@ export default class Quoinex extends Exchange{
     }
     return res && ltp !== 0 ? parseFloat( ltp ) : null;
   }
-  
-  async getBalance(){
-    return await api.accounts.balance();
+
+  async getBalance( currency = 'JPY'){
+    const balanceDatas = await api.accounts.balance();
+    if( balanceDatas && balanceDatas.length > 0 ){
+      const balanceData =  balanceDatas.filter( b => b.currency === currency );
+      return balanceData.balance;
+    }else{
+      return 0;
+    }
   }
 }

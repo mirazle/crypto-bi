@@ -11,8 +11,13 @@ export default class Fisco extends Exchange{
     return res && res.last ? parseFloat( res.last ) : null ;
   }
 
-  async getBalance(){
-    return await api.getInfo();
+  async getBalance( currency = 'jpy'){
+    const balanceDatas = await api.getInfo();
+    if( balanceDatas && balanceDatas.return && balanceDatas.return.funds && balanceDatas.return.funds[ currency ] ){
+      return balanceDatas.return.funds[ currency ];
+    }else{
+      return 0;
+    }
   }
 
   async order( params ){

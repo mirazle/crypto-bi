@@ -11,7 +11,8 @@ export default class Btcbox extends Exchange{
     return res && res.last ? parseFloat( res.last ) : null ;
   }
 
-  async getBalance(){
-    return await api.getBalance();
+  async getBalance( currency = 'jpy'){
+    const balanceData = await api.getBalance();
+    return balanceData[ `${ currency }_balance` ] ? balanceData[ `${ currency }_balance` ] : 0 ;
   }
 }
