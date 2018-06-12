@@ -95,11 +95,12 @@ export default class SetStatus extends Logics{
           valid.askBalanceAmount = this.util.multiply( valid.ltp, askBalanceRate );
 
           // 裁定量の閾値を取得
+          const profitAmount = ( valid.askBalanceAmount > 0 && base.askBalanceAmount > 0 && valid.askBalanceAmount > base.askBalanceAmount ) ?
+            Math.floor( valid.askBalanceAmount - base.askBalanceAmount ) : 0;
           const arbitrageThresholdAmount = Math.floor( base.askBalanceAmount * arbitrageProfitRate );
-          const profitAmount = Math.floor( valid.askBalanceAmount - base.askBalanceAmount );
           const isArbitrage = arbitrageThresholdAmount !== 0 && base.askBalanceAmount < ( valid.askBalanceAmount - arbitrageThresholdAmount );
           const fiatCode = this.getFiatCode( base.exName, base.productCode );
-          const debug = `${isArbitrage} ${profitAmount} [ ${base.exName}(${base.productCode}) to ${valid.exName}(${valid.productCode}) ] ${base.askBalanceAmount} < ( ${valid.askBalanceAmount} - ${arbitrageThresholdAmount} )`;
+          const debug = `${isArbitrage} ${profitAmount} BASE[ ${base.exName}(${base.productCode}: ${base.askBalanceAmount})] < VALID[ ${valid.exName}(${valid.productCode}: ( ${valid.askBalanceAmount} - ${arbitrageThresholdAmount} ) ) ] ${arbitrageProfitRate}`;
 
           Logs.searchArbitorage.debug( debug );
 
