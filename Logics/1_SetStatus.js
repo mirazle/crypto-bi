@@ -133,6 +133,7 @@ export default class SetStatus extends Logics{
       if( arbitrageDatas.length > 0 ){
         arbitrageDatas.forEach( ( arbitrageData, index ) => {
           if( bestProfitAmount < arbitrageData.profitAmount ){
+            bestProfitAmount = arbitrageData.profitAmount;
             bestArbitrageData = arbitrageData;
           }
         });
@@ -272,13 +273,6 @@ export default class SetStatus extends Logics{
   // アビトラデータが存在して、トレンドモードが普通・上昇で、コストが妥当な場合b
   async getOrderParams( bestArbitrageData ){
     return new Promise( ( resolve, reject ) => {
-
-console.log( "@@@ exist " + bestArbitrageData.exist );
-console.log( "@@@ baseExName " + bestArbitrageData.base.exName );
-console.log( "@@@ validExName " + bestArbitrageData.valid.exName );
-console.log( "@@@ baseBalance " + bestArbitrageData.base.fiatBalance );
-console.log( "@@@ validBalance " + bestArbitrageData.valid.fiatBalance );
-
       resolve( true );
     });
   }
