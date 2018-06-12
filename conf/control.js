@@ -40,7 +40,7 @@ let controlBase = {
       productCodeStructure: {head: 'UP', separater: null, foot: 'UP'}
     },
     zaif: {
-      enable: true,
+      enable: false,
       ipWhitelist: true,
       withDrawApi: true,
       currencyAliases: {},
@@ -97,7 +97,7 @@ let controlBase = {
       productCodeStructure: {head: 'DOWN', separater: '_', foot: 'DOWN'}
     },
     fisco: {
-      enable: true,
+      enable: false,
       ipWhitelist: true,
       withDrawApi: true,
       currencyAliases: {},
@@ -117,13 +117,13 @@ let controlBase = {
     }
   },
   productConf: {
-    BTC_JPY: { enable: true, askBalanceRate: 0.1, arbitrageProfitRate: 0.04 },
-    BCH_JPY: { enable: true, askBalanceRate: 1, arbitrageProfitRate: 0.04 },
-    ETH_JPY: { enable: true, askBalanceRate: 2, arbitrageProfitRate: 0.04 },
-    XRP_JPY: { enable: true, askBalanceRate: 2000, arbitrageProfitRate: 0.04 },
-    XEM_JPY: { enable: true, askBalanceRate: 1000, arbitrageProfitRate: 0.04 },
-    MONA_JPY: { enable: true, askBalanceRate: 400, arbitrageProfitRate: 0.04 },
-    LTC_JPY: { enable: true, askBalanceRate: 10, arbitrageProfitRate: 0.04 }
+    BTC_JPY: { enable: true, askBalanceRate: 0.1, arbitrageProfitRate: 0.01 },
+    BCH_JPY: { enable: true, askBalanceRate: 1, arbitrageProfitRate: 0.01 },
+    ETH_JPY: { enable: true, askBalanceRate: 2, arbitrageProfitRate: 0.01 },
+    XRP_JPY: { enable: true, askBalanceRate: 2000, arbitrageProfitRate: 0.01 },
+    XEM_JPY: { enable: true, askBalanceRate: 1000, arbitrageProfitRate: 0.01 },
+    MONA_JPY: { enable: true, askBalanceRate: 400, arbitrageProfitRate: 0.01 },
+    LTC_JPY: { enable: true, askBalanceRate: 10, arbitrageProfitRate: 0.01 }
   },
   generalConf: {
     baseCurrencyCode: 'BTC',

@@ -24,7 +24,7 @@ export default class Quoinex extends Exchange{
   async getBalance( currency = 'JPY'){
     const balanceDatas = await api.accounts.balance();
     if( balanceDatas && balanceDatas.length > 0 ){
-      const balanceData =  balanceDatas.filter( b => b.currency === currency );
+      const balanceData =  balanceDatas.filter( b => b.currency === currency )[ 0 ];
       return balanceData.balance;
     }else{
       return 0;

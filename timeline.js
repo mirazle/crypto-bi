@@ -46,19 +46,19 @@ class CryptoBi{
     let bestArbitrageData = await this.logics.setStatus.getBestArbitrageData( arbitrageDatas );
 
     // 現在の「コスト状況」を反映して取得
-    bestArbitrageData = this.logics.setStatus.getRefrectedCostParams( bestArbitrageData );
+    bestArbitrageData = await this.logics.setStatus.getRefrectedCostParams( bestArbitrageData );
 
     // 現在の「トレンド状況」を反映して取得
     bestArbitrageData = await this.logics.setStatus.getRefrectedTrendParams( bestArbitrageData, this.logs.exParams, exParams );
 
     // ask取引所とbid取引所の「資産状況」を反映して取得
-    const balanceParams = await this.logics.setStatus.getRefrectedBalanceParams( bestArbitrageData );
+    bestArbitrageData = await this.logics.setStatus.getRefrectedBalanceParams( bestArbitrageData );
 
     // 現在の「トレンド状況ログ」を取得
-    this.logs.exParams = this.logics.setStatus.getLatestlogsLtpParams();
+    this.logs.exParams = await this.logics.setStatus.getLatestlogsLtpParams();
 
     // 資産状況、コスト状況、トレンド状況、最適な裁定情報を鑑みて「発注情報」を取得する
-    this.orderParams = this.logics.setStatus.getOrderParams( balanceParams,  bestArbitrageData );
+    this.orderParams = await this.logics.setStatus.getOrderParams( bestArbitrageData );
   }
 
   // 発注

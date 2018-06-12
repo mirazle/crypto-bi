@@ -11,7 +11,7 @@ export default class Bitflyer extends Exchange{
   async getBalance( currency = 'JPY'){
     const balanceDatas =  await api.me.getBalance();
     if( balanceDatas && balanceDatas.length > 0 ){
-      const balanceData =  balanceDatas.filter( b => b.currency_code === currency );
+      const balanceData =  balanceDatas.filter( b => b.currency_code === currency )[ 0 ];
       return balanceData.available;
     }else{
       return 0;

@@ -39,8 +39,9 @@ export default class SetStatus extends Logics{
           });
           resolve( bestArbitrageData );
         });
+      }else{
+        resolve( bestArbitrageData );
       }
-      resolve( bestArbitrageData );
     });
   }
 
@@ -71,179 +72,187 @@ export default class SetStatus extends Logics{
   }
 
   async getArbitrageDatas( ltpParams ){
-    let arbitrageDatas = [];
+    return new Promise( ( resolve, reject ) => {
+      let arbitrageDatas = [];
 
-    Logs.searchArbitorage.debug( "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@" );
-    ltpParams.forEach( ( base ) => {
-      ltpParams.forEach( ( valid ) => {
-        if( base.exName === valid.exName ) return false;
-        if( base.productCode !== valid.productCode ) return false;
-        if( !this.exConf[ base.exName ].withDrawApi  ) return false;           // 送金APIがない取引所では購入はしない
+      Logs.searchArbitorage.debug( "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@" );
+      ltpParams.forEach( ( base ) => {
+        ltpParams.forEach( ( valid ) => {
+          if( base.exName === valid.exName ) return false;
+          if( base.productCode !== valid.productCode ) return false;
+          if( !this.exConf[ base.exName ].withDrawApi  ) return false;           // 送金APIがない取引所では購入はしない
 
-        // TODO 予算分,300000からコストを引いた分が購入金額になるはず( base.のexNameのfiatBalaneを設定するべき )
-        // 変数名も分かり辛い
+          // TODO 予算分,300000からコストを引いた分が購入金額になるはず( base.のexNameのfiatBalaneを設定するべき )
+          // 変数名も分かり辛い
 
-        // 基本変数を定義
-        const { arbitrageProfitRate: generalArbitrageProfitRate } = this.generalConf;
-        const { arbitrageProfitRate: productArbitrageProfitRate, askBalanceRate } = this.productConf[ base.productCode ];
-        const arbitrageProfitRate = this.util.multiply( productArbitrageProfitRate, generalArbitrageProfitRate );
+          // 基本変数を定義
+          const { arbitrageProfitRate: generalArbitrageProfitRate } = this.generalConf;
+          const { arbitrageProfitRate: productArbitrageProfitRate, askBalanceRate } = this.productConf[ base.productCode ];
+          const arbitrageProfitRate = this.util.multiply( productArbitrageProfitRate, generalArbitrageProfitRate );
 
-        // 実際の購入量を反映
-        base.askBalanceAmount = this.util.multiply( base.ltp, askBalanceRate );
-        valid.askBalanceAmount = this.util.multiply( valid.ltp, askBalanceRate );
+          // 実際の購入量を反映
+          base.askBalanceAmount = this.util.multiply( base.ltp, askBalanceRate );
+          valid.askBalanceAmount = this.util.multiply( valid.ltp, askBalanceRate );
 
-        // 裁定量の閾値を取得
-        const arbitrageThresholdAmount = Math.floor( base.askBalanceAmount * arbitrageProfitRate );
-        const profitAmount = Math.floor( valid.askBalanceAmount - base.askBalanceAmount );
-        const isArbitrage = arbitrageThresholdAmount !== 0 && base.askBalanceAmount < ( valid.askBalanceAmount - arbitrageThresholdAmount );
-        const fiatCode = this.getFiatCode( base.exName, base.productCode );
-        const debug = `${isArbitrage} ${profitAmount} [ ${base.exName}(${base.productCode}) to ${valid.exName}(${valid.productCode}) ] ${base.askBalanceAmount} < ( ${valid.askBalanceAmount} - ${arbitrageThresholdAmount} )`;
+          // 裁定量の閾値を取得
+          const arbitrageThresholdAmount = Math.floor( base.askBalanceAmount * arbitrageProfitRate );
+          const profitAmount = Math.floor( valid.askBalanceAmount - base.askBalanceAmount );
+          const isArbitrage = arbitrageThresholdAmount !== 0 && base.askBalanceAmount < ( valid.askBalanceAmount - arbitrageThresholdAmount );
+          const fiatCode = this.getFiatCode( base.exName, base.productCode );
+          const debug = `${isArbitrage} ${profitAmount} [ ${base.exName}(${base.productCode}) to ${valid.exName}(${valid.productCode}) ] ${base.askBalanceAmount} < ( ${valid.askBalanceAmount} - ${arbitrageThresholdAmount} )`;
 
-        Logs.searchArbitorage.debug( debug );
+          Logs.searchArbitorage.debug( debug );
 
-        // アビトラージが成立する場合
-        if( isArbitrage ){
+          // アビトラージが成立する場合
+          if( isArbitrage ){
 
-          //Logs.arbitorage.info( `ARBITRAGE! ¥${profitAmount} [ ${base.exName}(${base.productCode}) to ${valid.exName}(${valid.productCode}) ]`, 'strong' );
-          const arbitrageData = new this.Schemas.ArbitrageData({
-            productCode: base.productCode,
-            exName: base.exName,
-            grossProfitAmount: 0,
-            profitAmount,
-            arbitrageThresholdAmount,
-            arbitrageProfitRate,
-            fiatCode,
-            base,
-            valid,
-          });
-          arbitrageDatas.push( arbitrageData );
-        }
+            //Logs.arbitorage.info( `ARBITRAGE! ¥${profitAmount} [ ${base.exName}(${base.productCode}) to ${valid.exName}(${valid.productCode}) ]`, 'strong' );
+            const arbitrageData = new this.Schemas.ArbitrageData({
+              productCode: base.productCode,
+              exName: base.exName,
+              grossProfitAmount: 0,
+              profitAmount,
+              arbitrageThresholdAmount,
+              arbitrageProfitRate,
+              fiatCode,
+              base,
+              valid,
+            });
+            arbitrageDatas.push( arbitrageData );
+          }
+        });
       });
+      resolve( arbitrageDatas );
     });
-    return arbitrageDatas;
   }
 
   async getBestArbitrageData( arbitrageDatas ){
-    let bestArbitrageData = new this.Schemas.ArbitrageData();
-    let bestProfitAmount = 0;
-    if( arbitrageDatas.length > 0 ){
-      arbitrageDatas.forEach( ( arbitrageData, index ) => {
-        if( bestProfitAmount < arbitrageData.profitAmount ){
-          bestArbitrageData = arbitrageData;
-        }
-      });
-    }
-    if( bestProfitAmount > 0 ){
-      Logs.arbitorage.debug( bestArbitrageData );
-    }
-    return bestArbitrageData;
+    return new Promise( ( resolve, reject ) => {
+      let bestArbitrageData = new this.Schemas.ArbitrageData();
+      let bestProfitAmount = 0;
+      if( arbitrageDatas.length > 0 ){
+        arbitrageDatas.forEach( ( arbitrageData, index ) => {
+          if( bestProfitAmount < arbitrageData.profitAmount ){
+            bestArbitrageData = arbitrageData;
+          }
+        });
+      }
+      if( bestProfitAmount > 0 ){
+        Logs.arbitorage.debug( bestArbitrageData );
+      }
+      resolve( bestArbitrageData );
+    });
   }
 
-  getRefrectedCostParams( bestArbitrageData ){
-    if( bestArbitrageData.exist ){
-      const { exName, productCode, base, valid } = bestArbitrageData;
-      const { inFiatCost, outFiatCost, productConf } = this.exConf[ exName ];
-      const { enable, askCost, withDrawCost, bidCost, withDrawCheckTransaction } = productConf[ productCode ];
-      const fiatCode = this.getFiatCode( exName, productCode );
-      const outFiatCostFix = outFiatCost[ fiatCode ].sep <= base.askBalanceAmount ? outFiatCost[ fiatCode ].high : outFiatCost[ fiatCode ].low ;
+  async getRefrectedCostParams( bestArbitrageData ){
+    return new Promise( ( resolve, reject ) => {
+      if( bestArbitrageData.exist ){
+        const { exName, productCode, base, valid } = bestArbitrageData;
+        const { inFiatCost, outFiatCost, productConf } = this.exConf[ exName ];
+        const { enable, askCost, withDrawCost, bidCost, withDrawCheckTransaction } = productConf[ productCode ];
+        const fiatCode = this.getFiatCode( exName, productCode );
+        const outFiatCostFix = outFiatCost[ fiatCode ].sep <= base.askBalanceAmount ? outFiatCost[ fiatCode ].high : outFiatCost[ fiatCode ].low ;
 
-      if( enable ){
-        bestArbitrageData.cost.inFiat = Number( inFiatCost[ fiatCode ] );
-        bestArbitrageData.cost.ask = this.util.multiply( base.askBalanceAmount, askCost );
-        bestArbitrageData.cost.withDraw = this.util.multiply( base.askBalanceAmount, withDrawCost );
-        bestArbitrageData.cost.bid= this.util.multiply( valid.askBalanceAmount, bidCost );
-        bestArbitrageData.cost.outFiat = Number( outFiatCostFix );
-        bestArbitrageData.cost.setTotal();
-        bestArbitrageData.setGrossProfitAmount();
-        //console.table( bestArbitrageData.cost );
+        if( enable ){
+          bestArbitrageData.cost.inFiat = Number( inFiatCost[ fiatCode ] );
+          bestArbitrageData.cost.ask = this.util.multiply( base.askBalanceAmount, askCost );
+          bestArbitrageData.cost.withDraw = this.util.multiply( base.askBalanceAmount, withDrawCost );
+          bestArbitrageData.cost.bid= this.util.multiply( valid.askBalanceAmount, bidCost );
+          bestArbitrageData.cost.outFiat = Number( outFiatCostFix );
+          bestArbitrageData.cost.setTotal();
+          bestArbitrageData.setGrossProfitAmount();
+          //console.table( bestArbitrageData.cost );
+        }
       }
-    }
-    return bestArbitrageData;
+      resolve( bestArbitrageData );
+    });
   }
 
   async getRefrectedTrendParams( bestArbitrageData, logsLtpParams, addLtpParams ){
+    return new Promise( ( resolve, reject ) => {
+      const { logLtpParamsAmount } = this.generalConf.trendMode;
+      this.logsLtpParams = logsLtpParams;
+      this.logsLtpParams.unshift( addLtpParams );
 
-    const { logLtpParamsAmount } = this.generalConf.trendMode;
-    this.logsLtpParams = logsLtpParams;
-    this.logsLtpParams.unshift( addLtpParams );
+      if( bestArbitrageData.exist ){
 
-    if( bestArbitrageData.exist ){
+        bestArbitrageData = this._getRefrectedTrendParams( bestArbitrageData, logsLtpParams );
+      }
 
-      bestArbitrageData = await this._getRefrectedTrendParams( bestArbitrageData, logsLtpParams );
-    }
+      if( logLtpParamsAmount <= this.logsLtpParams.length ){
+        this.logsLtpParams.pop();
+      }
 
-    if( logLtpParamsAmount <= this.logsLtpParams.length ){
-      this.logsLtpParams.pop();
-    }
-
-    return bestArbitrageData;
+      resolve( bestArbitrageData );
+    });
   }
 
-  async _getRefrectedTrendParams( bestArbitrageData, logLtpParams ){
+  _getRefrectedTrendParams( bestArbitrageData, logLtpParams ){
 
-    const { TrendParams } = this.Schemas;
-    const { productCode } = bestArbitrageData;
-    const baseCurrencyCode = productCode.split('_')[ 0 ];
-    const logLtpParamsLastIndex = logLtpParams.length - 1 ;
-    const latestAvalageLtp =  this.getAvalageFromLtpParams( baseCurrencyCode, logLtpParams[ 0 ] );
-    const oldestAvalageLtp =  this.getAvalageFromLtpParams( baseCurrencyCode, logLtpParams[ logLtpParamsLastIndex ] );
-    let reBaseAvalageLtp = oldestAvalageLtp;
+      const { TrendParams } = this.Schemas;
+      const { productCode } = bestArbitrageData;
+      const baseCurrencyCode = productCode.split('_')[ 0 ];
+      const logLtpParamsLastIndex = logLtpParams.length - 1 ;
+      const latestAvalageLtp =  this.getAvalageFromLtpParams( baseCurrencyCode, logLtpParams[ 0 ] );
+      const oldestAvalageLtp =  this.getAvalageFromLtpParams( baseCurrencyCode, logLtpParams[ logLtpParamsLastIndex ] );
+      let reBaseAvalageLtp = oldestAvalageLtp;
 
-    bestArbitrageData.trend.mode = this.getTrendMode( productCode, oldestAvalageLtp, latestAvalageLtp );
+      bestArbitrageData.trend.mode = this.getTrendMode( productCode, oldestAvalageLtp, latestAvalageLtp );
 
-    // 乱高下(チョッピー)チェック( 新しいデータからループでまわす )
-    logLtpParams.forEach( ( loopLtpParams, index ) => {
+      // 乱高下(チョッピー)チェック( 新しいデータからループでまわす )
+      logLtpParams.forEach( ( loopLtpParams, index ) => {
 
-      if( index === 0 ){
-        return;
+        if( index === 0 ){
+          return;
 
-      }else if( logLtpParamsLastIndex === index ){
+        }else if( logLtpParamsLastIndex === index ){
 
-        const existUP = bestArbitrageData.trend.lv[ TrendParams.MODE_UP ] > 0 ;
-        const existDOWN = bestArbitrageData.trend.lv[ TrendParams.MODE_DOWN ] > 0;
+          const existUP = bestArbitrageData.trend.lv[ TrendParams.MODE_UP ] > 0 ;
+          const existDOWN = bestArbitrageData.trend.lv[ TrendParams.MODE_DOWN ] > 0;
 
-        if( existUP && existDOWN ){
-          bestArbitrageData.trend.mode = TrendParams.MODE_CHOPPY;
-          bestArbitrageData.trend.lv[ TrendParams.MODE_CHOPPY ] =
-            Math.floor( bestArbitrageData.trend.lv[ TrendParams.MODE_UP ] + bestArbitrageData.trend.lv[ TrendParams.MODE_DOWN ] ) / 2 ;
-        }else if( existUP ){
-          bestArbitrageData.trend.mode = TrendParams.MODE_UP;
-        }else if( existDOWN ){
-          bestArbitrageData.trend.mode = TrendParams.MODE_DOWN;
+          if( existUP && existDOWN ){
+            bestArbitrageData.trend.mode = TrendParams.MODE_CHOPPY;
+            bestArbitrageData.trend.lv[ TrendParams.MODE_CHOPPY ] =
+              Math.floor( bestArbitrageData.trend.lv[ TrendParams.MODE_UP ] + bestArbitrageData.trend.lv[ TrendParams.MODE_DOWN ] ) / 2 ;
+          }else if( existUP ){
+            bestArbitrageData.trend.mode = TrendParams.MODE_UP;
+          }else if( existDOWN ){
+            bestArbitrageData.trend.mode = TrendParams.MODE_DOWN;
+          }
+          //console.log( `${baseCurrencyCode} ${index} ${ JSON.stringify( trendParams.lv ) }` );
+
+        }else{
+          const loopAvalageLtp =  this.getAvalageFromLtpParams( baseCurrencyCode, loopLtpParams );
+          const loopTrendMode = this.getTrendMode( productCode, reBaseAvalageLtp, loopAvalageLtp );
+
+          bestArbitrageData.trend.lv[ loopTrendMode ]++;
+
+          //console.log( ` - loop ${index} ${loopTrendMode} base: ${reBaseAvalageLtp } loop: ${loopAvalageLtp}`  );
+
+          if( loopTrendMode !== SetStatus.MODE_NORMAL ){
+            //reBaseAvalageLtp = loopAvalageLtp;
+          }
         }
-        //console.log( `${baseCurrencyCode} ${index} ${ JSON.stringify( trendParams.lv ) }` );
+      });
+      return bestArbitrageData;
 
-      }else{
-        const loopAvalageLtp =  this.getAvalageFromLtpParams( baseCurrencyCode, loopLtpParams );
-        const loopTrendMode = this.getTrendMode( productCode, reBaseAvalageLtp, loopAvalageLtp );
-
-        bestArbitrageData.trend.lv[ loopTrendMode ]++;
-
-        //console.log( ` - loop ${index} ${loopTrendMode} base: ${reBaseAvalageLtp } loop: ${loopAvalageLtp}`  );
-
-        if( loopTrendMode !== SetStatus.MODE_NORMAL ){
-          //reBaseAvalageLtp = loopAvalageLtp;
-        }
-      }
-    });
-    return bestArbitrageData;
   }
 
   getTrendMode( productCode, baseAvalageLtp, validAvalageLtp ){
+      const { TrendParams } = this.Schemas;
+      const arbitrageProfitRate = this.productConf[ productCode ].arbitrageProfitRate * this.generalConf.arbitrageProfitRate;
+      const risingAmount = Math.floor( baseAvalageLtp * arbitrageProfitRate );
 
-    const { TrendParams } = this.Schemas;
-    const arbitrageProfitRate = this.productConf[ productCode ].arbitrageProfitRate * this.generalConf.arbitrageProfitRate;
-    const risingAmount = Math.floor( baseAvalageLtp * arbitrageProfitRate );
+      // 上昇トレンドチェックに入る場合( 1000 > ( 500 + 5 ) )
+      if( validAvalageLtp > ( baseAvalageLtp + risingAmount ) ){
+        return TrendParams.MODE_UP;
+      // 下降トレンドチェックに入る場合( 1000 < ( 500 - 5 ) )
+      }else if( validAvalageLtp < ( baseAvalageLtp - risingAmount ) ){
+        return TrendParams.MODE_DOWN;
+      }else{
+        return TrendParams.MODE_NORMAL;
+      }
 
-    // 上昇トレンドチェックに入る場合( 1000 > ( 500 + 5 ) )
-    if( validAvalageLtp > ( baseAvalageLtp + risingAmount ) ){
-      return TrendParams.MODE_UP;
-    // 下降トレンドチェックに入る場合( 1000 < ( 500 - 5 ) )
-    }else if( validAvalageLtp < ( baseAvalageLtp - risingAmount ) ){
-      return TrendParams.MODE_DOWN;
-    }else{
-      return TrendParams.MODE_NORMAL;
-    }
   }
 
   getAvalageFromLtpParams( baseCurrencyCode, ltpParams ){
@@ -255,11 +264,22 @@ export default class SetStatus extends Logics{
   }
 
   getLatestlogsLtpParams(){
-    return this.logsLtpParams;
+    return new Promise( ( resolve, reject ) => {
+      resolve( this.logsLtpParams );
+    });
   }
 
   // アビトラデータが存在して、トレンドモードが普通・上昇で、コストが妥当な場合b
-  getOrderParams( balanceParams, bestArbitrageData ){
+  async getOrderParams( bestArbitrageData ){
+    return new Promise( ( resolve, reject ) => {
 
+console.log( "@@@ exist " + bestArbitrageData.exist );
+console.log( "@@@ baseExName " + bestArbitrageData.base.exName );
+console.log( "@@@ validExName " + bestArbitrageData.valid.exName );
+console.log( "@@@ baseBalance " + bestArbitrageData.base.fiatBalance );
+console.log( "@@@ validBalance " + bestArbitrageData.valid.fiatBalance );
+
+      resolve( true );
+    });
   }
 }
