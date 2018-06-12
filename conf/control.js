@@ -117,13 +117,13 @@ let controlBase = {
     }
   },
   productConf: {
-    BTC_JPY: { enable: true, askBalanceRate: 0.1, arbitrageProfitRate: 0.01 },
-    BCH_JPY: { enable: true, askBalanceRate: 1, arbitrageProfitRate: 0.01 },
-    ETH_JPY: { enable: true, askBalanceRate: 2, arbitrageProfitRate: 0.01 },
-    XRP_JPY: { enable: true, askBalanceRate: 2000, arbitrageProfitRate: 0.01 },
-    XEM_JPY: { enable: true, askBalanceRate: 1000, arbitrageProfitRate: 0.01 },
-    MONA_JPY: { enable: true, askBalanceRate: 400, arbitrageProfitRate: 0.01 },
-    LTC_JPY: { enable: true, askBalanceRate: 10, arbitrageProfitRate: 0.01 }
+    BTC_JPY: { enable: true, askBalanceRate: 0.1, arbitrageProfitRate: 0.03 },
+    BCH_JPY: { enable: true, askBalanceRate: 1, arbitrageProfitRate: 0.03 },
+    ETH_JPY: { enable: true, askBalanceRate: 2, arbitrageProfitRate: 0.03 },
+    XRP_JPY: { enable: true, askBalanceRate: 2000, arbitrageProfitRate: 0.03 },
+    XEM_JPY: { enable: true, askBalanceRate: 1000, arbitrageProfitRate: 0.03 },
+    MONA_JPY: { enable: true, askBalanceRate: 400, arbitrageProfitRate: 0.03 },
+    LTC_JPY: { enable: true, askBalanceRate: 10, arbitrageProfitRate: 0.03 }
   },
   generalConf: {
     baseCurrencyCode: 'BTC',
@@ -131,7 +131,7 @@ let controlBase = {
     trendMode: {
      logLtpParamsAmount: 1080,   // 3時間
     },
-    arbitrageProfitRate: 0.1,
+    arbitrageProfitRate: 1,
     orderToTrendMode: [ 'NORMAL', 'UP' ],
     log: {console: true, web: false},
     proccessTermMicroSecond: 10000, // 10秒毎に実行する

@@ -44,19 +44,19 @@ export default class Logs{
   static get arbitorage(){ return Logs.out( 'arbitorage' ) }
 
   static trace( log ){
-    logs.all.trace( log );
+    //logs.all.trace( log );
   }
 
   static debug( log ){
-    logs.all.debug( log );
+    //logs.all.debug( log );
   }
 
   static info( log ){
-    logs.all.info( log );
+    //logs.all.info( log );
   }
 
   static warn( log ){
-    logs.all.warn( log );
+    //logs.all.warn( log );
   }
 
   static error( log ){
