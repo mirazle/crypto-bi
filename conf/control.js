@@ -40,7 +40,7 @@ let controlBase = {
       productCodeStructure: {head: 'UP', separater: null, foot: 'UP'}
     },
     zaif: {
-      enable: false,
+      enable: true,
       ipWhitelist: true,
       withDrawApi: true,
       currencyAliases: {},
@@ -97,7 +97,7 @@ let controlBase = {
       productCodeStructure: {head: 'DOWN', separater: '_', foot: 'DOWN'}
     },
     fisco: {
-      enable: false,
+      enable: true,
       ipWhitelist: true,
       withDrawApi: true,
       currencyAliases: {},
