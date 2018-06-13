@@ -13,26 +13,32 @@ export default class Logs{
   static out ( type ){
     return {
       trace: ( log  ) =>  {
+        log = JSON.stringify( log );
         Logs.trace( log );
         logs[ type ].trace( log );
       },
       debug: ( log ) => {
+        log = JSON.stringify( log );
         Logs.trace( log );
         logs[ type ].debug( log );
       },
       info: ( log ) => {
+        log = JSON.stringify( log );
         Logs.trace( log );
         logs[ type ].info( log );
       },
       warn: ( log  ) => {
+        log = JSON.stringify( log );
         Logs.trace( log );
         logs[ type ].warn( log );
       },
       error: ( log ) =>  {
+        log = JSON.stringify( log );
         Logs.trace( log );
         logs[ type ].error( log );
       },
       fatal: ( log  ) =>  {
+        log = JSON.stringify( log );
         Logs.trace( log );
         logs[ type ].fatal( log );
       }

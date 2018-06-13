@@ -9,14 +9,14 @@ export default class ExParams extends Schema{
     const exProductCode = params.exProductCode ? params.exProductCode : '';
     const ltp = params.ltp ? params.ltp : 0 ;
     const fiatBalance = params.fiatBalance ? params.fiatBalance : 0 ;
-    const askBalanceAmount = params.askBalanceAmount ? params.askBalanceAmount : 0 ;
+    const tradeAmount = params.tradeAmount ? params.tradeAmount : 0 ;
     return this.create({
       exName,
       productCode,
       exProductCode,
       ltp,
-      fiatBalance,          // 購入元本となる法定通貨の資産状況
-      askBalanceAmount      // 資産状況から、コストを引いた、実際の購入額
+      fiatBalance,          // 元本となる法定通貨の資産状況
+      tradeAmount
     });
   }
 }

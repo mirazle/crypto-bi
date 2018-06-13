@@ -2,6 +2,9 @@ export default {
   multiply: ( value1, value2 ) => {
     return ( ( value1 * 10 ) ) * ( ( value2 * 10 ) ) / 100;
   },
+  division: ( value1, value2 ) => {
+    return ( ( value1 * 10 ) ) / ( ( value2 * 10 ) ) / 100;
+  },
   orgRound: ( value, base ) => {
    return Math.round(value * base) / base;
  },

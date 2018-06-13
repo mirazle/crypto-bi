@@ -102,49 +102,55 @@ export default class SetStatus extends Logics{
         ltpParams.forEach( ( valid ) => {
           if( base.exName === valid.exName ) return false;
           if( base.productCode !== valid.productCode ) return false;
-          if( !this.exConf[ base.exName ].withDrawApi  ) return false;           // 送金APIがない取引所では購入はしない
+          if( !this.exConf[ base.exName ].withDrawApi ) return false;           // 送金APIがない取引所の場合
+          if( base.fiatBalance === 0 ) return false;                            // 購入余力がない場合
 
-          // 資産状況を代入する
+          const fiatCode = this.getFiatCode( base.exName, base.productCode );
           base.fiatBalance = Number( balanceParams.filter( bp => bp.exName === base.exName )[ 0 ].response );
           valid.fiatBalance = Number( balanceParams.filter( bp => bp.exName === valid.exName )[ 0 ].response );
 
-          if( base.fiatBalance > 0 ) return false;                              // 購入余力がない場合
+          /**************************/
+          /*  裁定に必要な閾値を算出    */
+          /**************************/
 
-          // TODO
-          // そもそも、資産を保有している取引所に限定した上で、裁定取引の判定に入るべきでは？
-          // 予算分,300000からコストを引いた分が購入金額になるはず( base.のexNameのfiatBalaneを設定するべき )
-          // 変数名も分かり辛い
-          // バグってはいない模様
-
-          // 裁定率を算出する
+          // 裁定に必要な粗利率を算出する
           const { arbitrageProfitRate: generalArbitrageProfitRate } = this.generalConf;
           const { arbitrageProfitRate: productArbitrageProfitRate, askBalanceRate } = this.productConf[ base.productCode ];
-          const arbitrageProfitRate = this.util.multiply( productArbitrageProfitRate, generalArbitrageProfitRate );
+          const profitThresholdRate = this.util.multiply( productArbitrageProfitRate, generalArbitrageProfitRate );
 
-          // 資産状況から、コストを引いた、実際の購入額
-          base.askBalanceAmount = base.fiatBalance;
+          // 裁定に必要な粗利量を算出
+          const profitThresholdAmount = ( base.fiatBalance * profitThresholdRate ) * 100;
 
-          // 資産状況から、コストを引いた、実際の売却額
-          valid.askBalanceAmount = base.fiatBalance;
+          /**************************/
+          /*  売上を算出              */
+          /**************************/
 
-          // 「実粗利」を算出
-          const profitAmount = ( valid.askBalanceAmount > 0 && base.askBalanceAmount > 0 && valid.askBalanceAmount > base.askBalanceAmount ) ?
-            Math.floor( valid.askBalanceAmount - base.askBalanceAmount ) : 0;
+          // 実際の売上率を算出
+          const profitRealRate = this.util.division( valid.ltp, base.ltp );
 
-          // 「コスト」を取得
-          const cost = this.getCostParams(  base, valid );
+          // 実際の売上量を算出
+          let profitRealAmount = ( base.fiatBalance * profitRealRate ) * 100;
 
-          // 資産状況から、コストを引いた、実際の購入額を算出
-          const grossProfitAmount = profitAmount - cost.total;
+          /**************************/
+          /*  費用を算出              */
+          /**************************/
 
-          // 「必要粗利」を算出
-          const arbitrageThresholdAmount = Math.floor( base.askBalanceAmount * arbitrageProfitRate );
+          const cost = this.getCostParams( base, valid );
+
+          /**************************/
+          /*  粗利を算出              */
+          /**************************/
+
+          profitRealAmount = profitRealAmount - cost.total;
+
+          /**************************/
+          /*  裁定の実施判定          */
+          /**************************/
 
           // 裁定実行フラグ
-          const isArbitrage = arbitrageThresholdAmount !== 0 && base.askBalanceAmount < ( valid.askBalanceAmount - arbitrageThresholdAmount );
+          const isArbitrage = profitThresholdAmount < profitRealAmount;
 
-          const fiatCode = this.getFiatCode( base.exName, base.productCode );
-          const debug = `${isArbitrage} ${profitAmount} BASE[ ${base.exName}(${base.productCode}: ${base.askBalanceAmount})] < VALID[ ${valid.exName}(${valid.productCode}: ( ${valid.askBalanceAmount} - ${arbitrageThresholdAmount} ) ) ] ${arbitrageProfitRate}`;
+          const debug = `${isArbitrage} ${profitAmount} BASE[ ${base.exName}(${base.productCode}: ${base.ltp})] < VALID[ ${valid.exName}(${valid.productCode}: ( ${valid.ltp} - ${profitThresholdAmount} ) ) ] ${profitThresholdRate}`;
 
           Logs.searchArbitorage.debug( debug );
 
@@ -155,10 +161,10 @@ export default class SetStatus extends Logics{
             const arbitrageData = new this.Schemas.ArbitrageData({
               productCode: base.productCode,
               exName: base.exName,
-              grossProfitAmount,
-              profitAmount,
-              arbitrageThresholdAmount,
-              arbitrageProfitRate,
+              profitRealAmount,
+              profitRealRate,
+              profitThresholdAmount,
+              profitThresholdRate,
               fiatCode,
               cost,
               base,
@@ -175,35 +181,36 @@ export default class SetStatus extends Logics{
   async getBestArbitrageData( arbitrageDatas ){
     return new Promise( ( resolve, reject ) => {
       let bestArbitrageData = new this.Schemas.ArbitrageData();
-      let bestProfitAmount = 0;
+      let bestProfitRealAmount = 0;
       if( arbitrageDatas.length > 0 ){
         arbitrageDatas.forEach( ( arbitrageData, index ) => {
-          if( bestProfitAmount < arbitrageData.profitAmount ){
-            bestProfitAmount = arbitrageData.profitAmount;
+          if( bestProfitRealAmount < arbitrageData.profitRealAmount ){
+            bestProfitRealAmount = arbitrageData.profitRealAmount;
             bestArbitrageData = arbitrageData;
           }
         });
       }
-      if( bestProfitAmount > 0 ){
+      if( bestProfitRealAmount > 0 ){
         Logs.arbitorage.debug( bestArbitrageData );
       }
       resolve( bestArbitrageData );
     });
   }
 
+  // TODO Schemaに移動する
   getCostParams( base, valid ){
     const costParams = new this.Schemas.CostParams;
-    const { exName, productCode } = base;
+    const { exName, productCode, fiatBalance } = base;
     const { inFiatCost, outFiatCost, productConf } = this.exConf[ exName ];
     const { enable, askCost, withDrawCost, bidCost, withDrawCheckTransaction } = productConf[ productCode ];
     const fiatCode = this.getFiatCode( exName, productCode );
-    const outFiatCostFix = outFiatCost[ fiatCode ].sep <= base.askBalanceAmount ? outFiatCost[ fiatCode ].high : outFiatCost[ fiatCode ].low ;
+    const outFiatCostFix = outFiatCost[ fiatCode ].sep <= fiatBalance ? outFiatCost[ fiatCode ].high : outFiatCost[ fiatCode ].low ;
 
     if( enable ){
       costParams.inFiat = Number( inFiatCost[ fiatCode ] );
-      costParams.ask = this.util.multiply( base.askBalanceAmount, askCost );
-      costParams.withDraw = this.util.multiply( base.askBalanceAmount, withDrawCost );
-      costParams.bid= this.util.multiply( valid.askBalanceAmount, bidCost );
+      costParams.ask = this.util.multiply( fiatBalance, askCost );
+      costParams.withDraw = this.util.multiply( fiatBalance, withDrawCost );
+      costParams.bid = this.util.multiply( valid.fiatBalance, bidCost );
       costParams.outFiat = Number( outFiatCostFix );
       costParams.setTotal();
     }

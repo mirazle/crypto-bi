@@ -7,10 +7,10 @@ export default class ArbitrageData extends Schema{
     super();
     const productCode = params.productCode ? params.productCode : '';
     const exName = params.exName ? params.exName : '';
-    const grossProfitAmount = params.grossProfitAmount ? params.grossProfitAmount : 0;
-    const profitAmount = params.profitAmount ? params.profitAmount : 0;
-    const arbitrageThresholdAmount = params.arbitrageThresholdAmount ? params.arbitrageThresholdAmount : 0.0;
-    const arbitrageProfitRate = params.arbitrageProfitRate ? params.arbitrageProfitRate : 0.0;
+    const profitRealAmount = params.profitRealAmount ? params.profitRealAmount : 0;
+    const profitRealRate = params.profitRealRate ? params.profitRealRate : 0;
+    const profitThresholdAmount = params.profitThresholdAmount ? params.profitThresholdAmount : 0.0;
+    const profitThresholdRate = params.profitThresholdRate ? params.profitThresholdRate : 0.0;
     const fiatCode = params.fiatCode ? params.fiatCode : '';
     const base = new Schemas.ExParams( params.base );
     const valid = new Schemas.ExParams( params.valid );
@@ -22,19 +22,15 @@ export default class ArbitrageData extends Schema{
       exist,
       productCode,
       exName,
-      grossProfitAmount,
-      profitAmount,
-      arbitrageThresholdAmount,
-      arbitrageProfitRate,
+      profitRealAmount,
+      profitRealRate,
+      profitThresholdAmount,
+      profitThresholdRate,
       fiatCode,
       base,
       valid,
       cost,
       trend
     });
-  }
-
-  setGrossProfitAmount(){
-    this.grossProfitAmount = this.profitAmount - this.cost.total;
   }
 }
