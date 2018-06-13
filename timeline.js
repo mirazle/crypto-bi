@@ -48,9 +48,6 @@ class CryptoBi{
     const arbitrageDatas = await this.logics.setStatus.getArbitrageDatas( balanceParams,exParamsFilteredNull );
     let bestArbitrageData = await this.logics.setStatus.getBestArbitrageData( arbitrageDatas );
 
-    // 現在の「コスト状況」を反映して取得
-    //bestArbitrageData = await this.logics.setStatus.getRefrectedCostParams( bestArbitrageData );
-
     // 現在の「トレンド状況」を反映して取得
     bestArbitrageData = await this.logics.setStatus.getRefrectedTrendParams( bestArbitrageData, this.logs.exParams, exParams );
 

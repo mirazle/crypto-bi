@@ -102,34 +102,38 @@ export default class SetStatus extends Logics{
         ltpParams.forEach( ( valid ) => {
           if( base.exName === valid.exName ) return false;
           if( base.productCode !== valid.productCode ) return false;
+          if( base.ltp === 0 || valid.ltp === 0 ) return false;
+          if( base.ltp > valid.ltp ) return false;
           if( !this.exConf[ base.exName ].withDrawApi ) return false;           // 送金APIがない取引所の場合
-          if( base.fiatBalance === 0 ) return false;                            // 購入余力がない場合
 
           const fiatCode = this.getFiatCode( base.exName, base.productCode );
           base.fiatBalance = Number( balanceParams.filter( bp => bp.exName === base.exName )[ 0 ].response );
           valid.fiatBalance = Number( balanceParams.filter( bp => bp.exName === valid.exName )[ 0 ].response );
+
+          if( base.fiatBalance === 0 ) return false;                            // 購入余力が0の場合
 
           /**************************/
           /*  裁定に必要な閾値を算出    */
           /**************************/
 
           // 裁定に必要な粗利率を算出する
+          let { arbitrageProfitRate: productArbitrageProfitRate } = this.productConf[ base.productCode ];
           const { arbitrageProfitRate: generalArbitrageProfitRate } = this.generalConf;
-          const { arbitrageProfitRate: productArbitrageProfitRate, askBalanceRate } = this.productConf[ base.productCode ];
-          const profitThresholdRate = this.util.multiply( productArbitrageProfitRate, generalArbitrageProfitRate );
+          productArbitrageProfitRate = ( productArbitrageProfitRate - 1 ).toFixed( 3 );
+          const profitThresholdRate = 1 + ( this.util.multiply( productArbitrageProfitRate, generalArbitrageProfitRate ) );
 
           // 裁定に必要な粗利量を算出
-          const profitThresholdAmount = ( base.fiatBalance * profitThresholdRate ) * 100;
+          const profitThresholdAmount = this.util.multiply( base.fiatBalance, profitThresholdRate );
 
           /**************************/
           /*  売上を算出              */
           /**************************/
 
           // 実際の売上率を算出
-          const profitRealRate = this.util.division( valid.ltp, base.ltp );
+          const profitRealRate = this.util.division( valid.ltp, base.ltp, 5 );
 
           // 実際の売上量を算出
-          let profitRealAmount = ( base.fiatBalance * profitRealRate ) * 100;
+          const saleRealAmount = this.util.multiply( base.fiatBalance , profitRealRate, 5 );
 
           /**************************/
           /*  費用を算出              */
@@ -141,7 +145,17 @@ export default class SetStatus extends Logics{
           /*  粗利を算出              */
           /**************************/
 
-          profitRealAmount = profitRealAmount - cost.total;
+          const profitRealAmount = saleRealAmount - cost.total;
+
+          /**************************/
+          /*  購入額 | 売却額         */
+          /**************************/
+
+          // 購入額を取得
+          base.tradeAmount = base.fiatBalance;
+
+          // 売却額を取得
+          valid.tradeAmount = profitRealAmount;
 
           /**************************/
           /*  裁定の実施判定          */
@@ -150,9 +164,21 @@ export default class SetStatus extends Logics{
           // 裁定実行フラグ
           const isArbitrage = profitThresholdAmount < profitRealAmount;
 
-          const debug = `${isArbitrage} ${profitAmount} BASE[ ${base.exName}(${base.productCode}: ${base.ltp})] < VALID[ ${valid.exName}(${valid.productCode}: ( ${valid.ltp} - ${profitThresholdAmount} ) ) ] ${profitThresholdRate}`;
+          /**************************/
+          /*  DEBUG                 */
+          /**************************/
+
+          const debugSummary = `${isArbitrage} ${base.productCode}`;
+          const debugReal =  `REAL ${profitRealAmount}( ${ saleRealAmount } - ${ cost.total } )[ ${profitRealRate} ]`;
+          const debugThreashold = `THRESHOLD ${profitThresholdAmount}[ ${profitThresholdRate} ]`;
+          const debugBase = `BASE ${base.exName}[ ${base.tradeAmount} : ${base.ltp} ]`;
+          const debugValid = `VALID ${valid.exName}[ ${valid.tradeAmount} : ${valid.ltp} ]`;
+          const debugBalance = `BALANCE [ ${base.fiatBalance} ] `;
+
+          const debug = `${debugSummary} ${debugReal} ${debugThreashold} ${debugBase} ${debugValid} ${debugBalance}`
 
           Logs.searchArbitorage.debug( debug );
+          console.log( debug );
 
           // アビトラージが成立する場合
           if( isArbitrage ){
