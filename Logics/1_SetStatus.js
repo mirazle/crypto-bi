@@ -14,6 +14,28 @@ export default class SetStatus extends Logics{
     this.logsLtpParams;
   }
 
+  async getBalanceParams(){
+    return new Promise( ( resolve, reject ) => {
+
+      let promises = [], params = [];
+
+      for( let exName in this.exConf ){
+        if(  exchanges[ exName ] &&  exchanges[ exName ].getBalance ){
+          params.push({ exName, response: {} });
+          promises.push( exchanges[ exName ].getBalance() );
+        }
+      }
+
+      Promise.all( promises ).then( ( responses ) => {
+        const balanceParams = params.map( ( param, index ) => {
+          param.response = responses[ index ];
+          return param;
+        });
+        resolve( balanceParams );
+      });
+    });
+  }
+
   async getRefrectedBalanceParams( bestArbitrageData ){
     return new Promise( ( resolve, reject ) => {
 
@@ -71,7 +93,7 @@ export default class SetStatus extends Logics{
     return ltpParams.filter( param => param.ltp !== null );
   }
 
-  async getArbitrageDatas( ltpParams ){
+  async getArbitrageDatas( balanceParams, ltpParams ){
     return new Promise( ( resolve, reject ) => {
       let arbitrageDatas = [];
 
@@ -82,23 +104,45 @@ export default class SetStatus extends Logics{
           if( base.productCode !== valid.productCode ) return false;
           if( !this.exConf[ base.exName ].withDrawApi  ) return false;           // 送金APIがない取引所では購入はしない
 
-          // TODO 予算分,300000からコストを引いた分が購入金額になるはず( base.のexNameのfiatBalaneを設定するべき )
-          // 変数名も分かり辛い
+          // 資産状況を代入する
+          base.fiatBalance = Number( balanceParams.filter( bp => bp.exName === base.exName )[ 0 ].response );
+          valid.fiatBalance = Number( balanceParams.filter( bp => bp.exName === valid.exName )[ 0 ].response );
 
-          // 基本変数を定義
+          if( base.fiatBalance > 0 ) return false;                              // 購入余力がない場合
+
+          // TODO
+          // そもそも、資産を保有している取引所に限定した上で、裁定取引の判定に入るべきでは？
+          // 予算分,300000からコストを引いた分が購入金額になるはず( base.のexNameのfiatBalaneを設定するべき )
+          // 変数名も分かり辛い
+          // バグってはいない模様
+
+          // 裁定率を算出する
           const { arbitrageProfitRate: generalArbitrageProfitRate } = this.generalConf;
           const { arbitrageProfitRate: productArbitrageProfitRate, askBalanceRate } = this.productConf[ base.productCode ];
           const arbitrageProfitRate = this.util.multiply( productArbitrageProfitRate, generalArbitrageProfitRate );
 
-          // 実際の購入量を反映
-          base.askBalanceAmount = this.util.multiply( base.ltp, askBalanceRate );
-          valid.askBalanceAmount = this.util.multiply( valid.ltp, askBalanceRate );
+          // 資産状況から、コストを引いた、実際の購入額
+          base.askBalanceAmount = base.fiatBalance;
 
-          // 裁定量の閾値を取得
+          // 資産状況から、コストを引いた、実際の売却額
+          valid.askBalanceAmount = base.fiatBalance;
+
+          // 「実粗利」を算出
           const profitAmount = ( valid.askBalanceAmount > 0 && base.askBalanceAmount > 0 && valid.askBalanceAmount > base.askBalanceAmount ) ?
             Math.floor( valid.askBalanceAmount - base.askBalanceAmount ) : 0;
+
+          // 「コスト」を取得
+          const cost = this.getCostParams(  base, valid );
+
+          // 資産状況から、コストを引いた、実際の購入額を算出
+          const grossProfitAmount = profitAmount - cost.total;
+
+          // 「必要粗利」を算出
           const arbitrageThresholdAmount = Math.floor( base.askBalanceAmount * arbitrageProfitRate );
+
+          // 裁定実行フラグ
           const isArbitrage = arbitrageThresholdAmount !== 0 && base.askBalanceAmount < ( valid.askBalanceAmount - arbitrageThresholdAmount );
+
           const fiatCode = this.getFiatCode( base.exName, base.productCode );
           const debug = `${isArbitrage} ${profitAmount} BASE[ ${base.exName}(${base.productCode}: ${base.askBalanceAmount})] < VALID[ ${valid.exName}(${valid.productCode}: ( ${valid.askBalanceAmount} - ${arbitrageThresholdAmount} ) ) ] ${arbitrageProfitRate}`;
 
@@ -111,11 +155,12 @@ export default class SetStatus extends Logics{
             const arbitrageData = new this.Schemas.ArbitrageData({
               productCode: base.productCode,
               exName: base.exName,
-              grossProfitAmount: 0,
+              grossProfitAmount,
               profitAmount,
               arbitrageThresholdAmount,
               arbitrageProfitRate,
               fiatCode,
+              cost,
               base,
               valid,
             });
@@ -146,28 +191,23 @@ export default class SetStatus extends Logics{
     });
   }
 
-  async getRefrectedCostParams( bestArbitrageData ){
-    return new Promise( ( resolve, reject ) => {
-      if( bestArbitrageData.exist ){
-        const { exName, productCode, base, valid } = bestArbitrageData;
-        const { inFiatCost, outFiatCost, productConf } = this.exConf[ exName ];
-        const { enable, askCost, withDrawCost, bidCost, withDrawCheckTransaction } = productConf[ productCode ];
-        const fiatCode = this.getFiatCode( exName, productCode );
-        const outFiatCostFix = outFiatCost[ fiatCode ].sep <= base.askBalanceAmount ? outFiatCost[ fiatCode ].high : outFiatCost[ fiatCode ].low ;
+  getCostParams( base, valid ){
+    const costParams = new this.Schemas.CostParams;
+    const { exName, productCode } = base;
+    const { inFiatCost, outFiatCost, productConf } = this.exConf[ exName ];
+    const { enable, askCost, withDrawCost, bidCost, withDrawCheckTransaction } = productConf[ productCode ];
+    const fiatCode = this.getFiatCode( exName, productCode );
+    const outFiatCostFix = outFiatCost[ fiatCode ].sep <= base.askBalanceAmount ? outFiatCost[ fiatCode ].high : outFiatCost[ fiatCode ].low ;
 
-        if( enable ){
-          bestArbitrageData.cost.inFiat = Number( inFiatCost[ fiatCode ] );
-          bestArbitrageData.cost.ask = this.util.multiply( base.askBalanceAmount, askCost );
-          bestArbitrageData.cost.withDraw = this.util.multiply( base.askBalanceAmount, withDrawCost );
-          bestArbitrageData.cost.bid= this.util.multiply( valid.askBalanceAmount, bidCost );
-          bestArbitrageData.cost.outFiat = Number( outFiatCostFix );
-          bestArbitrageData.cost.setTotal();
-          bestArbitrageData.setGrossProfitAmount();
-          //console.table( bestArbitrageData.cost );
-        }
-      }
-      resolve( bestArbitrageData );
-    });
+    if( enable ){
+      costParams.inFiat = Number( inFiatCost[ fiatCode ] );
+      costParams.ask = this.util.multiply( base.askBalanceAmount, askCost );
+      costParams.withDraw = this.util.multiply( base.askBalanceAmount, withDrawCost );
+      costParams.bid= this.util.multiply( valid.askBalanceAmount, bidCost );
+      costParams.outFiat = Number( outFiatCostFix );
+      costParams.setTotal();
+    }
+    return costParams;
   }
 
   async getRefrectedTrendParams( bestArbitrageData, logsLtpParams, addLtpParams ){

@@ -15,8 +15,18 @@ export default class ExParams extends Schema{
       productCode,
       exProductCode,
       ltp,
-      fiatBalance,
-      askBalanceAmount
+      fiatBalance,          // 購入元本となる法定通貨の資産状況
+      askBalanceAmount      // 資産状況から、コストを引いた、実際の購入額
     });
   }
 }
+
+/*
+
+    元本となる法定通過の資産状況
+    トレードする額(購入|売却)
+
+    費用
+      トレードする額に含まれる費用
+      トレードする額に含まれない費用
+*/
