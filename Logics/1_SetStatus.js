@@ -84,10 +84,10 @@ export default class SetStatus extends Logics{
           base.fiatBalance = Number( balanceParams.filter( bp => bp.exName === base.exName )[ 0 ].response );
           valid.fiatBalance = Number( balanceParams.filter( bp => bp.exName === valid.exName )[ 0 ].response );
 
-          if( env === 'DEV' ){
+          if( env === 'DEV' && devFiatBalance !== 0  ){
             base.fiatBalance = devFiatBalance;
-          }else if( env === 'PROD' && base.fiatBalance === 0  ){                // 購入余力が0の場合
-            return  false;
+          }else if( env === 'PROD' && devFiatBalance !== 0  ){                  // 購入余力が0の場合
+            base.fiatBalance = devFiatBalance;
           }
           if( !baseControl.enable ) return false;                               // 購入元取引所の通貨ペアが有効でない場合
           if( !validControl.enable ) return false;                              // 売却先取引所の通貨ペアが有効でない場合

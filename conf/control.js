@@ -2,9 +2,7 @@ import os from 'os';
 const hostName = os.hostname();
 const env = hostName.indexOf( 'hmiyazakinoMacBook-Pro.local' ) >= 0 ? 'DEV' : 'PROD' ;
 const generalArbitrageProfitRate = env === 'PROD' ? 1 : 0.1 ;
-const devFiatBalance = env === 'PROD' ? 0 : 300000 ;
-
-console.log( env );
+const devFiatBalance = env === 'PROD' ? 300000 : 300000 ;
 
 let controlBase = {
   exConf: {
