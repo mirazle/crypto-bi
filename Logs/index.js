@@ -16,6 +16,7 @@ export default class Logs{
 
   static out ( type ){
     return {
+      trace: ( log  ) =>  {
         logs[ type ].trace( log );
       },
       debug: ( log ) => {
