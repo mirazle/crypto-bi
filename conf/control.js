@@ -1,3 +1,8 @@
+import os from 'os';
+const hostName = os.hostname();
+const env = hostName.indexOf( 'talkn.io' ) >= 0 ? 'PROD' : 'DEV' ;
+const generalArbitrageProfitRate = env === 'PROD' ? 1 : 0.1 ;
+const devFiatBalance = env === 'PROD' ? 0 : 300000 ;
 
 let controlBase = {
   exConf: {
@@ -117,21 +122,23 @@ let controlBase = {
     }
   },
   productConf: {
-    BTC_JPY: { enable: true, arbitrageProfitRate: 1.035 },
-    BCH_JPY: { enable: true, arbitrageProfitRate: 1.035 },
-    ETH_JPY: { enable: true, arbitrageProfitRate: 1.035 },
-    XRP_JPY: { enable: true, arbitrageProfitRate: 1.035 },
-    XEM_JPY: { enable: true, arbitrageProfitRate: 1.035 },
-    MONA_JPY: { enable: true, arbitrageProfitRate: 1.035 },
-    LTC_JPY: { enable: true, arbitrageProfitRate: 1.035 }
+    BTC_JPY: { enable: true, arbitrageProfitRate: 1.015 },
+    BCH_JPY: { enable: true, arbitrageProfitRate: 1.015 },
+    ETH_JPY: { enable: true, arbitrageProfitRate: 1.015 },
+    XRP_JPY: { enable: true, arbitrageProfitRate: 1.015 },
+    XEM_JPY: { enable: true, arbitrageProfitRate: 1.015 },
+    MONA_JPY: { enable: true, arbitrageProfitRate: 1.015 },
+    LTC_JPY: { enable: true, arbitrageProfitRate: 1.015 }
   },
   generalConf: {
+    env,
+    devFiatBalance,
     baseCurrencyCode: 'BTC',
     minProfitBalance: 1.015,
     trendMode: {
      logLtpParamsAmount: 1080,   // 3時間
     },
-    arbitrageProfitRate: 0.1,
+    arbitrageProfitRate: generalArbitrageProfitRate,
     orderToTrendMode: [ 'NORMAL', 'UP' ],
     log: {console: true, web: false},
     proccessTermMicroSecond: 10000, // 10秒毎に実行する

@@ -75,6 +75,7 @@ export default class SetStatus extends Logics{
           if( base.ltp > valid.ltp ) return false;
           if( !this.exConf[ base.exName ].withDrawApi ) return false;           // 送金APIがない取引所の場合
 
+          const { env, devFiatBalance } = this.generalConf;
           const baseControl = this.exConf[ base.exName ].productConf[ base.productCode ];
           const validControl = this.exConf[ valid.exName ].productConf[ valid.productCode ];
           const cost = new this.Schemas.CostParams( { productCode: base.productCode, baseExName: base.exName, validExName: valid.exName } );
@@ -83,7 +84,11 @@ export default class SetStatus extends Logics{
           base.fiatBalance = Number( balanceParams.filter( bp => bp.exName === base.exName )[ 0 ].response );
           valid.fiatBalance = Number( balanceParams.filter( bp => bp.exName === valid.exName )[ 0 ].response );
 
-          if( base.fiatBalance === 0 ) return false;                            // 購入余力が0の場合
+          if( env === 'DEV' ){
+            base.fiatBalance = devFiatBalance;
+          }else if( env === 'PROD' && base.fiatBalance === 0  ){                // 購入余力が0の場合
+            return  false;
+          }
           if( !baseControl.enable ) return false;                               // 購入元取引所の通貨ペアが有効でない場合
           if( !validControl.enable ) return false;                              // 売却先取引所の通貨ペアが有効でない場合
 
@@ -157,7 +162,6 @@ export default class SetStatus extends Logics{
           // アビトラージが成立する場合
           if( isArbitrage ){
 
-            //Logs.arbitorage.info( `ARBITRAGE! ¥${profitAmount} [ ${base.exName}(${base.productCode}) to ${valid.exName}(${valid.productCode}) ]`, 'strong' );
             const arbitrageData = new this.Schemas.ArbitrageData({
               productCode: base.productCode,
               exName: base.exName,

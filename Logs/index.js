@@ -9,35 +9,28 @@ const logs = {
 }
 
 export default class Logs{
-  
+
   static get response(){ return Logs.out( 'response' ) }
   static get searchArbitorage(){ return Logs.out( 'searchArbitorage' ) }
   static get arbitorage(){ return Logs.out( 'arbitorage' ) }
 
   static out ( type ){
     return {
-      trace: ( log  ) =>  {
-        log = JSON.stringify( log );
         logs[ type ].trace( log );
       },
       debug: ( log ) => {
-        log = JSON.stringify( log );
         logs[ type ].debug( log );
       },
       info: ( log ) => {
-        log = JSON.stringify( log );
         logs[ type ].info( log );
       },
       warn: ( log  ) => {
-        log = JSON.stringify( log );
         logs[ type ].warn( log );
       },
       error: ( log ) =>  {
-        log = JSON.stringify( log );
         logs[ type ].error( log );
       },
       fatal: ( log  ) =>  {
-        log = JSON.stringify( log );
         logs[ type ].fatal( log );
       }
     }
