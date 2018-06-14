@@ -36,37 +36,6 @@ export default class SetStatus extends Logics{
     });
   }
 
-  async getRefrectedBalanceParams( bestArbitrageData ){
-    return new Promise( ( resolve, reject ) => {
-
-      const { exist, base, valid } = bestArbitrageData;
-
-      if( exist ){
-
-        let promises = [], promiseExTypes = [];
-
-        if( exchanges[ base.exName ] && exchanges[ base.exName ].getBalance ){
-          promiseExTypes.push( 'base' );
-          promises.push( exchanges[ base.exName ].getBalance() );
-        }
-
-        if( exchanges[ valid.exName ] && exchanges[ valid.exName ].getBalance ){
-          promiseExTypes.push( 'valid' );
-          promises.push( exchanges[ valid.exName ].getBalance() );
-        }
-
-        Promise.all( promises ).then( ( responses ) => {
-          promiseExTypes.forEach( ( promiseExType, index ) => {
-            bestArbitrageData[ promiseExType ].fiatBalance = responses[ index ];
-          });
-          resolve( bestArbitrageData );
-        });
-      }else{
-        resolve( bestArbitrageData );
-      }
-    });
-  }
-
   async getExParams(){
     return new Promise( ( resolve, reject ) => {
 
@@ -106,11 +75,17 @@ export default class SetStatus extends Logics{
           if( base.ltp > valid.ltp ) return false;
           if( !this.exConf[ base.exName ].withDrawApi ) return false;           // 送金APIがない取引所の場合
 
+          const baseControl = this.exConf[ base.exName ].productConf[ base.productCode ];
+          const validControl = this.exConf[ valid.exName ].productConf[ valid.productCode ];
+          const cost = new this.Schemas.CostParams( { productCode: base.productCode, baseExName: base.exName, validExName: valid.exName } );
+          const currencyCode = this.getCurrencyCode( base.exName, base.productCode );
           const fiatCode = this.getFiatCode( base.exName, base.productCode );
           base.fiatBalance = Number( balanceParams.filter( bp => bp.exName === base.exName )[ 0 ].response );
           valid.fiatBalance = Number( balanceParams.filter( bp => bp.exName === valid.exName )[ 0 ].response );
 
           if( base.fiatBalance === 0 ) return false;                            // 購入余力が0の場合
+          if( !baseControl.enable ) return false;                               // 購入元取引所の通貨ペアが有効でない場合
+          if( !validControl.enable ) return false;                              // 売却先取引所の通貨ペアが有効でない場合
 
           /**************************/
           /*  裁定に必要な閾値を算出    */
@@ -136,26 +111,27 @@ export default class SetStatus extends Logics{
           const saleRealAmount = this.util.multiply( base.fiatBalance , profitRealRate, 5 );
 
           /**************************/
-          /*  費用を算出              */
+          /*  購入額 | 売却額 | 費用   */
           /**************************/
 
-          const cost = this.getCostParams( base, valid );
+          // 通貨の購入額を取得
+          base.tradeAmount = this.util.division( base.fiatBalance, base.ltp, 4 );
+
+          cost.setAsks( base );
+          cost.setWithDraws( base );
+
+          // 通過の売却額を取得( 購入額から送金手数料(暗号通貨単位)を差し引く )
+          valid.tradeAmount = this.util.getDecimel( base.tradeAmount - cost.withDraw, 5 );
+
+          cost.setBids( base, valid );
+          cost.setTotalFiat();
 
           /**************************/
           /*  粗利を算出              */
           /**************************/
 
-          const profitRealAmount = saleRealAmount - cost.total;
-
-          /**************************/
-          /*  購入額 | 売却額         */
-          /**************************/
-
-          // 購入額を取得
-          base.tradeAmount = base.fiatBalance;
-
-          // 売却額を取得
-          valid.tradeAmount = profitRealAmount;
+          // 法定通貨の粗利を取得
+          const profitRealAmount = saleRealAmount - cost.totalFiat;
 
           /**************************/
           /*  裁定の実施判定          */
@@ -168,14 +144,12 @@ export default class SetStatus extends Logics{
           /*  DEBUG                 */
           /**************************/
 
-          const debugSummary = `${isArbitrage} ${base.productCode}`;
-          const debugReal =  `REAL ${profitRealAmount}( ${ saleRealAmount } - ${ cost.total } )[ ${profitRealRate} ]`;
+          const debugSummary = `${isArbitrage} BUY: ${base.fiatBalance}${fiatCode}`;
+          const debugBase = `${base.exName}[ ${base.tradeAmount}${currencyCode} : ${base.ltp}${fiatCode} ]`;
+          const debugValid = `SELL: ${valid.exName}[ ${valid.tradeAmount}${currencyCode}( -${cost.withDraw}${currencyCode} ) : ${valid.ltp}${fiatCode} ]`;
           const debugThreashold = `THRESHOLD ${profitThresholdAmount}[ ${profitThresholdRate} ]`;
-          const debugBase = `BASE ${base.exName}[ ${base.tradeAmount} : ${base.ltp} ]`;
-          const debugValid = `VALID ${valid.exName}[ ${valid.tradeAmount} : ${valid.ltp} ]`;
-          const debugBalance = `BALANCE [ ${base.fiatBalance} ] `;
-
-          const debug = `${debugSummary} ${debugReal} ${debugThreashold} ${debugBase} ${debugValid} ${debugBalance}`
+          const debugReal =  `REAL ${profitRealAmount}( ${ saleRealAmount } - ${ cost.totalFiat }${fiatCode} )[ ${profitRealRate} ]`;
+          const debug = `${debugSummary} ( ${debugBase} ${debugValid} ) ${debugReal} ${debugThreashold} `
 
           Logs.searchArbitorage.debug( debug );
           console.log( debug );
@@ -221,26 +195,6 @@ export default class SetStatus extends Logics{
       }
       resolve( bestArbitrageData );
     });
-  }
-
-  // TODO Schemaに移動する
-  getCostParams( base, valid ){
-    const costParams = new this.Schemas.CostParams;
-    const { exName, productCode, fiatBalance } = base;
-    const { inFiatCost, outFiatCost, productConf } = this.exConf[ exName ];
-    const { enable, askCost, withDrawCost, bidCost, withDrawCheckTransaction } = productConf[ productCode ];
-    const fiatCode = this.getFiatCode( exName, productCode );
-    const outFiatCostFix = outFiatCost[ fiatCode ].sep <= fiatBalance ? outFiatCost[ fiatCode ].high : outFiatCost[ fiatCode ].low ;
-
-    if( enable ){
-      costParams.inFiat = Number( inFiatCost[ fiatCode ] );
-      costParams.ask = this.util.multiply( fiatBalance, askCost );
-      costParams.withDraw = this.util.multiply( fiatBalance, withDrawCost );
-      costParams.bid = this.util.multiply( valid.fiatBalance, bidCost );
-      costParams.outFiat = Number( outFiatCostFix );
-      costParams.setTotal();
-    }
-    return costParams;
   }
 
   async getRefrectedTrendParams( bestArbitrageData, logsLtpParams, addLtpParams ){

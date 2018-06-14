@@ -14,7 +14,7 @@ export default class ArbitrageData extends Schema{
     const fiatCode = params.fiatCode ? params.fiatCode : '';
     const base = new Schemas.ExParams( params.base );
     const valid = new Schemas.ExParams( params.valid );
-    const cost = new Schemas.CostParams( params.cost );
+    const cost = new Schemas.CostParams( params.cost, 'TEST' );
     const trend = new Schemas.TrendParams( params.trend );
     const exist = params.productCode ? true : false ;
 

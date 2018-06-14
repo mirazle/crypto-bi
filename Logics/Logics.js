@@ -31,4 +31,18 @@ export default class Logics{
     const footCode = pc[ 1 ];
     return footCode;
   }
+
+  getCurrencyCode( exName, productCode ){
+    let exProductCode = '';
+    const { productCodeStructure, currencyAliases } = this.exConf[ exName ];
+    const { head, separater, foot } = productCodeStructure;
+    const pc = productCode.split('_');
+    const headCode = currencyAliases[ pc[ 0 ] ] ? currencyAliases[ pc[ 0 ] ] : pc[ 0 ];
+    const footCode = pc[ 0 ];
+    return footCode;
+  }
+
+  getConvertFiatPrice( currencyAmount, oneCurrencyFiatAmount ){
+    return this.util.multiply( currencyAmount, oneCurrencyFiatAmount );
+  }
 }

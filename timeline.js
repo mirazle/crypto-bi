@@ -23,8 +23,7 @@ class CryptoBi{
   async timerHour(){
     const currentTime = new Date();
     const status = (currentTime - this.startTime) / 1000 + '秒経過';
-    Logs.trace( status );
-    console.log( status );
+    console.log( `@${status}` );
   }
 
   start( proccessTermMicroSecond = 0 ){
