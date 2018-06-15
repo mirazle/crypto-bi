@@ -4,6 +4,9 @@ import confControl from '../conf/control';
 
 export default class CostParams extends Schema{
 
+  static get currencyCode(){ return 'currency' }
+  static get promiseFiatCode(){ return 'promiseFiat' }
+
   constructor( params = {}, type ){
     super();
     const baseExName = params.baseExName ? params.baseExName : '';
@@ -39,29 +42,64 @@ export default class CostParams extends Schema{
 
   setConf( baseExName, validExName, productCode ){
     if( baseExName, validExName, productCode ){
+      const pc = productCode.split('_');
+      const currencyCode = pc[ 0 ];
+      const fiatCode = pc[ 1 ];
+      this.inFiatControl = confControl.exConf[ validExName ].inFiatCost[ fiatCode ];
       this.baseControl = confControl.exConf[ baseExName ].productConf[ productCode ];
       this.validControl = confControl.exConf[ validExName ].productConf[ productCode ];
+      this.outFiatControl = confControl.exConf[ validExName ].outFiatCost[ fiatCode ];
     }
   }
 
+  setInFiat(){
+    this.inFiat = this.inFiatControl
+    return this;
+  }
+
+  // トータルの数量に対して0.001とかではないか？
   setAsks( base ){
-    const { askCost } = this.baseControl;
-    this.ask = util.multiply( base.tradeAmount, askCost );
+    const { type, amount } = this.baseControl.askCost;
+    const costBase = type === CostParams.currencyCode ? base.tradeAmount : base.fiatBalance ;
+    this.bid = util.multiply( costBase, amount );
     this.askFiat = util.multiply( base.ltp, this.ask );
     return this;
   }
 
   setWithDraws( base ){
-    const { withDrawCost } = this.baseControl;
-    this.withDraw = util.multiply( base.tradeAmount, withDrawCost, 8 );
+    const { type, amount } = this.baseControl.withDrawCost;
+    this.withDraw = util.multiply( base.tradeAmount, amount, 8 );
     this.withDrawFiat = Math.ceil( util.multiply( base.ltp, this.withDraw ) );
     return this;
   }
 
-  setBids( base, valid ){
-    const { bidCost } = this.validControl;
-    this.bid = util.multiply( valid.tradeAmount, bidCost );
-    this.bidFiat = util.multiply( base.ltp, this.bid );
+  setBids( valid, saleRealAmount ){
+    const { type, amount } = this.validControl.bidCost;
+
+    if( type === CostParams.currencyCode ){
+      this.bid = util.multiply( valid.tradeAmount, amount );
+      this.bidFiat = util.multiply( saleRealAmount, this.bid );
+    }else{
+
+      // 購入額( 300000 ) * 手数料率( 0.0025 ) = ( 手数料 )750 ( LTP: 700000 )
+      this.bidFiat = Math.ceil( util.multiply( saleRealAmount, amount ) );
+
+      // 売却額( 300000 ) / LTP( 700000 ) = 0.4285( 売却量 )
+      // 0.4285( 売却量  ) * ( 手数料率 )0.0025 = 手数料(コインベース)
+      this.bid = util.multiply( valid.tradeAmount, amount, 5 );
+    }
+
+// TODO Nan
+// false BUY: 300000JPY ( bitbankcc[ 3.0864BCH : 97200JPY ] SELL: quoinex[ 3.08331BCH( -0.00308639BCH ) : 97708.01005JPY ] ) REAL NaNJPY( 301565.99999JPY - NaNJPY )[ 1.00522% ] THRESHOLD 300450JPY[ 1.0015% ]
+    //this.bid = util.multiply( costBase, amount );
+    //this.bidFiat = util.multiply( valid.ltp, this.bid );
+    //console.log( this.bid + " fiat: " + this.bidFiat + " @@ " + valid.exName + " " + valid.productCode + " " + costBase + " " + amount );
+    return this;
+  }
+
+  setOutFiat( saleRealAmount ){
+    const { low, high, sep } = this.outFiatControl
+    this.outFiat = saleRealAmount >= sep ? high : low ;
     return this;
   }
 

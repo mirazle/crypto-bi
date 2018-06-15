@@ -100,10 +100,10 @@ export default class SetStatus extends Logics{
           let { arbitrageProfitRate: productArbitrageProfitRate } = this.productConf[ base.productCode ];
           const { arbitrageProfitRate: generalArbitrageProfitRate } = this.generalConf;
           productArbitrageProfitRate = ( productArbitrageProfitRate - 1 ).toFixed( 3 );
-          const profitThresholdRate = 1 + ( this.util.multiply( productArbitrageProfitRate, generalArbitrageProfitRate ) );
+          const profitThresholdRate = 1 + ( Math.multiply( productArbitrageProfitRate, generalArbitrageProfitRate ) );
 
           // 裁定に必要な粗利量を算出
-          const profitThresholdAmount = this.util.multiply( base.fiatBalance, profitThresholdRate );
+          const profitThresholdAmount = Math.multiply( base.fiatBalance, profitThresholdRate, 5 );
 
           /**************************/
           /*  売上を算出              */
@@ -119,6 +119,8 @@ export default class SetStatus extends Logics{
           /*  購入額 | 売却額 | 費用   */
           /**************************/
 
+          cost.setInFiat();
+
           // 通貨の購入額を取得
           base.tradeAmount = this.util.division( base.fiatBalance, base.ltp, 4 );
 
@@ -128,7 +130,8 @@ export default class SetStatus extends Logics{
           // 通過の売却額を取得( 購入額から送金手数料(暗号通貨単位)を差し引く )
           valid.tradeAmount = this.util.getDecimel( base.tradeAmount - cost.withDraw, 5 );
 
-          cost.setBids( base, valid );
+          cost.setBids( valid, saleRealAmount );
+          cost.setOutFiat( saleRealAmount );
           cost.setTotalFiat();
 
           /**************************/
@@ -152,11 +155,20 @@ export default class SetStatus extends Logics{
           const debugSummary = `${isArbitrage} BUY: ${base.fiatBalance}${fiatCode}`;
           const debugBase = `${base.exName}[ ${base.tradeAmount}${currencyCode} : ${base.ltp}${fiatCode} ]`;
           const debugValid = `SELL: ${valid.exName}[ ${valid.tradeAmount}${currencyCode}( -${cost.withDraw}${currencyCode} ) : ${valid.ltp}${fiatCode} ]`;
-          const debugThreashold = `THRESHOLD ${profitThresholdAmount}[ ${profitThresholdRate} ]`;
-          const debugReal =  `REAL ${profitRealAmount}( ${ saleRealAmount } - ${ cost.totalFiat }${fiatCode} )[ ${profitRealRate} ]`;
+          const debugThreashold = `THRESHOLD ${profitThresholdAmount}${fiatCode}[ ${profitThresholdRate}% ]`;
+          const debugReal =  `REAL ${profitRealAmount}${fiatCode}( ${ saleRealAmount }${fiatCode} - ${ cost.totalFiat }${fiatCode} )[ ${profitRealRate}% ]`;
           const debug = `${debugSummary} ( ${debugBase} ${debugValid} ) ${debugReal} ${debugThreashold} `
 
           Logs.searchArbitorage.debug( debug );
+/*
+          console.log("------- " + base.exName + " _ " + base.productCode );
+          console.log( 'inFiat       : ' + cost.inFiat );
+          console.log( 'askFiat      : ' + cost.askFiat + ' _ ' + cost.ask );
+          console.log( 'withDrawFiat : ' + cost.withDrawFiat + ' _ ' + cost.withDraw );
+          console.log( 'bidFiat      : ' + cost.bidFiat + ' _ ' + cost.bid );
+          console.log( 'outFiat      : ' + cost.outFiat );
+          console.log("---");
+*/
           console.log( debug );
 
           // アビトラージが成立する場合
