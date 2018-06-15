@@ -4,8 +4,9 @@ import confControl from '../conf/control';
 
 export default class CostParams extends Schema{
 
-  static get currencyCode(){ return 'currency' }
-  static get promiseFiatCode(){ return 'promiseFiat' }
+  static get selfCurrencyAmount(){ return 'selfCurrencyAmount' }
+  static get selfCurrencyPercent(){ return 'selfCurrencyPercent' }
+  static get promisedFiatPercent(){ return 'promisedFiatPercent' }
 
   constructor( params = {}, type ){
     super();
@@ -59,41 +60,40 @@ export default class CostParams extends Schema{
 
   // トータルの数量に対して0.001とかではないか？
   setAsks( base ){
-    const { type, amount } = this.baseControl.askCost;
-    const costBase = type === CostParams.currencyCode ? base.tradeAmount : base.fiatBalance ;
-    this.bid = util.multiply( costBase, amount );
-    this.askFiat = util.multiply( base.ltp, this.ask );
+    const { type, size } = this.baseControl.askCost;
+    const costBase = type === CostParams.selfCurrencyPercent ? base.tradeAmount : base.fiatBalance ;
+    this.bid = Math.multiply( costBase, size / 100 );
+    this.askFiat = Math.ceil( Math.multiply( base.ltp, this.ask ) );
     return this;
   }
 
   setWithDraws( base ){
-    const { type, amount } = this.baseControl.withDrawCost;
-    this.withDraw = util.multiply( base.tradeAmount, amount, 8 );
-    this.withDrawFiat = Math.ceil( util.multiply( base.ltp, this.withDraw ) );
+    const { type, size } = this.baseControl.withDrawCost;
+    this.withDraw = size;
+    this.withDrawFiat = Math.ceil( Math.multiply( base.ltp, this.withDraw ) );
     return this;
   }
 
+  // トータルの数量に対して0.001とかではないか？
   setBids( valid, saleRealAmount ){
-    const { type, amount } = this.validControl.bidCost;
+    const { type, size } = this.validControl.bidCost;
 
-    if( type === CostParams.currencyCode ){
-      this.bid = util.multiply( valid.tradeAmount, amount );
-      this.bidFiat = util.multiply( saleRealAmount, this.bid );
+    console.log("     ====== " + type + " " + saleRealAmount + " " + size + " " + valid.tradeAmount);
+    //     ====== 301308 0.1 975.742
+    // bidFiat      : 293998.870536 _ 0.975742
+
+    if( type === CostParams.selfCurrencyPercent ){
+      this.bid = Math.multiply( valid.tradeAmount, size / 100 );
+      this.bidFiat = Math.ceil( Math.multiply( valid.ltp, this.bid ) );
     }else{
 
       // 購入額( 300000 ) * 手数料率( 0.0025 ) = ( 手数料 )750 ( LTP: 700000 )
-      this.bidFiat = Math.ceil( util.multiply( saleRealAmount, amount ) );
+      this.bidFiat = Math.ceil( Math.multiply( saleRealAmount, size / 100 ) );
 
       // 売却額( 300000 ) / LTP( 700000 ) = 0.4285( 売却量 )
       // 0.4285( 売却量  ) * ( 手数料率 )0.0025 = 手数料(コインベース)
-      this.bid = util.multiply( valid.tradeAmount, amount, 5 );
+      this.bid = Math.multiply( valid.tradeAmount, size / 100 );
     }
-
-// TODO Nan
-// false BUY: 300000JPY ( bitbankcc[ 3.0864BCH : 97200JPY ] SELL: quoinex[ 3.08331BCH( -0.00308639BCH ) : 97708.01005JPY ] ) REAL NaNJPY( 301565.99999JPY - NaNJPY )[ 1.00522% ] THRESHOLD 300450JPY[ 1.0015% ]
-    //this.bid = util.multiply( costBase, amount );
-    //this.bidFiat = util.multiply( valid.ltp, this.bid );
-    //console.log( this.bid + " fiat: " + this.bidFiat + " @@ " + valid.exName + " " + valid.productCode + " " + costBase + " " + amount );
     return this;
   }
 

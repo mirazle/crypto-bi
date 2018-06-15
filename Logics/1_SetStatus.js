@@ -113,7 +113,7 @@ export default class SetStatus extends Logics{
           const profitRealRate = this.util.division( valid.ltp, base.ltp, 5 );
 
           // 実際の売上量を算出
-          const saleRealAmount = this.util.multiply( base.fiatBalance , profitRealRate, 5 );
+          const saleRealAmount = Math.multiply( base.fiatBalance , profitRealRate, 5 );
 
           /**************************/
           /*  購入額 | 売却額 | 費用   */
@@ -161,7 +161,7 @@ export default class SetStatus extends Logics{
 
           Logs.searchArbitorage.debug( debug );
 /*
-          console.log("------- " + base.exName + " _ " + base.productCode );
+          console.log("------- BASE " + base.exName + " VALID " + valid.exName + "  : " + base.productCode );
           console.log( 'inFiat       : ' + cost.inFiat );
           console.log( 'askFiat      : ' + cost.askFiat + ' _ ' + cost.ask );
           console.log( 'withDrawFiat : ' + cost.withDrawFiat + ' _ ' + cost.withDraw );
