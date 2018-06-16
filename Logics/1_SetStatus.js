@@ -78,7 +78,6 @@ export default class SetStatus extends Logics{
           const { env, devFiatBalance } = this.generalConf;
           const baseControl = this.exConf[ base.exName ].productConf[ base.productCode ];
           const validControl = this.exConf[ valid.exName ].productConf[ valid.productCode ];
-          const cost = new this.Schemas.CostParams( { productCode: base.productCode, baseExName: base.exName, validExName: valid.exName } );
           const currencyCode = this.getCurrencyCode( base.exName, base.productCode );
           const fiatCode = this.getFiatCode( base.exName, base.productCode );
           base.fiatBalance = Number( balanceParams.filter( bp => bp.exName === base.exName )[ 0 ].response );
@@ -93,27 +92,34 @@ export default class SetStatus extends Logics{
           if( !validControl.enable ) return false;                              // 売却先取引所の通貨ペアが有効でない場合
 
           /**************************/
+          /*  インスタンス生成         */
+          /**************************/
+
+          const arbitrageData = new this.Schemas.ArbitrageData({base, valid});
+          const profit = new this.Schemas.ProfitParams();
+          const threshold = new this.Schemas.ThresholdParams();
+          const cost = new this.Schemas.CostParams({base, valid});
+
+          /**************************/
           /*  裁定に必要な閾値を算出    */
           /**************************/
 
           // 裁定に必要な粗利率を算出する
-          let { arbitrageProfitRate: productArbitrageProfitRate } = this.productConf[ base.productCode ];
-          const { arbitrageProfitRate: generalArbitrageProfitRate } = this.generalConf;
-          productArbitrageProfitRate = ( productArbitrageProfitRate - 1 ).toFixed( 3 );
-          const profitThresholdRate = 1 + ( Math.multiply( productArbitrageProfitRate, generalArbitrageProfitRate ) );
+          const productArbitrageProfitRate = ( this.productConf[ base.productCode ].arbitrageProfitRate - 1 ).toFixed( 3 );
+          threshold.profitRate = 1 + ( Math.multiply( productArbitrageProfitRate, this.generalConf.arbitrageProfitRate ) );
 
           // 裁定に必要な粗利量を算出
-          const profitThresholdAmount = Math.multiply( base.fiatBalance, profitThresholdRate, 5 );
+          threshold.profitAmount = Math.multiply( base.fiatBalance, threshold.profitRate, 5 );
 
           /**************************/
           /*  売上を算出              */
           /**************************/
 
           // 実際の売上率を算出
-          const profitRealRate = this.util.division( valid.ltp, base.ltp, 5 );
+          profit.rate = this.util.division( valid.ltp, base.ltp, 5 );
 
           // 実際の売上量を算出
-          const saleRealAmount = Math.multiply( base.fiatBalance , profitRealRate, 5 );
+          profit.saleRealAmount = Math.multiply( base.fiatBalance , profit.rate, 5 );
 
           /**************************/
           /*  購入額 | 売却額 | 費用   */
@@ -130,8 +136,8 @@ export default class SetStatus extends Logics{
           // 通過の売却額を取得( 購入額から送金手数料(暗号通貨単位)を差し引く )
           valid.tradeAmount = this.util.getDecimel( base.tradeAmount - cost.withDraw, 5 );
 
-          cost.setBids( valid, saleRealAmount );
-          cost.setOutFiat( saleRealAmount );
+          cost.setBids( valid, profit.saleRealAmount );
+          cost.setOutFiat( profit.saleRealAmount );
           cost.setTotalFiat();
 
           /**************************/
@@ -139,53 +145,26 @@ export default class SetStatus extends Logics{
           /**************************/
 
           // 法定通貨の粗利を取得
-          const profitRealAmount = saleRealAmount - cost.totalFiat;
+          profit.amount = profit.saleRealAmount - cost.totalFiat;
 
           /**************************/
           /*  裁定の実施判定          */
           /**************************/
 
           // 裁定実行フラグ
-          const isArbitrage = profitThresholdAmount < profitRealAmount;
+          arbitrageData.profit = profit;
+          arbitrageData.threshold = threshold;
+          arbitrageData.cost = cost;
+          arbitrageData.setIsArbitrage();
 
           /**************************/
           /*  DEBUG                 */
           /**************************/
 
-          const debugSummary = `${isArbitrage} BUY: ${base.fiatBalance}${fiatCode}`;
-          const debugBase = `${base.exName}[ ${base.tradeAmount}${currencyCode} : ${base.ltp}${fiatCode} ]`;
-          const debugValid = `SELL: ${valid.exName}[ ${valid.tradeAmount}${currencyCode}( -${cost.withDraw}${currencyCode} ) : ${valid.ltp}${fiatCode} ]`;
-          const debugThreashold = `THRESHOLD ${profitThresholdAmount}${fiatCode}[ ${profitThresholdRate}% ]`;
-          const debugReal =  `REAL ${profitRealAmount}${fiatCode}( ${ saleRealAmount }${fiatCode} - ${ cost.totalFiat }${fiatCode} )[ ${profitRealRate}% ]`;
-          const debug = `${debugSummary} ( ${debugBase} ${debugValid} ) ${debugReal} ${debugThreashold} `
-
-          Logs.searchArbitorage.debug( debug );
-/*
-          console.log("------- BASE " + base.exName + " VALID " + valid.exName + "  : " + base.productCode );
-          console.log( 'inFiat       : ' + cost.inFiat );
-          console.log( 'askFiat      : ' + cost.askFiat + ' _ ' + cost.ask );
-          console.log( 'withDrawFiat : ' + cost.withDrawFiat + ' _ ' + cost.withDraw );
-          console.log( 'bidFiat      : ' + cost.bidFiat + ' _ ' + cost.bid );
-          console.log( 'outFiat      : ' + cost.outFiat );
-          console.log("---");
-*/
-          console.log( debug );
+          arbitrageData.debug();
 
           // アビトラージが成立する場合
-          if( isArbitrage ){
-
-            const arbitrageData = new this.Schemas.ArbitrageData({
-              productCode: base.productCode,
-              exName: base.exName,
-              profitRealAmount,
-              profitRealRate,
-              profitThresholdAmount,
-              profitThresholdRate,
-              fiatCode,
-              cost,
-              base,
-              valid,
-            });
+          if( arbitrageData.isArbitrage ){
             arbitrageDatas.push( arbitrageData );
           }
         });

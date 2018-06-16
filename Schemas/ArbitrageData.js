@@ -1,36 +1,63 @@
 import Schema from './Schema';
 import Schemas from './index';
+import Logs from '../Logs/';
 
 export default class ArbitrageData extends Schema{
 
   constructor( params = {} ){
     super();
-    const productCode = params.productCode ? params.productCode : '';
     const exName = params.exName ? params.exName : '';
-    const profitRealAmount = params.profitRealAmount ? params.profitRealAmount : 0;
-    const profitRealRate = params.profitRealRate ? params.profitRealRate : 0;
-    const profitThresholdAmount = params.profitThresholdAmount ? params.profitThresholdAmount : 0.0;
-    const profitThresholdRate = params.profitThresholdRate ? params.profitThresholdRate : 0.0;
+    const productCode = params.productCode ? params.productCode : '';
+    const currencyCode = params.currencyCode ? params.currencyCode : '';
     const fiatCode = params.fiatCode ? params.fiatCode : '';
+    const threshold = new Schemas.ThresholdParams( params.threshold );
+    const profit = new Schemas.ProfitParams( params.profit );
     const base = new Schemas.ExParams( params.base );
     const valid = new Schemas.ExParams( params.valid );
-    const cost = new Schemas.CostParams( params.cost, 'TEST' );
+    const cost = new Schemas.CostParams( params );
     const trend = new Schemas.TrendParams( params.trend );
-    const exist = params.productCode ? true : false ;
+    const isArbitrage = params.productCode ? true : false ;
 
     return this.create({
-      exist,
+      isArbitrage,
       productCode,
       exName,
-      profitRealAmount,
-      profitRealRate,
-      profitThresholdAmount,
-      profitThresholdRate,
+      currencyCode,
       fiatCode,
+      profit,
+      threshold,
       base,
       valid,
       cost,
       trend
     });
+  }
+
+  setIsArbitrage(){
+    this.isArbitrage = this.threshold.profitAmount < this.profit.amount;
+  }
+
+  debug(){
+    const {
+      isArbitrage,
+      productCode,
+      currencyCode,
+      fiatCode,
+      threshold,
+      profit,
+      base,
+      valid,
+      cost,
+    } = this;
+
+    const debugSummary = `${isArbitrage} BUY: ${base.fiatBalance}${fiatCode}`;
+    const debugBase = `${base.exName}[ ${base.tradeAmount}${currencyCode} : ${base.ltp}${fiatCode} ]`;
+    const debugValid = `SELL: ${valid.exName}[ ${valid.tradeAmount}${currencyCode}( -${cost.withDraw}${currencyCode} ) : ${valid.ltp}${fiatCode} ]`;
+    const debugThreashold = `THRESHOLD ${threshold.profitAmount}${fiatCode}[ ${threshold.profitRate}% ]`;
+    const debugReal =  `REAL ${profit.amount}${fiatCode}( ${ profit.saleRealAmount }${fiatCode} - ${ cost.totalFiat }${fiatCode} )[ ${profit.rate}% ]`;
+    const debug = `${debugSummary} ( ${debugBase} ${debugValid} ) ${debugReal} ${debugThreashold} `
+
+    Logs.searchArbitorage.debug( debug );
+    console.log( debug );
   }
 }

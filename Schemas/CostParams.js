@@ -8,11 +8,11 @@ export default class CostParams extends Schema{
   static get selfCurrencyPercent(){ return 'selfCurrencyPercent' }
   static get promisedFiatPercent(){ return 'promisedFiatPercent' }
 
-  constructor( params = {}, type ){
+  constructor( params = {} ){
     super();
-    const baseExName = params.baseExName ? params.baseExName : '';
-    const validExName = params.validExName ? params.validExName : '';
-    const productCode = params.productCode ? params.productCode : '';
+    const baseExName = params.base && params.base.exName ? params.base.exName : '';
+    const validExName = params.valid && params.valid.exName ? params.valid.exName : '';
+    const productCode = params.base && params.base.productCode ? params.base.productCode : '';
     const totalFiat = params.totalFiat ? params.totalFiat : 0 ;
     const inFiat = params.inFiat ? params.inFiat : 0 ;
     const ask = params.ask ? params.ask : 0 ;
@@ -78,7 +78,7 @@ export default class CostParams extends Schema{
   setBids( valid, saleRealAmount ){
     const { type, size } = this.validControl.bidCost;
 
-    console.log("     ====== " + type + " " + saleRealAmount + " " + size + " " + valid.tradeAmount);
+    //console.log("     ====== " + type + " " + saleRealAmount + " " + size + " " + valid.tradeAmount);
     //     ====== 301308 0.1 975.742
     // bidFiat      : 293998.870536 _ 0.975742
 
