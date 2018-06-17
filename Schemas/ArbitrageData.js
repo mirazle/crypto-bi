@@ -16,9 +16,9 @@ export default class ArbitrageData extends Schema{
     const valid = new Schemas.ExParams( params.valid );
     const cost = new Schemas.CostParams( params );
     const trend = new Schemas.TrendParams( params.trend );
-    const isArbitrage = params.productCode ? true : false ;
+    const isArbitrage = false;
 
-    return this.create({
+    const arbitrageData = this.create({
       isArbitrage,
       productCode,
       exName,
@@ -31,10 +31,13 @@ export default class ArbitrageData extends Schema{
       cost,
       trend
     });
+
+    return this.setIsArbitrage();
   }
 
   setIsArbitrage(){
     this.isArbitrage = this.threshold.profitAmount < this.profit.amount;
+    return this;
   }
 
   debug(){

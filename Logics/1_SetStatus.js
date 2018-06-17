@@ -95,7 +95,7 @@ export default class SetStatus extends Logics{
           /*  インスタンス生成         */
           /**************************/
 
-          const arbitrageData = new this.Schemas.ArbitrageData({base, valid});
+          const arbitrageData = new this.Schemas.ArbitrageData({base, valid, productCode: base.productCode});
           const profit = new this.Schemas.ProfitParams();
           const threshold = new this.Schemas.ThresholdParams();
           const cost = new this.Schemas.CostParams({base, valid});
@@ -179,8 +179,8 @@ export default class SetStatus extends Logics{
       let bestProfitRealAmount = 0;
       if( arbitrageDatas.length > 0 ){
         arbitrageDatas.forEach( ( arbitrageData, index ) => {
-          if( bestProfitRealAmount < arbitrageData.profitRealAmount ){
-            bestProfitRealAmount = arbitrageData.profitRealAmount;
+          if( bestProfitRealAmount < arbitrageData.profit.amount ){
+            bestProfitRealAmount = arbitrageData.profit.amount;
             bestArbitrageData = arbitrageData;
           }
         });
@@ -198,7 +198,7 @@ export default class SetStatus extends Logics{
       this.logsLtpParams = logsLtpParams;
       this.logsLtpParams.unshift( addLtpParams );
 
-      if( bestArbitrageData.exist ){
+      if( bestArbitrageData.isArbitrage ){
 
         bestArbitrageData = this._getRefrectedTrendParams( bestArbitrageData, logsLtpParams );
       }
