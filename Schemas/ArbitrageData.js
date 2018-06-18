@@ -40,7 +40,7 @@ export default class ArbitrageData extends Schema{
     return this;
   }
 
-  debug(){
+  getDebug(){
     const {
       isArbitrage,
       productCode,
@@ -51,6 +51,7 @@ export default class ArbitrageData extends Schema{
       base,
       valid,
       cost,
+      trend
     } = this;
 
     const debugSummary = `${isArbitrage} BUY: ${base.fiatBalance}${fiatCode}`;
@@ -58,9 +59,9 @@ export default class ArbitrageData extends Schema{
     const debugValid = `SELL: ${valid.exName}[ ${valid.tradeAmount}${currencyCode}( -${cost.withDraw}${currencyCode} ) : ${valid.ltp}${fiatCode} ]`;
     const debugThreashold = `THRESHOLD ${threshold.profitAmount}${fiatCode}[ ${threshold.profitRate}% ]`;
     const debugReal =  `REAL ${profit.amount}${fiatCode}( ${ profit.saleRealAmount }${fiatCode} - ${ cost.totalFiat }${fiatCode} )[ ${profit.rate}% ]`;
-    const debug = `${debugSummary} ( ${debugBase} ${debugValid} ) ${debugReal} ${debugThreashold} `
+    const debugTrend =  `TREND ${trend.mode}`;
+    const debug = `${debugSummary} ( ${debugBase} ${debugValid} ) ${debugReal} ${debugThreashold} ${debugTrend}`
 
-    Logs.searchArbitorage.debug( debug );
-    console.log( debug );
+    return debug;
   }
 }

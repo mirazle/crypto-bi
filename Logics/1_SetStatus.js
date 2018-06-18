@@ -161,7 +161,10 @@ export default class SetStatus extends Logics{
           /*  DEBUG                 */
           /**************************/
 
-          arbitrageData.debug();
+          const debug = arbitrageData.getDebug();
+
+          Logs.searchArbitorage.debug( debug );
+          console.log( debug );
 
           // アビトラージが成立する場合
           if( arbitrageData.isArbitrage ){
@@ -175,18 +178,24 @@ export default class SetStatus extends Logics{
 
   async getBestArbitrageData( arbitrageDatas ){
     return new Promise( ( resolve, reject ) => {
+      const { orderToTrendMode } = this.generalConf;
       let bestArbitrageData = new this.Schemas.ArbitrageData();
       let bestProfitRealAmount = 0;
       if( arbitrageDatas.length > 0 ){
         arbitrageDatas.forEach( ( arbitrageData, index ) => {
           if( bestProfitRealAmount < arbitrageData.profit.amount ){
-            bestProfitRealAmount = arbitrageData.profit.amount;
-            bestArbitrageData = arbitrageData;
+            if( orderToTrendMode.includes( arbitrageData.trend.mode ) ){
+              bestProfitRealAmount = arbitrageData.profit.amount;
+              bestArbitrageData = arbitrageData;
+            }
           }
         });
       }
-      if( bestProfitRealAmount > 0 ){
-        Logs.arbitorage.debug( bestArbitrageData );
+
+      if( bestArbitrageData.isArbitrage ){
+        const debug = bestArbitrageData.getDebug()
+        Logs.arbitorage.debug( debug );
+        console.log("@@@ BEST: " + debug )
       }
       resolve( bestArbitrageData );
     });

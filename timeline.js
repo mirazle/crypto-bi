@@ -52,7 +52,7 @@ class CryptoBi{
     // 現在の「トレンド状況ログ」を取得
     this.logs.exParams = await this.logics.setStatus.getLatestlogsLtpParams();
 
-    let bestArbitrageData = await this.logics.setStatus.getBestArbitrageData( arbitrageDatas );
+    const bestArbitrageData = await this.logics.setStatus.getBestArbitrageData( arbitrageDatas );
 
     // 資産状況、コスト状況、トレンド状況、最適な裁定情報を鑑みて「発注情報」を取得する
     this.orderParams = await this.logics.setStatus.getOrderParams( bestArbitrageData );
