@@ -15,4 +15,9 @@ export default class Btcbox extends Exchange{
     const balanceData = await api.getBalance();
     return balanceData[ `${ currency }_balance` ] ? balanceData[ `${ currency }_balance` ] : 0 ;
   }
+
+  // TODO
+  async order( params ){
+    return await api.trade_add( params );
+  }
 }

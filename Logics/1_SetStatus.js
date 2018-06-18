@@ -14,6 +14,14 @@ export default class SetStatus extends Logics{
     this.logsLtpParams;
   }
 
+  async test(){
+    exchanges.btcbox.order({
+      amount: 1,
+      price: 750000,
+      type: 'buy'
+    })
+  }
+
   async getBalanceParams(){
     return new Promise( ( resolve, reject ) => {
 

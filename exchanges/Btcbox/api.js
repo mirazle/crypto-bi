@@ -14,6 +14,7 @@ class Btcbox extends Rest{
     let method = Rest.GET;
     switch( path ){
     case 'balance':
+    case 'trade_add' :
       method = Rest.POST;
       break;
     }
@@ -62,6 +63,14 @@ class Btcbox extends Rest{
     const options = {url: `${Btcbox.endpoint}ticker`};
     return await this.request( options, this.response )
   }
+
+  async trade_add( params ){
+    const options = Btcbox.getOptions( `trade_add`, params );
+    console.log( options );
+//
+    return await this.request( options, this.response );
+  }
+
 }
 
 export default new Btcbox();

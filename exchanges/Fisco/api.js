@@ -76,9 +76,7 @@ class Fisco extends Rest{
   }
 
   async trade( params ){
-    console.log("@@@@@@@@");
     const options = Fisco.getOptions( 'trade', params );
-    console.log( options );
     return await this.request( options, this.response );
   }
 }

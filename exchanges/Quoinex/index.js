@@ -30,4 +30,9 @@ export default class Quoinex extends Exchange{
       return 0;
     }
   }
+
+  // TODO
+  async order( currencyPairCode = 'BTCJPY' ){
+    return await api.orders( params );
+  }
 }
