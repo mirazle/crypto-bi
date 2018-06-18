@@ -122,13 +122,13 @@ let controlBase = {
     }
   },
   productConf: {
-    BTC_JPY: { enable: true, arbitrageProfitRate: 1.03 },
-    BCH_JPY: { enable: true, arbitrageProfitRate: 1.03 },
-    ETH_JPY: { enable: true, arbitrageProfitRate: 1.03 },
-    XRP_JPY: { enable: true, arbitrageProfitRate: 1.03 },
-    XEM_JPY: { enable: true, arbitrageProfitRate: 1.03 },
-    MONA_JPY: { enable: true, arbitrageProfitRate: 1.03 },
-    LTC_JPY: { enable: true, arbitrageProfitRate: 1.03 }
+    BTC_JPY: { enable: true, arbitrageProfitRate: 1.02 },
+    BCH_JPY: { enable: true, arbitrageProfitRate: 1.02 },
+    ETH_JPY: { enable: true, arbitrageProfitRate: 1.02 },
+    XRP_JPY: { enable: true, arbitrageProfitRate: 1.02 },
+    XEM_JPY: { enable: true, arbitrageProfitRate: 1.02 },
+    MONA_JPY: { enable: true, arbitrageProfitRate: 1.02 },
+    LTC_JPY: { enable: true, arbitrageProfitRate: 1.02 }
   },
   generalConf: {
     env,

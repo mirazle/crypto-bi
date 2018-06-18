@@ -192,36 +192,37 @@ export default class SetStatus extends Logics{
     });
   }
 
-  async getRefrectedTrendParams( bestArbitrageData, logsLtpParams, addLtpParams ){
+  async getRefrectedTrendParams( arbitrageDatas, logsLtpParams, addLtpParams ){
     return new Promise( ( resolve, reject ) => {
       const { logLtpParamsAmount } = this.generalConf.trendMode;
       this.logsLtpParams = logsLtpParams;
       this.logsLtpParams.unshift( addLtpParams );
 
-      if( bestArbitrageData.isArbitrage ){
-
-        bestArbitrageData = this._getRefrectedTrendParams( bestArbitrageData, logsLtpParams );
-      }
+      arbitrageDatas.forEach( ( arbitrageData, index ) => {
+        if( arbitrageData.isArbitrage ){
+          arbitrageDatas[ index ] = this._getRefrectedTrendParams( arbitrageData, logsLtpParams );
+        }
+      });
 
       if( logLtpParamsAmount <= this.logsLtpParams.length ){
         this.logsLtpParams.pop();
       }
 
-      resolve( bestArbitrageData );
+      resolve( arbitrageDatas );
     });
   }
 
-  _getRefrectedTrendParams( bestArbitrageData, logLtpParams ){
+  _getRefrectedTrendParams( arbitrageData, logLtpParams ){
 
       const { TrendParams } = this.Schemas;
-      const { productCode } = bestArbitrageData;
+      const { productCode } = arbitrageData;
       const baseCurrencyCode = productCode.split('_')[ 0 ];
       const logLtpParamsLastIndex = logLtpParams.length - 1 ;
       const latestAvalageLtp =  this.getAvalageFromLtpParams( baseCurrencyCode, logLtpParams[ 0 ] );
       const oldestAvalageLtp =  this.getAvalageFromLtpParams( baseCurrencyCode, logLtpParams[ logLtpParamsLastIndex ] );
       let reBaseAvalageLtp = oldestAvalageLtp;
 
-      bestArbitrageData.trend.mode = this.getTrendMode( productCode, oldestAvalageLtp, latestAvalageLtp );
+      arbitrageData.trend.mode = this.getTrendMode( productCode, oldestAvalageLtp, latestAvalageLtp );
 
       // 乱高下(チョッピー)チェック( 新しいデータからループでまわす )
       logLtpParams.forEach( ( loopLtpParams, index ) => {
@@ -231,17 +232,17 @@ export default class SetStatus extends Logics{
 
         }else if( logLtpParamsLastIndex === index ){
 
-          const existUP = bestArbitrageData.trend.lv[ TrendParams.MODE_UP ] > 0 ;
-          const existDOWN = bestArbitrageData.trend.lv[ TrendParams.MODE_DOWN ] > 0;
+          const existUP = arbitrageData.trend.lv[ TrendParams.MODE_UP ] > 0 ;
+          const existDOWN = arbitrageData.trend.lv[ TrendParams.MODE_DOWN ] > 0;
 
           if( existUP && existDOWN ){
-            bestArbitrageData.trend.mode = TrendParams.MODE_CHOPPY;
-            bestArbitrageData.trend.lv[ TrendParams.MODE_CHOPPY ] =
-              Math.floor( bestArbitrageData.trend.lv[ TrendParams.MODE_UP ] + bestArbitrageData.trend.lv[ TrendParams.MODE_DOWN ] ) / 2 ;
+            arbitrageData.trend.mode = TrendParams.MODE_CHOPPY;
+            arbitrageData.trend.lv[ TrendParams.MODE_CHOPPY ] =
+              Math.floor( arbitrageData.trend.lv[ TrendParams.MODE_UP ] + arbitrageData.trend.lv[ TrendParams.MODE_DOWN ] ) / 2 ;
           }else if( existUP ){
-            bestArbitrageData.trend.mode = TrendParams.MODE_UP;
+            arbitrageData.trend.mode = TrendParams.MODE_UP;
           }else if( existDOWN ){
-            bestArbitrageData.trend.mode = TrendParams.MODE_DOWN;
+            arbitrageData.trend.mode = TrendParams.MODE_DOWN;
           }
           //console.log( `${baseCurrencyCode} ${index} ${ JSON.stringify( trendParams.lv ) }` );
 
@@ -249,7 +250,7 @@ export default class SetStatus extends Logics{
           const loopAvalageLtp =  this.getAvalageFromLtpParams( baseCurrencyCode, loopLtpParams );
           const loopTrendMode = this.getTrendMode( productCode, reBaseAvalageLtp, loopAvalageLtp );
 
-          bestArbitrageData.trend.lv[ loopTrendMode ]++;
+          arbitrageData.trend.lv[ loopTrendMode ]++;
 
           //console.log( ` - loop ${index} ${loopTrendMode} base: ${reBaseAvalageLtp } loop: ${loopAvalageLtp}`  );
 
@@ -258,8 +259,7 @@ export default class SetStatus extends Logics{
           }
         }
       });
-      return bestArbitrageData;
-
+      return arbitrageData;
   }
 
   getTrendMode( productCode, baseAvalageLtp, validAvalageLtp ){
