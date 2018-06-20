@@ -38,8 +38,8 @@ class CryptoBi{
   // 情報をセット
   async phase1(){
 
-    const test = await this.logics.setStatus.test();
-/*
+//    const test = await this.logics.setStatus.test();
+
     // 各取引所の「資産状況」を取得する
     const balanceParams = await this.logics.setStatus.getBalanceParams();
 
@@ -55,7 +55,6 @@ class CryptoBi{
     this.logs.exParams = await this.logics.setStatus.getLatestlogsLtpParams();
 
     const bestArbitrageData = await this.logics.setStatus.getBestArbitrageData( arbitrageDatas );
-    */
   }
 
   // 発注

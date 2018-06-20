@@ -8,8 +8,8 @@ export default class ArbitrageData extends Schema{
     super();
     const exName = params.exName ? params.exName : '';
     const productCode = params.productCode ? params.productCode : '';
-    const currencyCode = params.currencyCode ? params.currencyCode : '';
-    const fiatCode = params.fiatCode ? params.fiatCode : '';
+    const currencyCode = params.productCode ? params.productCode.split('_')[ 0 ] : '';
+    const fiatCode = params.productCode ? params.productCode.split('_')[ 1 ] : '';
     const threshold = new Schemas.ThresholdParams( params.threshold );
     const profit = new Schemas.ProfitParams( params.profit );
     const base = new Schemas.ExParams( params.base );
@@ -21,9 +21,9 @@ export default class ArbitrageData extends Schema{
     const arbitrageData = this.create({
       isArbitrage,
       productCode,
-      exName,
       currencyCode,
       fiatCode,
+      exName,
       profit,
       threshold,
       base,

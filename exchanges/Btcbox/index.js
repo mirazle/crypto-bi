@@ -16,7 +16,11 @@ export default class Btcbox extends Exchange{
     return balanceData[ `${ currency }_balance` ] ? balanceData[ `${ currency }_balance` ] : 0 ;
   }
 
-  // TODO
+  /*
+  * amount: 0.1
+  * price: 10000
+  * type: 'buy' | 'sell'
+  */
   async order( params ){
     return await api.trade_add( params );
   }

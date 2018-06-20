@@ -20,23 +20,22 @@ class Btcbox extends Rest{
     }
     return method;
   }
-  static getOptions( path, params = {bodyParams, urlParams} ){
+  static getOptions( path, params ){
     const method = Btcbox.getMethod( path );
-    const urlParams = params.urlParams ? params.urlParams: {};
     const timestamp = Rest.getTime();
-    const urlParamsString = Rest.getUrlParamsString( urlParams, true );
+    const urlParamsString = Rest.getUrlParamsString( params, true );
     const url = `${Btcbox.endpoint}${path}${urlParamsString}`;
-    let bodyParams = {};
+    let options = {};
     let sign = '';
     if( method === Rest.POST ){
 
       const postBase = {nonce: timestamp, key: confPrivate.Btcbox.key,  };
-      const post = {...postBase, ...bodyParams };
+      const post = {...postBase, ...params };
       const qstring = Rest.getUrlParamsString( post );
       const sign = Btcbox.getSign( qstring );
       const formParams = {...post, ...{signature: sign}};
       const form = Rest.getUrlParamsString(formParams);
-      bodyParams = {
+      options = {
         url: url,
         method: method,
         form: form,
@@ -46,15 +45,13 @@ class Btcbox extends Rest{
           'User-Agent': '',
         }
       };
-    }else{
-
     }
 
-    return bodyParams;
+    return options;
   }
 
-  async getBalance( bodyParams, urlParams ){
-    const options = Btcbox.getOptions( `balance`, {bodyParams, urlParams} );
+  async getBalance( params ){
+    const options = Btcbox.getOptions( `balance`, params );
     return await this.request( options, this.response );
   }
 
@@ -66,7 +63,7 @@ class Btcbox extends Rest{
 
   async trade_add( params ){
     const options = Btcbox.getOptions( `trade_add`, params );
-    console.log( options );
+//    console.log( options );
 //
     return await this.request( options, this.response );
   }

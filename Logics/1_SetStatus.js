@@ -15,10 +15,12 @@ export default class SetStatus extends Logics{
   }
 
   async test(){
-    exchanges.btcbox.order({
-      amount: 1,
-      price: 750000,
-      type: 'buy'
+    exchanges.quoinex.order({
+      order_type: "limit",
+      product_id: 1,
+      side: 'buy',
+      quantity: "0.01",
+      price: "500.0"
     })
   }
 
@@ -117,17 +119,17 @@ export default class SetStatus extends Logics{
           threshold.profitRate = 1 + ( Math.multiply( productArbitrageProfitRate, this.generalConf.arbitrageProfitRate ) );
 
           // 裁定に必要な粗利量を算出
-          threshold.profitAmount = Math.multiply( base.fiatBalance, threshold.profitRate, 5 );
+          threshold.profitAmount = Math.multiply( base.fiatBalance, threshold.profitRate );
 
           /**************************/
           /*  売上を算出              */
           /**************************/
 
           // 実際の売上率を算出
-          profit.rate = this.util.division( valid.ltp, base.ltp, 5 );
+          profit.rate = Math.division( valid.ltp, base.ltp );
 
           // 実際の売上量を算出
-          profit.saleRealAmount = Math.multiply( base.fiatBalance , profit.rate, 5 );
+          profit.saleRealAmount = Math.multiply( base.fiatBalance , profit.rate );
 
           /**************************/
           /*  購入額 | 売却額 | 費用   */
@@ -136,8 +138,7 @@ export default class SetStatus extends Logics{
           cost.setInFiat();
 
           // 通貨の購入額を取得
-          base.tradeAmount = this.util.division( base.fiatBalance, base.ltp, 4 );
-
+          base.tradeAmount = Math.division( base.fiatBalance, base.ltp );
           cost.setAsks( base );
           cost.setWithDraws( base );
 
@@ -160,6 +161,9 @@ export default class SetStatus extends Logics{
           /**************************/
 
           // 裁定実行フラグ
+          arbitrageData.base = base;
+          arbitrageData.valid = valid;
+          arbitrageData.cost = cost;
           arbitrageData.profit = profit;
           arbitrageData.threshold = threshold;
           arbitrageData.cost = cost;

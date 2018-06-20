@@ -14,19 +14,21 @@ class Quoinex extends Rest{
     let method = 'GET';
     switch( path ){
     case 'orders':
-      method = Rest.GET;
+      method = Rest.POST;
       break;
     }
     return method;
   }
 
   static getOptions( path, params = {} ){
-    const bodyParams = params.bodyParams ? params.bodyParams :  {};
-    const urlParams = params.urlParams ? params.urlParams: {};
     const timestamp = Rest.getTimestamp();
-    const urlParamsString = Rest.getUrlParamsString( urlParams, true );
+    const urlParamsString = Rest.getUrlParamsString( params, true );
     const sign = Quoinex.getSign( `/${path}${urlParamsString}` );
-
+/*
+    console.log("----- " + path );
+    console.log( params );
+    console.log("-----");
+*/
     const url = `${Quoinex.endpoint}${path}${urlParamsString}`;
     const method = Quoinex.getMethod( path );
     const headers = {
@@ -37,8 +39,9 @@ class Quoinex extends Rest{
     return { url, method, headers };
   }
 
-  async orders( urlParams ){
-    const options = Quoinex.getOptions( 'orders', urlParams );
+  async orders( params ){
+    const options = Quoinex.getOptions( 'orders', params );
+//    console.log( options );
     return await this.request( options, this.response )
   }
 
@@ -51,6 +54,7 @@ class Quoinex extends Rest{
     return {
       balance: async ( params ) => {
         const options = Quoinex.getOptions( `accounts/balance`, params );
+//    console.log( options );
         return await this.request( options, this.response );
       }
     }
