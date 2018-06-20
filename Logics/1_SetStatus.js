@@ -76,7 +76,7 @@ export default class SetStatus extends Logics{
     return new Promise( ( resolve, reject ) => {
       let arbitrageDatas = [];
 
-      Logs.searchArbitorage.debug( "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@" );
+      Logs.sa.debug( "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@" );
       ltpParams.forEach( ( base ) => {
         ltpParams.forEach( ( valid ) => {
           if( base.exName === valid.exName ) return false;
@@ -175,7 +175,7 @@ export default class SetStatus extends Logics{
 
           const debug = arbitrageData.getDebug();
 
-          Logs.searchArbitorage.debug( debug );
+          Logs.sa.debug( debug );
           console.log( debug );
 
           // アビトラージが成立する場合
