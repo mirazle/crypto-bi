@@ -1,5 +1,6 @@
 import util from './util';
 
+// 小数点の数を返す
 Math._getDecimalLength = function( value ) {
   let list = (value + '').split('.'), result = 0;
   if (list[ 1 ] !== undefined  && list[ 1 ].length > 0) {
@@ -12,9 +13,15 @@ Math.multiply = function( value1, value2 ) {
   let intValue1 = +( value1 + '' ).replace('.', ''),
       intValue2 = +( value2 + '' ).replace('.', ''),
       decimalLength = Math._getDecimalLength( value1 ) + Math._getDecimalLength( value2 ),
+      calc,
+      powed,
       result;
 
-  result = (intValue1 * intValue2) / Math.pow(10, decimalLength);
+      calc = intValue1 * intValue2;
+      powed = Math.pow( 10, decimalLength) ;
+      result = calc / powed;
+
+//console.log(`@@@@@@@ multiply calc(${value1}, ${value2}) = ${calc} length ${powed}(${decimalLength}) ${result} `);
 
   return result;
 };
@@ -22,10 +29,10 @@ Math.multiply = function( value1, value2 ) {
 Math.division = function( value1, value2 ) {
   let intValue1 = +( value1 + '' ).replace('.', ''),
       intValue2 = +( value2 + '' ).replace('.', ''),
-      decimalLength = Math._getDecimalLength( value1 ) + Math._getDecimalLength( value2 ),
       result;
+  result = parseFloat( ( intValue1 / intValue2 ).toFixed( 5 ) );// / powed;
 
-  result = (intValue1 / intValue2) / Math.pow(10, decimalLength);
+//console.log(`@@@@@@@ division calc(${value1}, ${value2}) length ${result} `);
 
   return result;
 };
@@ -37,23 +44,6 @@ Math.subtract = function(value1, value2) {
 };
 
 export default {
-  multiply: ( value1, value2, decimelNum = 0 ) => {
-    if( value1 === 0 || value2 === 0 ) return 0;
-    let returnValue = Math.multiply( value1, value2 );
-//    let returnValue = ( ( value1 * 10 ) * ( value2 * 10 ) ) / 100;
-    if( decimelNum > 0 ){
-      returnValue = util.getDecimel( returnValue, decimelNum );
-    }
-    return returnValue;
-  },
-  division: ( value1, value2, decimelNum = 0 ) => {
-    if( value1 === 0 || value2 === 0 ) return 0;
-    let returnValue = value1 / value2;
-    if( decimelNum > 0 ){
-      returnValue = util.getDecimel( returnValue, decimelNum );
-    }
-    return returnValue ;
-  },
   getDecimel: ( value, decimelNum = 3 ) => {
     return Math.floor( value * Math.pow( 10, decimelNum ) ) / Math.pow( 10, decimelNum ) ;
   },
