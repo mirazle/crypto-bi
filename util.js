@@ -21,18 +21,15 @@ Math.multiply = function( value1, value2 ) {
       powed = Math.pow( 10, decimalLength) ;
       result = calc / powed;
 
-//console.log(`@@@@@@@ multiply calc(${value1}, ${value2}) = ${calc} length ${powed}(${decimalLength}) ${result} `);
+console.log(`@@@@@@@ multiply calc(${value1}, ${value2}) = ${calc} length ${powed}(${decimalLength}) ${result} `);
 
   return result;
 };
 
 Math.division = function( value1, value2 ) {
-  let intValue1 = +( value1 + '' ).replace('.', ''),
-      intValue2 = +( value2 + '' ).replace('.', ''),
-      result;
-  result = parseFloat( ( intValue1 / intValue2 ).toFixed( 5 ) );// / powed;
+  let result = parseFloat( ( value1 / value2 ).toFixed( 5 ) );// / powed;
 
-//console.log(`@@@@@@@ division calc(${value1}, ${value2}) length ${result} `);
+console.log(`@@@@@@@ division calc(${value1}, ${value2}) result ${result} `);
 
   return result;
 };
