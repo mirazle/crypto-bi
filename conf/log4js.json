@@ -3,13 +3,13 @@
     "all": { "type": "dateFile", "filename": "Logs/out/all.log", "pattern": "-yyyy-MM-dd"},
     "response": { "type": "dateFile", "filename": "Logs/out/response.log", "pattern": "-yyyy-MM-dd"},
     "arbitorage": { "type": "dateFile", "filename": "Logs/out/arbitorage.log", "pattern": "-yyyy-MM-dd"},
-    "searchArbitorage": { "type": "dateFile", "filename": "Logs/out/searchArbitorage.log", "pattern": "-yyyy-MM-dd"}
+    "sa": { "type": "dateFile", "filename": "Logs/out/sa.log", "pattern": "-yyyy-MM-dd"}
   },
   "categories": {
     "default": { "appenders": [ "all" ], "level": "trace" },
     "all": { "appenders": [ "all" ], "level": "trace" },
     "response": { "appenders": [ "response" ], "level": "trace" },
     "arbitorage": { "appenders": [ "arbitorage" ], "level": "trace" },
-    "searchArbitorage": { "appenders": [ "searchArbitorage" ], "level": "trace" }
+    "sa": { "appenders": [ "sa" ], "level": "trace" }
   }
 }
