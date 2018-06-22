@@ -45,6 +45,7 @@ console.log(conf.Quoinex.key);
 console.log(conf.Quoinex.secret);
 
 //    const options = Quoinex.getOptions( 'orders', params );
+/*
 const pri = new api.PrivateAPI( conf.Quoinex.key, conf.Quoinex.secret );
 const options = pri.makeRequest( 'POST', '/orders', {
   order_type: "limit",
@@ -53,10 +54,19 @@ const options = pri.makeRequest( 'POST', '/orders', {
   quantity: "0.01",
   price: "7800"
 });
+*/
+const pri = new api.PrivateAPI( conf.Quoinex.key, conf.Quoinex.secret )
+  .call("POST", '/orders/', {
+    order_type: "limit",
+    product_id: 1,
+    side: 'buy',
+    quantity: "0.01",
+    price: "7800"
+  })
+  .then(console.log)
+  .catch(console.error)
 
-console.log( options );
-
-    return await this.request( options, this.response )
+//    return await this.request( options, this.response )
   }
 
   async products( ){
