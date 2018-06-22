@@ -27,7 +27,7 @@ let controlBase = {
     },
     quoinex: {
       enable: true,
-      ipWhitelist: false,
+      ipWhitelist: true,
       withDrawApi: false,
       currencyAliases: {},
       timeout: 2000,

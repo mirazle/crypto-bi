@@ -15,7 +15,7 @@ export default class SetStatus extends Logics{
   }
 
   async test(){
-    exchanges.quoinex.order({
+    return exchanges.quoinex.order({
       order_type: "limit",
       product_id: 1,
       side: 'buy',

@@ -3,6 +3,9 @@ import jwt from 'jsonwebtoken';
 import confPrivate from '../../conf/private';
 import Logs from '../../Logs/';
 
+import api from '../../quac-master/quoinex/api';
+import conf from '../../conf/private';
+
 class Quoinex extends Rest{
 
   static get endpoint(){ return `https://api.quoine.com/` }
@@ -24,11 +27,6 @@ class Quoinex extends Rest{
     const timestamp = Rest.getTimestamp();
     const urlParamsString = Rest.getUrlParamsString( params, true );
     const sign = Quoinex.getSign( `/${path}${urlParamsString}` );
-/*
-    console.log("----- " + path );
-    console.log( params );
-    console.log("-----");
-*/
     const url = `${Quoinex.endpoint}${path}${urlParamsString}`;
     const method = Quoinex.getMethod( path );
     const headers = {
@@ -36,12 +34,28 @@ class Quoinex extends Rest{
       'X-Quoine-Auth': sign,
       'Content-Type': Quoinex.contentType
     }
+
+
     return { url, method, headers };
   }
 
   async orders( params ){
-    const options = Quoinex.getOptions( 'orders', params );
-//    console.log( options );
+
+console.log(conf.Quoinex.key);
+console.log(conf.Quoinex.secret);
+
+//    const options = Quoinex.getOptions( 'orders', params );
+const pri = new api.PrivateAPI( conf.Quoinex.key, conf.Quoinex.secret );
+const options = pri.makeRequest( 'POST', '/orders', {
+  order_type: "limit",
+  product_id: 1,
+  side: 'buy',
+  quantity: "0.01",
+  price: "7800"
+});
+
+console.log( options );
+
     return await this.request( options, this.response )
   }
 
@@ -54,7 +68,6 @@ class Quoinex extends Rest{
     return {
       balance: async ( params ) => {
         const options = Quoinex.getOptions( `accounts/balance`, params );
-//    console.log( options );
         return await this.request( options, this.response );
       }
     }

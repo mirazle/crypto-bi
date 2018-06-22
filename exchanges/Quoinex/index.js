@@ -25,11 +25,11 @@ export default class Quoinex extends Exchange{
     const balanceDatas = await api.accounts.balance();
     if( balanceDatas && balanceDatas.length > 0 ){
       const balanceData =  balanceDatas.filter( b => b.currency === currency )[ 0 ];
-/*
+
       console.log("@@@@@@ RESULT BALANCE @@@@@@@");
       console.log( balanceData );
       console.log("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
-*/
+
       return balanceData.balance;
     }else{
       return 0;
@@ -39,11 +39,11 @@ export default class Quoinex extends Exchange{
   // TODO
   async order( params ){
     const order =  await api.orders( params );
-/*
+
     console.log("@@@@@@ RESULT ORDER @@@@@@@");
     console.log( order );
     console.log("@@@@@@@@@@@@@@@@@@@@@@@@@@@");
-*/
+    
     return order;
   }
 }
